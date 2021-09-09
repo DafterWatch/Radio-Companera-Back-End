@@ -9,7 +9,7 @@
       <a mat-list-item routerLink="/entradas">Entradas</a>
       <a mat-list-item routerLink="/medios">Medios</a>
       <a mat-list-item routerLink="/comentarios">Comentarios</a>
-      <a mat-list-item routerLink="/cuentas">Cuentas</a>
+      <a mat-list-item routerLink="/cuentas" *ngIf="this.si">Cuentas</a>
       <a mat-list-item routerLink="/perfil">Perfil</a>
       <a mat-list-item routerLink="/ajustes">Ajustes</a>
     </mat-nav-list>

@@ -17,5 +17,6 @@ export class BarraLateralComponent {
     );
 
   constructor(private breakpointObserver: BreakpointObserver) {}
-
+  si : boolean = false;
+  variable : string;
 }
