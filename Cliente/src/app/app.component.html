@@ -1,0 +1,37 @@
+<div id="loginScreen" *ngIf="showLoginScreen">
+    <div id="background-blur"></div>
+    <div id="container">
+        <div id="card">
+            <div id="head">
+                Radio Compañera
+            </div>        
+            <div id="body">
+                <table class="form-container" cellspacing="0">
+                    <tr>
+                        <td><mat-form-field class="input-field" appearance="standard">
+                        <mat-label>ID</mat-label>
+                        <input matInput>
+                        </mat-form-field></td>
+                    </tr>
+                    <tr>
+                    <td><mat-form-field class="input-field" appearance="standard">
+                    <mat-label>Contraseña</mat-label>
+                    <input matInput>
+                    </mat-form-field></td>
+                </tr>
+                <tr>
+                    <td>
+                        <mat-checkbox class="example-margin" [color]="'primary'">Permanecer conectado</mat-checkbox>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <button mat-raised-button color="primary" (click)="loginIntoPage()">Ingresar</button>
+                    </td>                  
+                </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<app-barra-lateral></app-barra-lateral>

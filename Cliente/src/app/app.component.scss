@@ -1,0 +1,52 @@
+#background-blur{
+    position: absolute;
+    z-index: 2;
+    background: url('../assets/images/background-login.jpg');
+    background-size: 100%;
+    height: 100%;
+    width: 100%;
+    filter: blur(7px);
+}
+#container{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 3;    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.fields{    
+    border-radius: 0%;    
+}
+#card{    
+    height: auto;
+    width: 30%;
+}
+#head{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 120px;
+    background: darkslateblue;
+    color: white;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 40px;
+}
+#body{
+    background: white;   
+    width: auto; 
+}
+td{
+    padding: 8px;
+}
+.input-field{    
+    width: 100%;    
+}
+
+.form-container {        
+    min-width: 150px;
+    max-width: 500px;
+    width: 100%;
+}
