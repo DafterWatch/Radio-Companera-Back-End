@@ -9,8 +9,9 @@ const client = new Client({
 });
 
 module.exports = (router) =>{
+    client.connect();
     router.post('/probe', async (req,res)=>{
-        client.connect();
+        //client.connect();
         /*client.query("SELECT * FROM Reportero", (err,res)=>{
             if(!err){
                 console.log(res.rows);
@@ -27,5 +28,21 @@ module.exports = (router) =>{
             .then(()=>client.end);
         res.send(data);
     });   
+    router.post('/getUser/:idUser/:contrasenia', async (req,res)=>{        
+        let id_usuario = req.params.idUser;
+        let contra = req.params.contrasenia;
+        let respuestaBD = null;        
+        //let error = undefined;
+        await client.query(`SELECT * FROM Reportero WHERE id_reportero ='${id_usuario}' AND contraseña = '${contra}'`)
+            .then(filas => respuestaBD = filas)
+            .catch(err => console.log(err.stack))
+            .then(()=>client.end);        
+        
+        if(respuestaBD.rowCount == 0){
+            res.send(false);
+        }else{
+            res.send(respuestaBD.rows[0]);
+        }
+    });
     return router;
 };

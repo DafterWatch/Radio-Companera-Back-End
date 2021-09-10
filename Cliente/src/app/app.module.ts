@@ -32,6 +32,8 @@ import { MediosComponent } from './medios/medios.component';
 import { CuentasComponent } from './cuentas/cuentas.component';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 
+import { HttpClient, HttpClientModule} from '@angular/common/http'
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -66,7 +68,8 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     MatProgressBarModule,
     LayoutModule,
     MatToolbarModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
