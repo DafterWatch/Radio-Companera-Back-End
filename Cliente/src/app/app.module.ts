@@ -32,7 +32,8 @@ import { MediosComponent } from './medios/medios.component';
 import { CuentasComponent } from './cuentas/cuentas.component';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 
-import { HttpClient, HttpClientModule} from '@angular/common/http'
+import { HttpClient, HttpClientModule} from '@angular/common/http';
+import { CrearcuentaComponent } from './crearcuenta/crearcuenta.component'
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { HttpClient, HttpClientModule} from '@angular/common/http'
     AjustesComponent,
     ComentariosComponent,
     MediosComponent,
-    CuentasComponent
+    CuentasComponent,
+    CrearcuentaComponent
   ],
   imports: [
     BrowserModule,
