@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-cuentas',
@@ -6,8 +8,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./cuentas.component.scss']
 })
 export class CuentasComponent implements OnInit {
+  private serverDirection :string = 'http://localhost:3000';
+  constructor(private http:HttpClient) { }
 
-  constructor() { }
+  getUsers():Observable<any> {
+    return this.http.get(this.serverDirection);
+    
+  }
 
   ngOnInit(): void {
   }

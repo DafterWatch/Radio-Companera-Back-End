@@ -44,5 +44,9 @@ module.exports = (router) =>{
             res.send(respuestaBD.rows[0]);
         }
     });
+    //registrar reportero
+    router.post('/createUser/:idReportero/:nombre',async (req,res)=>{
+
+    });
     return router;
 };
