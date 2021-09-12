@@ -46,21 +46,22 @@ module.exports = (router) =>{
     });
     //registrar reportero
     router.post('/createUser/:id_reportero/:nombres/:apepaterno/:apematerno/:sexo/:cargo/:contra/:ci',async (req,res)=>{
-        let id_reportero = req.params.sexo;
+        let idreport = req.params.id_reportero;
         let nombres = req.params.nombres;
         let apepaterno = req.params.apepaterno;
         let apematerno = req.params.apematerno;
         let sexo = req.params.sexo;
-        let cargo = req.params.sexo;
-        let contra = req.params.sexo;
-        let ci = req.params.sexo;
-        let creacion=false;
-        await client.query(`INSERT INTO REPORTERO (id_reportero,nombres,apepaterno,apematerno,sexo,cargo,contraseña,ci,habilitada) VALUES ('${id_reportero}','${nombres}','${apepaterno}','${apematerno}','${sexo}','${cargo}','${contra}','${ci}','true');`)
-        .then(creacion = true)
-        .catch(err=>console.log(err.stack))
+        let cargo = req.params.cargo;
+        let contra = req.params.contra;
+        let ci = req.params.ci;
+        let respuestaBD=null;
+
+        await client.query(`INSERT INTO reportero (id_reportero,nombres,apepaterno,apematerno,sexo,cargo,contraseña,ci,habilitada) VALUES ('${idreport}','${nombres}','${apepaterno}','${apematerno}','${sexo}','${cargo}','${contra}','${ci}','true');`)
+        .then(filas => respuestaBD = filas)
+        .catch(err=>{console.log(err.stack)})
         .then(()=>client.end);
 
-        res.send(creacion);
+        res.send(true);
     });
     return router;
 };

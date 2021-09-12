@@ -1,4 +1,17 @@
 <p>
-    Email: <br/>
-    <input type="email" [formControl]="emailCtrl">
-  </p>
+  Nombre/s: <br/>
+  <input type="text" [formControl]="nameCtrl">
+</p>
+<p>
+  <small *ngIf="nameCtrl.hasError('required') && nameCtrl.dirty">Campo requerido</small>
+</p>
+<p>
+  CI: <br/>
+  <input type="text" [formControl]="ciCtrl">
+</p>
+<p *ngIf="ciCtrl.errors && ciCtrl.dirty">
+  <small *ngIf="ciCtrl.hasError('required')">Este campo es requerido</small>
+  <small *ngIf="ciCtrl.hasError('minlength')">Minimo de caracteres de 7</small>
+</p>
+
+<button [disabled]="ciCtrl.invalid" type="button" (click)="createUser()">Save</button>
