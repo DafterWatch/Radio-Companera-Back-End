@@ -13,9 +13,6 @@
   <label for="lname">Apellido materno:</label><br>
   <input type="text" id="apmaterno" name="apmaterno" value=""><br><br>
 
-  <label for="lname">Apellido materno:</label><br>
-  <input type="text" id="apmaterno" name="apmaterno" value=""><br><br>
-
   <mat-form-field appearance="fill">
     <mat-label>Sexo: </mat-label>
     <select matNativeControl required>
@@ -34,6 +31,22 @@
       <option value="Pasante">Pasante</option>
     </select>
   </mat-form-field><br><br>
+
+
+material
+<form class="example-form">
+  <mat-form-field class="example-full-width" appearance="fill">
+    <mat-label>Favorite food</mat-label>
+    <input matInput placeholder="Ex. Pizza" value="Sushi" [(ngModel)]="nombreuser">
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width" appearance="fill">
+    <mat-label>Leave a comment</mat-label>
+    <textarea matInput placeholder="Ex. It makes me feel..."></textarea>
+  </mat-form-field>
+</form>
+
+
 
   <label for="lname">Carnet de identidad:</label><br>
   <input type="number" id="ciuser" name="ciuser" value=""><br><br>

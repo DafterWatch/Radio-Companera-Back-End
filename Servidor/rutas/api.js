@@ -45,8 +45,18 @@ module.exports = (router) =>{
         }
     });
     //registrar reportero
-    router.post('/createUser/:idReportero/:nombre',async (req,res)=>{
+    router.post('/createUser/:nomuser/:s..',async (req,res)=>{
+        let nomuser = req.params.nomuser;
+        let nomuser2 = req.params.nomuser;
+        let nomuser22 = req.params.nomuser;
+        let nomuser21 = req.params.nomuser;
 
+        await client.query('insert .... sql')
+        .then(()=>client.end)
+        .catch(err=>console.log(err.stack))
+        .then(()=>client.end);
+
+        res.send("datos");
     });
     return router;
 };
