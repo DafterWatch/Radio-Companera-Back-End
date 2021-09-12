@@ -1,3 +1,4 @@
+import { FormtestComponent } from './formtest/formtest.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AjustesComponent } from './ajustes/ajustes.component';
@@ -36,7 +37,7 @@ const routes: Routes = [
   },
   {
     path:'cuentas/crearcuenta',
-    component:CrearcuentaComponent
+    component:FormtestComponent
   },
   {
     path:'perfil',

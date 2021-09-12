@@ -1,7 +1,7 @@
 
 <h2>Creacion de cuentas de usuario</h2>
 
-<form action="/action_page.php">
+<form method="POST" action="/createUser">
   <label for="fname">Nombre/s:</label><br>
   <input type="text" id="uname" name="uname" value=""><br>
 
@@ -15,15 +15,15 @@
 
   <mat-form-field appearance="fill">
     <mat-label>Sexo: </mat-label>
-    <select matNativeControl required>
-      <option value="m">Masculio</option>
-      <option value="f">Femenino</option>
-    </select>
+    <select matNativeControl required name="sexo" id="sexo">
+      <option value="M">Masculino</option>
+      <option value="F">Femenino</option>
+  </select>
   </mat-form-field><br><br>
 
   <mat-form-field appearance="fill">
-    <mat-label>Sexo: </mat-label>
-    <select matNativeControl required>
+    <mat-label>Cargo: </mat-label>
+    <select matNativeControl required name="cargo" id="cargo">
       <option value="Periodista">Periodista</option>
       <option value="Operador">Operador</option>
       <option value="Administrador">Administrador</option>
@@ -32,7 +32,7 @@
     </select>
   </mat-form-field><br><br>
 
-
+<!-- ANGULAR MATERIAL
 material
 <form class="example-form">
   <mat-form-field class="example-full-width" appearance="fill">
@@ -46,10 +46,18 @@ material
   </mat-form-field>
 </form>
 
-
+-->
 
   <label for="lname">Carnet de identidad:</label><br>
   <input type="number" id="ciuser" name="ciuser" value=""><br><br>
 
-  <input type="submit" value="Submit">
+  <input type="submit" value="CONFIRMAR" />
 </form> 
+
+
+<!--el bueno-->
+
+<p>
+  Email:<br>
+  <input type="email" [formControl]="emailCtrl">
+</p>

@@ -33,7 +33,8 @@ import { CuentasComponent } from './cuentas/cuentas.component';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 
 import { HttpClient, HttpClientModule} from '@angular/common/http';
-import { CrearcuentaComponent } from './crearcuenta/crearcuenta.component'
+import { CrearcuentaComponent } from './crearcuenta/crearcuenta.component';
+import { FormtestComponent } from './formtest/formtest.component'
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { CrearcuentaComponent } from './crearcuenta/crearcuenta.component'
     ComentariosComponent,
     MediosComponent,
     CuentasComponent,
-    CrearcuentaComponent
+    CrearcuentaComponent,
+    FormtestComponent
   ],
   imports: [
     BrowserModule,

@@ -45,18 +45,22 @@ module.exports = (router) =>{
         }
     });
     //registrar reportero
-    router.post('/createUser/:nomuser/:s..',async (req,res)=>{
-        let nomuser = req.params.nomuser;
-        let nomuser2 = req.params.nomuser;
-        let nomuser22 = req.params.nomuser;
-        let nomuser21 = req.params.nomuser;
-
-        await client.query('insert .... sql')
-        .then(()=>client.end)
+    router.post('/createUser/:id_reportero/:nombres/:apepaterno/:apematerno/:sexo/:cargo/:contra/:ci',async (req,res)=>{
+        let id_reportero = req.params.sexo;
+        let nombres = req.params.nombres;
+        let apepaterno = req.params.apepaterno;
+        let apematerno = req.params.apematerno;
+        let sexo = req.params.sexo;
+        let cargo = req.params.sexo;
+        let contra = req.params.sexo;
+        let ci = req.params.sexo;
+        let creacion=false;
+        await client.query(`INSERT INTO REPORTERO (id_reportero,nombres,apepaterno,apematerno,sexo,cargo,contraseña,ci,habilitada) VALUES ('${id_reportero}','${nombres}','${apepaterno}','${apematerno}','${sexo}','${cargo}','${contra}','${ci}','true');`)
+        .then(creacion = true)
         .catch(err=>console.log(err.stack))
         .then(()=>client.end);
 
-        res.send("datos");
+        res.send(creacion);
     });
     return router;
 };
