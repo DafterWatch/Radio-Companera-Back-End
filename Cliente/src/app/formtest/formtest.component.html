@@ -1,17 +1,78 @@
-<p>
-  Nombre/s: <br/>
-  <input type="text" [formControl]="nameCtrl">
-</p>
-<p>
-  <small *ngIf="nameCtrl.hasError('required') && nameCtrl.dirty">Campo requerido</small>
-</p>
-<p>
-  CI: <br/>
-  <input type="text" [formControl]="ciCtrl">
-</p>
-<p *ngIf="ciCtrl.errors && ciCtrl.dirty">
-  <small *ngIf="ciCtrl.hasError('required')">Este campo es requerido</small>
-  <small *ngIf="ciCtrl.hasError('minlength')">Minimo de caracteres de 7</small>
-</p>
+<div class="container">
+  <body>
+    <div class="formulario">
 
-<button [disabled]="ciCtrl.invalid" type="button" (click)="createUser()">Save</button>
+      <form class="example-form">
+
+        <P class="caja">Creación de cuentas</P> 
+        <br>
+        <!--Nombres-->
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Nombre/s</mat-label>
+          <input matInput [formControl]="nameCtrl" >
+        </mat-form-field>
+<br><br>
+ <!--Apellido paterno-->
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Apellido paterno</mat-label>
+          <input matInput [formControl]="apepatCtrl" >
+        </mat-form-field>
+<br><br>
+ <!--Apellido materno-->
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Apellido materno</mat-label>
+          <input matInput [formControl]="apematCtrl" >
+        </mat-form-field>
+<br><br>
+ <!--Sexo-->
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <mat-form-field appearance="fill">
+          <mat-label>Sexo</mat-label>
+          <mat-select [formControl]="sexoCtrl">
+            <mat-option *ngFor="let genero of generos" [value]="genero.value" >
+              {{genero.viewValue}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;
+         <!--Cargo-->
+        <mat-form-field appearance="fill">
+          <mat-label>Cargo</mat-label>
+          <mat-select [formControl]="cargoCtrl">
+            <mat-option *ngFor="let cargo of cargos" [value]="cargo.value">
+              {{cargo.viewValues}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <br><br>
+         <!--CI-->
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>CI</mat-label>
+          <input matInput [formControl]="ciCtrl" >
+        </mat-form-field>
+        
+
+
+      <p>
+        <small *ngIf="nameCtrl.hasError('required') && nameCtrl.dirty">Campo requerido</small>
+      </p>
+      <p>
+        CI: <br/>
+        <input type="text" [formControl]="ciCtrl">
+      </p>
+      <p *ngIf="ciCtrl.errors && ciCtrl.dirty">
+        <small *ngIf="ciCtrl.hasError('required')">Este campo es requerido</small>
+        <small *ngIf="ciCtrl.hasError('minlength')">Minimo de caracteres de 7</small>
+      </p>
+    
+      </form>
+      
+      
+      <button [disabled]="ciCtrl.invalid" type="button" (click)="createUser()">Save</button>
+      
+    
+    </div>    
+  </body>
+</div>

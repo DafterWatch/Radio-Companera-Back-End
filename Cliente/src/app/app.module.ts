@@ -31,7 +31,7 @@ import { ComentariosComponent } from './comentarios/comentarios.component';
 import { MediosComponent } from './medios/medios.component';
 import { CuentasComponent } from './cuentas/cuentas.component';
 import {MatCheckboxModule} from '@angular/material/checkbox';
-
+import {MatRadioModule} from '@angular/material/radio';
 import { HttpClient, HttpClientModule} from '@angular/common/http';
 import { CrearcuentaComponent } from './crearcuenta/crearcuenta.component';
 import { FormtestComponent } from './formtest/formtest.component'
@@ -55,6 +55,7 @@ import { FormtestComponent } from './formtest/formtest.component'
     AppRoutingModule,
     BrowserAnimationsModule,
     MatSidenavModule,
+    MatRadioModule,
     MatIconModule,
     MatButtonModule,
     FormsModule,
