@@ -54,10 +54,8 @@ module.exports = (router) =>{
         let cargo = req.params.cargo;
         let contra = req.params.contra;
         let ci = req.params.ci;
-        let respuestaBD=null;
 
         await client.query(`INSERT INTO reportero (id_reportero,nombres,apepaterno,apematerno,sexo,cargo,contraseña,ci,habilitada) VALUES ('${idreport}','${nombres}','${apepaterno}','${apematerno}','${sexo}','${cargo}','${contra}','${ci}','true');`)
-        .then(filas => respuestaBD = filas)
         .catch(err=>{console.log(err.stack)})
         .then(()=>client.end);
 

@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl,Validators } from '@angular/forms';
+import { FormControl,FormGroup,Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Reportero } from '../types';
+import { debounceTime } from 'rxjs/operators';
 
 interface Generos {
   value: string;
@@ -21,6 +22,10 @@ interface Cargo {
 
 export class FormtestComponent implements OnInit {
 
+  //form group
+  form:FormGroup;
+
+//valores para los selects
   generos: Generos[] = [
     {value: 'M', viewValue: 'Masculino'},
     {value: 'F', viewValue: 'Femenino'}
@@ -33,32 +38,118 @@ export class FormtestComponent implements OnInit {
     {value: 'Pasante', viewValues: 'Pasante'}
   ];
   
-  nameCtrl = new FormControl('', [Validators.required]);
-  apepatCtrl = new FormControl('', [Validators.required]);
-  apematCtrl = new FormControl('', [Validators.required]);
-  cargoCtrl = new FormControl('', [Validators.required]);
-  sexoCtrl = new FormControl('', [Validators.required]);
-  ciCtrl = new FormControl('',[Validators.required,Validators.minLength(7)]);
+ 
 
   serverDirection :string = 'http://localhost:3000';
 
 
   
   constructor(private http:HttpClient) {
+    this.buildForm();
    }
+
+
+  private buildForm() {
+    this.form = new FormGroup({
+      nameCtrl : new FormControl('', [Validators.required]),
+      apepatCtrl : new FormControl('', [Validators.required]),
+      apematCtrl : new FormControl('', [Validators.required]),
+      cargoCtrl : new FormControl('', [Validators.required]),
+      sexoCtrl : new FormControl('', [Validators.required]),
+      ciCtrl : new FormControl('',[Validators.required,Validators.minLength(7)])
+    });
+
+    /*this.form.valueChanges
+    .pipe(
+      debounceTime(500)
+    )
+    .subscribe(value => {
+      console.log(value);
+    });*/
+  }
 
   ngOnInit(): void {
   }
-  async createUser():Promise<void>{
-    /*let nombres=this.nameCtrl.value;
-    let apepaterno="paterno";
-    let apematerno="materno";
-    let sexo="M";
-    let ci="1234567";
-    let cargo="Reportero";
 
-    let id_reportero = "vqg2021133";
-    let contra = "123123";
+  get nombreField(){
+    return this.form.get('nameCtrl')
+  }
+  get apepatField(){
+    return this.form.get('apepatCtrl')
+  }
+  get apematField(){
+    return this.form.get('apematCtrl')
+  }
+  get cargoField(){
+    return this.form.get('cargoCtrl')
+  }
+  get sexoField(){
+    return this.form.get('sexoCtrl')
+  }
+  get ciField(){
+    return this.form.get('ciCtrl')
+  }
+  get generaNss() {
+    let result = '';
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz012345678901234567890123456789';
+    const charactersLength = characters.length;
+    for (let i = 0; i < charactersLength; i++) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+
+    return result;
+    
+}
+
+
+  async createUser():Promise<void>{
+  if (this.form.valid) {
+    const value = this.form.value;
+
+    let nombres=value.nameCtrl;
+    let apepaterno=value.apepatCtrl;
+    let apematerno=value.apematCtrl;
+    let sexo=value.sexoCtrl;
+    let ci=value.ciCtrl;
+    let cargo=value.cargoCtrl;
+
+    let cargoIniciales;
+    switch(cargo) { 
+      case 'Administrador': { 
+         cargoIniciales="admin"
+         break; 
+      } 
+      case 'Jefe de prensa': { 
+        cargoIniciales="jp"
+         break; 
+      } 
+      case 'Periodista': { 
+        cargoIniciales="per"
+        break; 
+     }
+     case 'Operador': { 
+      cargoIniciales="ope"
+      break; 
+   }
+   case 'Pasante': { 
+    cargoIniciales="pas"
+    break; 
+ }
+      default: { 
+        cargoIniciales="null"
+         break; 
+      } 
+   } 
+    let id_reportero = nombres.substr(0,1)
+                      +apepaterno.substr(0,1)
+                      +apematerno.substr(0,1)
+                      +"-"
+                      +cargoIniciales
+                      +ci.substr(4,ci.length);
+    console.log(id_reportero);
+    
+    let contra = this.generaNss.substr(0,8);
+    //console.log( contra );
     //databinding
     let respuestaUser=null;
 
@@ -70,11 +161,9 @@ export class FormtestComponent implements OnInit {
     }else{
       alert('Error');
     }
-  }*/
-  console.log(this.nameCtrl.value);
-  console.log(this.cargoCtrl.value);
-  console.log(this.sexoCtrl.value);
-  
-  
+    
+  } else {
+    this.form.markAllAsTouched();
+  }
   }
 }

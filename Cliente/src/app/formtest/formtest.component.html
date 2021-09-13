@@ -2,77 +2,89 @@
   <body>
     <div class="formulario">
 
-      <form class="example-form">
-
+      <form class="example-form" [formGroup]="form" (ngSubmit)="createUser()">
         <P class="caja">Creación de cuentas</P> 
         <br>
         <!--Nombres-->
         <mat-form-field class="example-full-width" appearance="fill">
           <mat-label>Nombre/s</mat-label>
-          <input matInput [formControl]="nameCtrl" >
+          <input matInput formControlName="nameCtrl" >
         </mat-form-field>
+        <div *ngIf="nombreField.errors && nombreField.touched">
+          <mat-error *ngIf="nombreField.hasError('required')">
+            Nombre es <strong>requerido</strong>
+          </mat-error>
+        </div>
 <br><br>
  <!--Apellido paterno-->
         <mat-form-field class="example-full-width" appearance="fill">
           <mat-label>Apellido paterno</mat-label>
-          <input matInput [formControl]="apepatCtrl" >
+          <input matInput formControlName="apepatCtrl" >
         </mat-form-field>
+        <div *ngIf="apepatField.errors && apepatField.touched">
+          <mat-error *ngIf="apepatField.hasError('required')">
+            Apellido paterno es <strong>requerido</strong>
+          </mat-error>
+        </div>
 <br><br>
  <!--Apellido materno-->
         <mat-form-field class="example-full-width" appearance="fill">
           <mat-label>Apellido materno</mat-label>
-          <input matInput [formControl]="apematCtrl" >
+          <input matInput formControlName="apematCtrl" >
         </mat-form-field>
+        <div *ngIf="apematField.errors && apematField.touched">
+          <mat-error *ngIf="apematField.hasError('required')">
+            Apellido materno es <strong>requerido</strong>
+          </mat-error>
+        </div>
 <br><br>
  <!--Sexo-->
         &nbsp;&nbsp;&nbsp;&nbsp;
         &nbsp;&nbsp;&nbsp;&nbsp;
         <mat-form-field appearance="fill">
           <mat-label>Sexo</mat-label>
-          <mat-select [formControl]="sexoCtrl">
+          <mat-select formControlName="sexoCtrl">
             <mat-option *ngFor="let genero of generos" [value]="genero.value" >
               {{genero.viewValue}}
             </mat-option>
           </mat-select>
         </mat-form-field>
+        <div *ngIf="sexoField.errors && sexoField.touched">
+          <mat-error *ngIf="sexoField.hasError('required')">
+            Opción <strong>requerida</strong>
+          </mat-error>
+        </div>
         &nbsp;&nbsp;&nbsp;&nbsp;
         &nbsp;&nbsp;&nbsp;&nbsp;
          <!--Cargo-->
         <mat-form-field appearance="fill">
           <mat-label>Cargo</mat-label>
-          <mat-select [formControl]="cargoCtrl">
+          <mat-select formControlName="cargoCtrl">
             <mat-option *ngFor="let cargo of cargos" [value]="cargo.value">
               {{cargo.viewValues}}
             </mat-option>
           </mat-select>
         </mat-form-field>
+        <div *ngIf="cargoField.errors && cargoField.touched">
+          <mat-error *ngIf="cargoField.hasError('required')">
+            Cargo es <strong>requerido</strong>
+          </mat-error>
+        </div>
         <br><br>
          <!--CI-->
         <mat-form-field class="example-full-width" appearance="fill">
           <mat-label>CI</mat-label>
-          <input matInput [formControl]="ciCtrl" >
+          <input matInput formControlName="ciCtrl" >
         </mat-form-field>
-        
-
-
-      <p>
-        <small *ngIf="nameCtrl.hasError('required') && nameCtrl.dirty">Campo requerido</small>
-      </p>
-      <p>
-        CI: <br/>
-        <input type="text" [formControl]="ciCtrl">
-      </p>
-      <p *ngIf="ciCtrl.errors && ciCtrl.dirty">
-        <small *ngIf="ciCtrl.hasError('required')">Este campo es requerido</small>
-        <small *ngIf="ciCtrl.hasError('minlength')">Minimo de caracteres de 7</small>
-      </p>
-    
+        <div *ngIf="ciField.errors && ciField.touched">
+          <mat-error *ngIf="ciField.hasError('required')">
+            CI es <strong>requerido</strong>
+          </mat-error>
+        </div>
+        <!--<button  type="button" (click)="createUser()">Save</button>-->
+        <button type="submit" >Guardar</button> 
       </form>
-      
-      
-      <button [disabled]="ciCtrl.invalid" type="button" (click)="createUser()">Save</button>
-      
-    
+
     </div>    
   </body>
 </div>
