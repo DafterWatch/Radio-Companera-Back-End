@@ -158,6 +158,7 @@ export class FormtestComponent implements OnInit {
 
     if(respuestaUser){
       alert('Cuenta registrada con exito');
+      
     }else{
       alert('Error');
     }

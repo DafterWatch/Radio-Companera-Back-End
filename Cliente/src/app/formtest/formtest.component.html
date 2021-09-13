@@ -1,8 +1,7 @@
 <div class="container">
   <body>
-    <div class="formulario">
 
-      <form class="example-form" [formGroup]="form" (ngSubmit)="createUser()">
+      <form class="formulario" [formGroup]="form" (ngSubmit)="createUser()">
         <P class="caja">Creación de cuentas</P> 
         <br>
         <!--Nombres-->
@@ -10,11 +9,11 @@
           <mat-label>Nombre/s</mat-label>
           <input matInput formControlName="nameCtrl" >
         </mat-form-field>
-        <div *ngIf="nombreField.errors && nombreField.touched">
+        <p *ngIf="nombreField.errors && nombreField.touched">
           <mat-error *ngIf="nombreField.hasError('required')">
             Nombre es <strong>requerido</strong>
           </mat-error>
-        </div>
+        </p>
 <br><br>
  <!--Apellido paterno-->
         <mat-form-field class="example-full-width" appearance="fill">
@@ -82,9 +81,11 @@
           </mat-error>
         </div>
         <!--<button  type="button" (click)="createUser()">Save</button>-->
-        <button type="submit" >Guardar</button> 
-      </form>
-
-    </div>    
+        <div class="btnForm">
+          <button mat-flat-button color="accent" type="submit">Registrar cuenta</button>
+        </div>
+        
+       
+      </form> 
   </body>
 </div>
