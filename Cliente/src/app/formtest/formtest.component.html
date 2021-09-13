@@ -1,7 +1,6 @@
-<div class="container">
-  <body>
 
-      <form class="formulario" [formGroup]="form" (ngSubmit)="createUser()">
+
+      <form class="formulario" id="formCreate" [formGroup]="form" (ngSubmit)="ocultar()">
         <P class="caja">Creación de cuentas</P> 
         <br>
         <!--Nombres-->
@@ -84,8 +83,10 @@
         <div class="btnForm">
           <button mat-flat-button color="accent" type="submit">Registrar cuenta</button>
         </div>
-        
-       
       </form> 
-  </body>
-</div>
+      <div class="btnVerDetalles">
+        <button mat-raised-button id="btnVer" color="primary" style="display: none;" (click)="mensaje()">Ver detalles</button>
+        <app-detalles-cuenta style="display: none;" id="detallesComponent"></app-detalles-cuenta>
+      </div>
+      
+      

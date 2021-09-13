@@ -1,3 +1,4 @@
+import { DetallesCuentaComponent } from './../detalles-cuenta/detalles-cuenta.component';
 import { Component, OnInit } from '@angular/core';
 import { FormControl,FormGroup,Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
@@ -57,6 +58,7 @@ export class FormtestComponent implements OnInit {
       cargoCtrl : new FormControl('', [Validators.required]),
       sexoCtrl : new FormControl('', [Validators.required]),
       ciCtrl : new FormControl('',[Validators.required,Validators.minLength(7)])
+      
     });
 
     /*this.form.valueChanges
@@ -100,7 +102,16 @@ export class FormtestComponent implements OnInit {
     return result;
     
 }
-
+async ocultar():Promise<void>{
+  alert('Cuenta registrada con exito');
+      document.getElementById('formCreate').style.display='none';
+      document.getElementById('btnVer').style.display='inline';
+}
+mensaje():void{
+  document.getElementById('btnVer').style.display='none';
+  document.getElementById('detallesComponent').style.display='inline';
+  
+}
 
   async createUser():Promise<void>{
   if (this.form.valid) {
@@ -158,6 +169,8 @@ export class FormtestComponent implements OnInit {
 
     if(respuestaUser){
       alert('Cuenta registrada con exito');
+      document.getElementById('formCreate').style.display='none';
+      document.getElementById('btnVer').style.display='inline';
       
     }else{
       alert('Error');

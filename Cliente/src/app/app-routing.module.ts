@@ -1,3 +1,4 @@
+import { DetallesCuentaComponent } from './detalles-cuenta/detalles-cuenta.component';
 import { FormtestComponent } from './formtest/formtest.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
@@ -38,6 +39,10 @@ const routes: Routes = [
   {
     path:'cuentas/crearcuenta',
     component:FormtestComponent
+  },
+  {
+    path:'cuentas/crearcuenta/detalles',
+    component:DetallesCuentaComponent
   },
   {
     path:'perfil',
