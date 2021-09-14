@@ -44,5 +44,8 @@ module.exports = (router) =>{
             res.send(respuestaBD.rows[0]);
         }
     });
+    router.get('/prueba', (req,res)=>{
+        res.send('Funciona');
+    });
     return router;
 };
