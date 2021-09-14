@@ -32,7 +32,7 @@ import { MediosComponent } from './medios/medios.component';
 import { CuentasComponent } from './cuentas/cuentas.component';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 
-import { HttpClient, HttpClientModule} from '@angular/common/http'
+import { HttpClient, HttpClientModule} from '@angular/common/http';
 
 @NgModule({
   declarations: [
