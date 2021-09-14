@@ -198,7 +198,6 @@ mensaje():void{
       alert('Cuenta registrada con exito');
       document.getElementById('formCreate').style.display='none';
       document.getElementById('btnVer').style.display='inline';
-      
     }else{
       alert('Error');
     }

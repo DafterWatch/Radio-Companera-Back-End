@@ -33,13 +33,13 @@
             <mat-card-actions style="display: flex;
             align-items: center;
             justify-content: center;">
-                <button mat-raised-button color="primary">Ver</button>
+                <!--<button mat-raised-button color="primary">Ver</button>-->
                
                 <button mat-raised-button color="warn" (click)="confirmar(mensaje.id_reportero)">Deshabilitar</button>
 
                 <div id="{{mensaje.id_reportero}}" style="display: none;">
                     <P>¿Desea desahibilar la cuenta {{mensaje.id_reportero}}?</P>
-                    <button mat-raised-button color="accent" (click)="deshabiliarcuenta(mensaje.id_reportero)">SI</button>
+                    <button mat-raised-button color="primary" (click)="deshabiliarcuenta(mensaje.id_reportero)">SI</button>
                     <button mat-raised-button color="warn" (click)="ocultarConfirmacion(mensaje.id_reportero)">NO</button>
                 </div>
                 
