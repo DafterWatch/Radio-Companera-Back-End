@@ -7,6 +7,16 @@ const client = new Client({
     password:'admin',
     database:'RadioCompanieraBD'
 });
+//TODO: Completar en base a los cargos
+//Periodista, Operador, Admin, Jefe Prensa y Pasante
+const cargos = {
+    'superadministrador':{counts:true, settings:true},
+    'operador':{counts:false, settings:false},
+    'periodista':{counts:false, settings:false},
+    'admin':{counts:false, settings:false},
+    'jefePrensa':{counts:false, settings:false},
+    'pesante':{counts:false, settings:false}
+}
 
 module.exports = (router) =>{
     client.connect();
@@ -41,13 +51,13 @@ module.exports = (router) =>{
         if(respuestaBD.rowCount == 0){
             res.send(false);
         }else{
-            res.send(respuestaBD.rows[0]);
+            let cargo = respuestaBD.rows[0].cargo;
+            res.send({usuario:respuestaBD.rows[0], permisos : cargos[cargo]});
         }
     });
     router.post('/cambiarContrasenia/:idUser/:nuevaContrasenia', async (req,res)=>{        
         let id_usuario = req.params.idUser;
-        let contra = req.params.nuevaContrasenia;
-        let respuestaBD = null;        
+        let contra = req.params.nuevaContrasenia;              
         await client.query(`UPDATE reportero SET contraseña = '${contra}' WHERE id_reportero ='${id_usuario}'`)
             .catch(err => res.send(false))
             .then(()=>client.end);        

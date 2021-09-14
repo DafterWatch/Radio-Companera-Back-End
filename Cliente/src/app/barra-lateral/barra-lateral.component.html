@@ -10,9 +10,8 @@
       <a mat-list-item routerLink="/medios">Medios</a>
       <a mat-list-item routerLink="/comentarios">Comentarios</a>
       <a mat-list-item routerLink="/cuentas">Cuentas</a>
-      <a mat-list-item routerLink="/perfil">Perfil</a>
-      <a mat-list-item routerLink="/ajustes">Ajustes</a>
-      <a mat-list-item routerLink="/p">Prueba</a>
+      <a mat-list-item routerLink="/perfil" *ngIf="permisos.counts">Perfil</a>
+      <a mat-list-item routerLink="/ajustes" *ngIf="permisos.settings">Ajustes</a>      
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>

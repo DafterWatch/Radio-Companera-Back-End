@@ -2,7 +2,8 @@
     position: absolute;
     z-index: 2;
     background: url('../assets/images/background-login.jpg');
-    background-size: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
     height: 100%;
     width: 100%;
     filter: blur(7px);
@@ -21,15 +22,16 @@
 }
 #card{    
     height: auto;
-    width: 30%;
+    min-width: 600px;
+    margin-bottom: 55px;
 }
 #head{
     display: flex;
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 120px;
-    background: darkslateblue;
+    height: 140px;
+    background: #D40000;
     color: white;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     font-size: 40px;
@@ -37,16 +39,50 @@
 #body{
     background: white;   
     width: auto; 
+    padding: 20px;
 }
 td{
     padding: 8px;
 }
 .input-field{    
-    width: 100%;    
+    width: 90%;    
+    height: auto;
+    text-indent: 10px;
+    font-size: 18px;    
+}
+.input-field ::placeholder{
+    font-size: 18px;
 }
 
+::ng-deep.mat-form-field-ripple {    
+    background-color: red !important;;
+}
 .form-container {        
-    min-width: 150px;
-    max-width: 500px;
+    margin-right: 10px;
     width: 100%;
+}
+.mat-radio {
+    background-color: red;  
+    height:50px !important;
+    width:120px !important;  
+    color: white;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 25px;
+    margin: 10px;
+}
+mat-form-field mat-label {
+    font-size: 20px;
+    margin: 10px;
+}
+
+@media screen and (max-width: 800px) {
+    #card{            
+        min-width: 500px;
+    }
+    #head{
+        height: 210px;
+    }
+    #background-blur{
+        filter: blur(0px);
+    }
 }

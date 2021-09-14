@@ -9,3 +9,11 @@ export class Reportero{
     ci : string;
     habilitada : boolean    
 }
+export class Permisos{
+    counts : boolean;
+    settings : boolean;
+}
+export class getUserType{
+    usuario : Reportero;
+    permisos : Permisos;
+}
