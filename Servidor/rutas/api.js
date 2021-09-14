@@ -47,7 +47,7 @@ module.exports = (router) =>{
         }
     });
     //registrar reportero
-    router.post('/createUser/:id_reportero/:nombres/:apepaterno/:apematerno/:sexo/:cargo/:contra/:ci',async (req,res)=>{
+    router.post('/crearCuenta/:id_reportero/:nombres/:apepaterno/:apematerno/:sexo/:cargo/:contra/:ci',async (req,res)=>{
         let idreport = req.params.id_reportero;
         let nombres = req.params.nombres;
         let apepaterno = req.params.apepaterno;

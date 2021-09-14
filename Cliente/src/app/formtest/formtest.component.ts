@@ -191,7 +191,7 @@ mensaje():void{
     this.carg=cargo;
     this.contr=contra;
     this.ci=ci;
-    await this.http.post(this.serverDirection+`/createUser/${id_reportero}/${nombres}/${apepaterno}/${apematerno}/${sexo}/${cargo}/${contra}/${ci}`,{}).toPromise()
+    await this.http.post(this.serverDirection+`/crearCuenta/${id_reportero}/${nombres}/${apepaterno}/${apematerno}/${sexo}/${cargo}/${contra}/${ci}`,{}).toPromise()
     .then(res=>respuestaUser=res);
 
     if(respuestaUser){
