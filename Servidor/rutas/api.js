@@ -36,13 +36,22 @@ module.exports = (router) =>{
         await client.query(`SELECT * FROM Reportero WHERE id_reportero ='${id_usuario}' AND contraseña = '${contra}'`)
             .then(filas => respuestaBD = filas)
             .catch(err => console.log(err.stack))
-            .then(()=>client.end);        
+            .then(()=>client.end);
         
         if(respuestaBD.rowCount == 0){
             res.send(false);
         }else{
             res.send(respuestaBD.rows[0]);
         }
+    });
+    router.post('/cambiarContrasenia/:idUser/:nuevaContrasenia', async (req,res)=>{        
+        let id_usuario = req.params.idUser;
+        let contra = req.params.nuevaContrasenia;
+        let respuestaBD = null;        
+        await client.query(`UPDATE reportero SET contraseña = '${contra}' WHERE id_reportero ='${id_usuario}'`)
+            .catch(err => res.send(false))
+            .then(()=>client.end);        
+        res.send(true);
     });
     return router;
 };

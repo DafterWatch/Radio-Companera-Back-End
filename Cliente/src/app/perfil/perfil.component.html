@@ -1,1 +1,29 @@
-<p>perfil works!</p>
+<div class="container">
+    <mat-card>
+        <mat-card-title>Perfil de usuario</mat-card-title>
+        <mat-card-subtitle><b>Datos personales</b></mat-card-subtitle>
+        <span><b>ID:</b> {{id_reportero}}</span><br>
+        <span><b>Nombres:</b> {{nombres}}</span><br>
+        <span><b>Apellido paterno:</b> {{apepaterno}}</span><br>
+        <span><b>Apellido materno:</b> {{apematerno}}</span><br>
+        <span><b>Sexo:</b> {{sexo}}</span><br>
+        <span><b>Cargo:</b> {{cargo}}</span><br>
+        <span><b>C.I.:</b> {{ci}}</span><br>
+    </mat-card>
+</div>
+<div class="container">
+    <mat-card>
+        <mat-card-subtitle><b>Cambiar contraseña</b></mat-card-subtitle>
+        <mat-form-field appearance="fill">
+            <mat-label>Nueva contraseña</mat-label>
+            <input matInput #nuevaContrasenia1>
+        </mat-form-field><br>
+        <mat-form-field appearance="fill">
+            <mat-label>Vuelva a ingresarla</mat-label>
+            <input matInput #nuevaContrasenia2>
+        </mat-form-field><br>
+        
+        <button mat-raised-button color="primary" (click)="validar(nuevaContrasenia1.value,nuevaContrasenia2.value)">Cambiar contraseña</button>
+        
+    </mat-card>
+</div>
