@@ -82,6 +82,9 @@
           <mat-error *ngIf="ciField.hasError('required')">
             CI es <strong>requerido</strong>
           </mat-error>
+          <mat-error *ngIf="ciField.hasError('minlength')">
+            El CI debe <strong>ser numerico</strong>
+          </mat-error>
         </div>
         <!--<button  type="button" (click)="createUser()">Save</button>-->
         <div class="btnForm">
@@ -92,6 +95,7 @@
       <div class="btnVerDetalles">
         <button mat-raised-button id="btnVer" color="primary" style="display: none;" (click)="mensaje()">Ver detalles</button>
         <!--<app-detalles-cuenta style="display: none;" id="detallesComponent"></app-detalles-cuenta>-->
+        <br><br><br><br><br>
         <div class="datosRescatados" style="display: inline;">
               <mat-card class="example-card">
                   <mat-card-header>
