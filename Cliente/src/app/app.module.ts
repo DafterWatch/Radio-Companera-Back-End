@@ -36,7 +36,7 @@ import { HttpClient, HttpClientModule} from '@angular/common/http';
 import { CrearcuentaComponent } from './crearcuenta/crearcuenta.component';
 import { FormtestComponent } from './formtest/formtest.component';
 import { DetallesCuentaComponent } from './detalles-cuenta/detalles-cuenta.component'
-
+import {MatDialogModule} from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -55,6 +55,7 @@ import { DetallesCuentaComponent } from './detalles-cuenta/detalles-cuenta.compo
   ],
   imports: [
     BrowserModule,
+    MatDialogModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MatSidenavModule,

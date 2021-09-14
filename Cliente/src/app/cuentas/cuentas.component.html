@@ -1,6 +1,53 @@
-<div class="container">
+<div class="card-header">
+    <div class="header">
     <p>Bienvenido administrador!</p>
-    <button mat-raised-button color="accent" routerLink="/cuentas/crearcuenta">Crear nueva cuenta  &plus;</button>
+    <button mat-raised-button class="botonheader" style="background-color: #19B911;color: aliceblue;" (click)="mostrarRegistro()">Crear nueva cuenta  &plus;</button>
+    <!--<button mat-raised-button class="botonheader" color="primary" routerLink="/cuentas">Ver cuentas registradas  </button>
+    <button mat-raised-button class="botonheader" color="accent" (click)="refresh()"><mat-icon>loop</mat-icon></button>-->
+</div>
+</div>
+<div class="linea"></div>
+ <div class="container" style="background-color: rgba(61, 128, 190, 0.438);">
+<div id="formRegistro" style="display: none;">
+    <app-formtest></app-formtest>
+</div>
+<div id="tablaCuentas" class="wrapper-grid">
+    <div *ngFor="let mensaje of logcuentas; let i = index" >
+<div class="wrapper-grid">
+        <mat-card class="example-card">
+            <mat-card-header>
+              <div mat-card-avatar class="example-header-image"></div>
+              <mat-card-title>{{mensaje.nombres}} {{mensaje.apepaterno}}</mat-card-title>
+              <mat-card-subtitle>{{mensaje.id_reportero}}</mat-card-subtitle>
+            </mat-card-header>
+            <img mat-card-image src="https://lh3.googleusercontent.com/bVasjJiEt_qOoymntYLvLmiw_uezpmQeE2O_4Kk-ZQ77bCODt5Lc0vO5Yrl4Cz7GVA" alt="Radio compañera">
+            <mat-card-content>
+              <div class="datos">
+                <p>Nombre completo: {{mensaje.nombres}} {{mensaje.apepaterno}} {{mensaje.apematerno}}</p>
+               <p>CI: {{mensaje.ci}}</p>
+                </div><div class="datoSimple">
+                <h2>Cargo: {{mensaje.cargo}}</h2>
+                <p>Estado: {{mensaje.habilitada}}</p>
+              </div>
+            </mat-card-content>
+            <mat-card-actions style="display: flex;
+            align-items: center;
+            justify-content: center;">
+                <button mat-raised-button color="primary">Ver</button>
+               
+                <button mat-raised-button color="warn" (click)="confirmar(mensaje.id_reportero)">Deshabilitar</button>
 
+                <div id="{{mensaje.id_reportero}}" style="display: none;">
+                    <P>¿Desea desahibilar la cuenta {{mensaje.id_reportero}}?</P>
+                    <button mat-raised-button color="accent" (click)="deshabiliarcuenta(mensaje.id_reportero)">SI</button>
+                    <button mat-raised-button color="warn" (click)="ocultarConfirmacion(mensaje.id_reportero)">NO</button>
+                </div>
+                
+            </mat-card-actions>
+          </mat-card>
+        </div>
+        
+    </div>
 </div>
 
+</div>

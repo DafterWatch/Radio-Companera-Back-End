@@ -1,8 +1,10 @@
 
 
-      <form class="formulario" id="formCreate" [formGroup]="form" (ngSubmit)="ocultar()">
+
+     <form id="formCreate" [formGroup]="form" (ngSubmit)="createUser()">
         <P class="caja">Creación de cuentas</P> 
         <br>
+<div class="contenidoForm">
         <!--Nombres-->
         <mat-form-field class="example-full-width" appearance="fill">
           <mat-label>Nombre/s</mat-label>
@@ -14,6 +16,7 @@
           </mat-error>
         </p>
 <br><br>
+
  <!--Apellido paterno-->
         <mat-form-field class="example-full-width" appearance="fill">
           <mat-label>Apellido paterno</mat-label>
@@ -37,8 +40,7 @@
         </div>
 <br><br>
  <!--Sexo-->
-        &nbsp;&nbsp;&nbsp;&nbsp;
-        &nbsp;&nbsp;&nbsp;&nbsp;
+        <div class="selectBtn">
         <mat-form-field appearance="fill">
           <mat-label>Sexo</mat-label>
           <mat-select formControlName="sexoCtrl">
@@ -51,10 +53,11 @@
           <mat-error *ngIf="sexoField.hasError('required')">
             Opción <strong>requerida</strong>
           </mat-error>
+
+         
         </div>
-        &nbsp;&nbsp;&nbsp;&nbsp;
-        &nbsp;&nbsp;&nbsp;&nbsp;
          <!--Cargo-->
+         &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
         <mat-form-field appearance="fill">
           <mat-label>Cargo</mat-label>
           <mat-select formControlName="cargoCtrl">
@@ -69,6 +72,7 @@
           </mat-error>
         </div>
         <br><br>
+      </div>
          <!--CI-->
         <mat-form-field class="example-full-width" appearance="fill">
           <mat-label>CI</mat-label>
@@ -83,10 +87,40 @@
         <div class="btnForm">
           <button mat-flat-button color="accent" type="submit">Registrar cuenta</button>
         </div>
+      </div>
       </form> 
       <div class="btnVerDetalles">
         <button mat-raised-button id="btnVer" color="primary" style="display: none;" (click)="mensaje()">Ver detalles</button>
-        <app-detalles-cuenta style="display: none;" id="detallesComponent"></app-detalles-cuenta>
+        <!--<app-detalles-cuenta style="display: none;" id="detallesComponent"></app-detalles-cuenta>-->
+        <div class="datosRescatados" style="display: inline;">
+              <mat-card class="example-card">
+                  <mat-card-header>
+                    <div mat-card-avatar class="example-header-image"></div>
+                    <mat-card-title>{{nom}} {{pater}}</mat-card-title>
+                    <mat-card-subtitle>{{idReport}}</mat-card-subtitle>
+                  </mat-card-header>
+                  <img mat-card-image src="https://lh3.googleusercontent.com/bVasjJiEt_qOoymntYLvLmiw_uezpmQeE2O_4Kk-ZQ77bCODt5Lc0vO5Yrl4Cz7GVA" alt="Radio Compañera">
+                  <mat-card-content>
+                    <p class="caja">
+                      Datos de la cuenta creada
+                    </p>
+              
+                    <h2 class="casillaIzquierda">ID: {{idReport}}</h2>
+                    <h2 class="casillaDerecha">Contraseña: {{contr}}</h2>
+                    <br>
+                    <h2 class="casillaIzquierda">Nombre: {{nom}}</h2>
+                    <h2 class="casillaDerecha">Apellido paterno: {{pater}}</h2>
+                    <h2 class="casillaIzquierda">Apellido materno: {{mater}}</h2>
+              
+                    <h2 class="casillaDerecha">CI: {{ci}}</h2>
+                    <h2 class="casillaIzquierda">Cargo: {{carg}}</h2>
+              
+                  </mat-card-content>
+                  <mat-card-actions>
+                      <a mat-button routerLink="/cuentas">Listo!</a>
+                  </mat-card-actions>
+                </mat-card>
+      </div>
       </div>
       
       

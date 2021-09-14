@@ -1,3 +1,54 @@
 .container{
     padding: 20px;
 }
+.wrapper-grid{
+    display: grid;
+    grid-template-columns: repeat(4,20rem);
+
+}
+@media screen and(min-width:700px) {
+    .wrapper-grid{
+        grid-template-columns: repeat(auto-fit,20rem);
+    }
+    
+}
+  .linea{
+      background-color: #243a77;
+      height: 10px;
+      width: 100%;
+  }
+
+  .header{
+      margin: 20px;
+  }
+  .botonheader{
+      margin-right: 20px;
+  }
+
+  .example-card {
+      margin: 20px;
+    max-width:1000px;
+  }
+  
+  .example-header-image {
+    background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+    background-size: cover;
+  }
+  
+  .datos{
+      background-color: rgb(61, 61, 168);
+      color: mintcream;
+      
+      border-radius: 20px;
+      padding: 15px;
+  }
+
+  .datoSimple{
+    background-color: rgb(187, 81, 81);
+    color: mintcream;
+    font-size-adjust: initial;
+    
+    border-radius: 10px;
+    padding-left: 10px;
+    margin: 10px;
+  }

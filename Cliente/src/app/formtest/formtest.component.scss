@@ -12,14 +12,27 @@
 .formulario{
     margin-top: 40px;
     margin-bottom: 40px;
-    margin-right: 50px;
-    margin-left: 50px;
-    border-style: groove;
+    margin-right: 100px;
+    margin-left: 100px;
+    //border-style: groove;
    //border-color: rgb(255, 64, 129);
-    border-color:rgb(88, 41, 197);
+    //border-color:rgb(88, 41, 197);
+    background-color: rgba(255, 255, 255, 0.925);
     width: 600px;;
-    padding: 10px;
-    padding-bottom: 20px;
+}
+.contenidoForm{
+  padding: 50px;
+  margin-left: 250px;
+  margin-right: 250px;
+  background-color: rgb(255, 255, 255);
+
+}
+
+.selectBtn{
+  display: flex;
+    align-items: center;
+    justify-content: center;
+  
 }
 
 //TITULO
@@ -44,6 +57,7 @@ body{
 
 }
 .btnForm{
+   
     display: flex;
     align-items: center;
     justify-content: center;
@@ -57,4 +71,36 @@ body{
     text-align: center;
     align-content: center;
   margin-top: 40px;
+}
+
+.example-card {
+  max-width: 600px;
+}
+
+.example-header-image {
+  background-image: url('https://i.pinimg.com/280x280_RS/2e/45/66/2e4566fd829bcf9eb11ccdb5f252b02f.jpg');
+  background-size: cover;
+}
+
+
+.casillaDerecha{
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-size: 15px;
+  background-color: crimson;
+  padding: 5px; color: #ffffff;
+  border-radius: 0px 15px 15px 0px;
+  -moz-border-radius: 0px 15px 15px 0px;
+  -webkit-border-radius: 0px 15px 15px 0px;
+  border: 0px solid #000000;
+}
+.casillaIzquierda{
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-size: 15px;
+  color: #ffffff;
+  background-color: crimson;
+  padding: 5px;
+  border-radius: 15px 0px 0px 15px;
+  -moz-border-radius: 15px 0px 0px 15px;
+  -webkit-border-radius: 15px 0px 0px 15px;
+  border: 0px solid #000000;
 }

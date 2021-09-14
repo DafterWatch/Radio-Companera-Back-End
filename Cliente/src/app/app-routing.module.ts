@@ -11,6 +11,7 @@ import { EscritorioComponent } from './escritorio/escritorio.component';
 import { MediosComponent } from './medios/medios.component';
 import { PerfilComponent } from './perfil/perfil.component';
 
+
 const routes: Routes = [  
   {
     path:'',

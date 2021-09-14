@@ -23,6 +23,14 @@ interface Cargo {
 
 export class FormtestComponent implements OnInit {
 
+  public idReport:string="";
+  public nom:string="";
+  public pater:string="";
+  public mater:string="";
+  public sex:string="";
+  public carg:string="";
+  public contr:string="";
+  public ci:string="";
   //form group
   form:FormGroup;
 
@@ -102,14 +110,25 @@ export class FormtestComponent implements OnInit {
     return result;
     
 }
+get generaNumber() {
+  let result = '';
+  const characters = '012345678901234567890123456789';
+  const charactersLength = characters.length;
+  for (let i = 0; i < charactersLength; i++) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+
+  return result;
+  
+}
 async ocultar():Promise<void>{
   alert('Cuenta registrada con exito');
       document.getElementById('formCreate').style.display='none';
-      document.getElementById('btnVer').style.display='inline';
+      document.getElementById('btnVer').style.display='none';
 }
 mensaje():void{
   document.getElementById('btnVer').style.display='none';
-  document.getElementById('detallesComponent').style.display='inline';
+  document.getElementById('datosRescatados').style.display='inline';
   
 }
 
@@ -155,8 +174,8 @@ mensaje():void{
                       +apepaterno.substr(0,1)
                       +apematerno.substr(0,1)
                       +"-"
-                      +cargoIniciales
-                      +ci.substr(4,ci.length);
+                      +cargoIniciales+"-"
+                      +this.generaNumber.substr(0,5);
     console.log(id_reportero);
     
     let contra = this.generaNss.substr(0,8);
@@ -164,6 +183,14 @@ mensaje():void{
     //databinding
     let respuestaUser=null;
 
+    this.idReport=id_reportero;
+    this.nom=nombres;
+    this.pater=apepaterno;
+    this.mater=apematerno;
+    this.sex=sexo;
+    this.carg=cargo;
+    this.contr=contra;
+    this.ci=ci;
     await this.http.post(this.serverDirection+`/createUser/${id_reportero}/${nombres}/${apepaterno}/${apematerno}/${sexo}/${cargo}/${contra}/${ci}`,{}).toPromise()
     .then(res=>respuestaUser=res);
 

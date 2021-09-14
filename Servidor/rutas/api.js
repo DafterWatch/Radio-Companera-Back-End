@@ -10,6 +10,7 @@ const client = new Client({
 
 module.exports = (router) =>{
     client.connect();
+
     router.post('/probe', async (req,res)=>{
         //client.connect();
         /*client.query("SELECT * FROM Reportero", (err,res)=>{
@@ -26,6 +27,7 @@ module.exports = (router) =>{
             .then(res => data = res.rows)
             .catch(err => console.log(err.stack))
             .then(()=>client.end);
+            //console.log(data);
         res.send(data);
     });   
     router.post('/getUser/:idUser/:contrasenia', async (req,res)=>{        
@@ -59,6 +61,14 @@ module.exports = (router) =>{
         .catch(err=>{console.log(err.stack)})
         .then(()=>client.end);
 
+        res.send(true);
+    });
+
+    router.post('/deshabilitarUser/:idUser', async (req,res)=>{        
+        let id_usuario = req.params.idUser;       
+        await client.query(`UPDATE reportero SET habilitada = 'false' WHERE id_reportero ='${id_usuario}'`)
+            .catch(err => res.send(false))
+            .then(()=>client.end);        
         res.send(true);
     });
     return router;
