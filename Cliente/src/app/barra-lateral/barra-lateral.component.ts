@@ -21,4 +21,7 @@ export class BarraLateralComponent {
   constructor(private breakpointObserver: BreakpointObserver) {
     console.log(this.permisos);    
   }
+  cerrarSesion(){
+    //TODO: Emitir evento para cerrar la sesión
+  }
 }

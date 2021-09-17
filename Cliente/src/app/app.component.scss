@@ -6,7 +6,7 @@
     background-repeat: no-repeat;
     height: 100%;
     width: 100%;
-    filter: blur(7px);
+    
 }
 #container{
     width: 100%;
@@ -33,7 +33,8 @@
     height: 140px;
     background: #D40000;
     color: white;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    /*font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;*/
+    font-family: fantasy;
     font-size: 40px;
 }
 #body{
@@ -64,15 +65,34 @@ td{
 .mat-radio {
     background-color: red;  
     height:50px !important;
-    width:120px !important;  
+    width:150px !important;  
     color: white;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     font-size: 25px;
     margin: 10px;
 }
+::ng-deep .mat-checkbox-checked.mat-accent {
+    .mat-checkbox-ripple .mat-ripple-element {
+        background-color: red !important;
+    }
+
+    .mat-checkbox-background, .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
+        background-color: red;
+     }
+}
+
 mat-form-field mat-label {
     font-size: 20px;
     margin: 10px;
+}
+mat-icon{
+    margin-right: 10px;
+    cursor: default;
+}
+#error{
+    font-size: 14px;
+    color: #D40000;    
+    display: none;
 }
 
 @media screen and (max-width: 800px) {

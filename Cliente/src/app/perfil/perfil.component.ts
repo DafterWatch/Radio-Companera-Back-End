@@ -20,7 +20,7 @@ export class PerfilComponent implements OnInit {
   ci:string;
   validacion:boolean;
   constructor(private http:HttpClient) { 
-    let usuario:Reportero=JSON.parse(localStorage.getItem('usuarioLogeado'));
+    let usuario:Reportero=JSON.parse(sessionStorage.getItem('usuarioLogeado')).user;
     this.id_reportero=usuario.id_reportero;
     this.nombres=usuario.nombres;
     this.apepaterno=usuario.apepaterno;
