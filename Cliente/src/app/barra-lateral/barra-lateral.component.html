@@ -5,17 +5,18 @@
       [opened]="(isHandset$ | async) === false">
     <mat-toolbar>Menu</mat-toolbar>
     <mat-nav-list>
-      <a mat-list-item routerLink="/escritorio">Escritorio</a>
-      <a mat-list-item routerLink="/entradas">Entradas</a>
-      <a mat-list-item routerLink="/medios">Medios</a>
-      <a mat-list-item routerLink="/comentarios">Comentarios</a>
-      <a mat-list-item routerLink="/cuentas">Cuentas</a>
-      <a mat-list-item routerLink="/perfil">Perfil</a>
-      <a mat-list-item routerLink="/ajustes">Ajustes</a>
+      <a mat-list-item routerLink="/escritorio"><mat-icon>desktop_windows</mat-icon> Escritorio</a>
+      <a mat-list-item routerLink="/entradas"><mat-icon>radio</mat-icon> Entradas</a>
+      <a mat-list-item routerLink="/medios"><mat-icon>insert_photo</mat-icon> Medios</a>
+      <a mat-list-item routerLink="/comentarios"><mat-icon>keyboard</mat-icon> Comentarios</a>
+      <a mat-list-item routerLink="/cuentas"><mat-icon>group</mat-icon> Cuentas</a>
+      <a mat-list-item routerLink="/perfil"><mat-icon>person_outline</mat-icon> Perfil</a>
+      <a mat-list-item routerLink="/ajustes"><mat-icon>build</mat-icon> Ajustes</a>      
+      <a mat-list-item (click)="cerrarSesion()">Salir</a>   
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
-    <mat-toolbar color="primary">
+    <mat-toolbar color="radio">
       <button
         type="button"
         aria-label="Toggle sidenav"
@@ -24,7 +25,11 @@
         *ngIf="isHandset$ | async">
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
+      <mat-icon>home</mat-icon> &nbsp;
       <span>Radio compañera</span>
+      <div style="float: left; width: 100%;">
+        <span style="float: right; margin-right: 10px;">Hola, Peter</span>
+      </div>
     </mat-toolbar>
     <!-- Add Content Here -->
     <router-outlet></router-outlet>
