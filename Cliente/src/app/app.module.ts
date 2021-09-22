@@ -33,7 +33,6 @@ import { CuentasComponent } from './cuentas/cuentas.component';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatRadioModule} from '@angular/material/radio';
 import { HttpClient, HttpClientModule} from '@angular/common/http';
-import { CrearcuentaComponent } from './crearcuenta/crearcuenta.component';
 import { FormtestComponent } from './formtest/formtest.component';
 import { DetallesCuentaComponent } from './detalles-cuenta/detalles-cuenta.component'
 import {MatDialogModule} from '@angular/material/dialog';
@@ -49,7 +48,6 @@ import {MatDialogModule} from '@angular/material/dialog';
     ComentariosComponent,
     MediosComponent,
     CuentasComponent,
-    CrearcuentaComponent,
     FormtestComponent,
     DetallesCuentaComponent
   ],

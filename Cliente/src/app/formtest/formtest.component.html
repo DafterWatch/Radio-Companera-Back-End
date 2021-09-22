@@ -1,130 +1,13 @@
-
-
-
-     <form id="formCreate" [formGroup]="form" (ngSubmit)="createUser()">
-        <P class="caja">Creación de cuentas</P> 
-        <br>
-<div class="contenidoForm">
-        <!--Nombres-->
-        <mat-form-field class="example-full-width" appearance="fill">
-          <mat-label>Nombre/s</mat-label>
-          <input matInput formControlName="nameCtrl" >
-        </mat-form-field>
-        <p *ngIf="nombreField.errors && nombreField.touched">
-          <mat-error *ngIf="nombreField.hasError('required')">
-            Nombre es <strong>requerido</strong>
-          </mat-error>
-        </p>
-<br><br>
-
- <!--Apellido paterno-->
-        <mat-form-field class="example-full-width" appearance="fill">
-          <mat-label>Apellido paterno</mat-label>
-          <input matInput formControlName="apepatCtrl" >
-        </mat-form-field>
-        <div *ngIf="apepatField.errors && apepatField.touched">
-          <mat-error *ngIf="apepatField.hasError('required')">
-            Apellido paterno es <strong>requerido</strong>
-          </mat-error>
-        </div>
-<br><br>
- <!--Apellido materno-->
-        <mat-form-field class="example-full-width" appearance="fill">
-          <mat-label>Apellido materno</mat-label>
-          <input matInput formControlName="apematCtrl" >
-        </mat-form-field>
-        <div *ngIf="apematField.errors && apematField.touched">
-          <mat-error *ngIf="apematField.hasError('required')">
-            Apellido materno es <strong>requerido</strong>
-          </mat-error>
-        </div>
-<br><br>
- <!--Sexo-->
-        <div class="selectBtn">
-        <mat-form-field appearance="fill">
-          <mat-label>Sexo</mat-label>
-          <mat-select formControlName="sexoCtrl">
-            <mat-option *ngFor="let genero of generos" [value]="genero.value" >
-              {{genero.viewValue}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-        <div *ngIf="sexoField.errors && sexoField.touched">
-          <mat-error *ngIf="sexoField.hasError('required')">
-            Opción <strong>requerida</strong>
-          </mat-error>
-
-         
-        </div>
-         <!--Cargo-->
-         &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-        <mat-form-field appearance="fill">
-          <mat-label>Cargo</mat-label>
-          <mat-select formControlName="cargoCtrl">
-            <mat-option *ngFor="let cargo of cargos" [value]="cargo.value">
-              {{cargo.viewValues}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-        <div *ngIf="cargoField.errors && cargoField.touched">
-          <mat-error *ngIf="cargoField.hasError('required')">
-            Cargo es <strong>requerido</strong>
-          </mat-error>
-        </div>
-        <br><br>
+<form id="formCreate" [formGroup]="form" (ngSubmit)="createUser()">
+    <div class="formulario">
+      <div class="title"> 
+        
       </div>
-         <!--CI-->
-        <mat-form-field class="example-full-width" appearance="fill">
-          <mat-label>CI</mat-label>
-          <input matInput formControlName="ciCtrl" >
-        </mat-form-field>
-        <div *ngIf="ciField.errors && ciField.touched">
-          <mat-error *ngIf="ciField.hasError('required')">
-            CI es <strong>requerido</strong>
-          </mat-error>
-          <mat-error *ngIf="ciField.hasError('minlength')">
-            El CI debe <strong>ser numerico</strong>
-          </mat-error>
-        </div>
-        <!--<button  type="button" (click)="createUser()">Save</button>-->
-        <div class="btnForm">
-          <button mat-flat-button color="accent" type="submit">Registrar cuenta</button>
-        </div>
+      <div class="content">
+
       </div>
-      </form> 
-      <div class="btnVerDetalles">
-        <button mat-raised-button id="btnVer" color="primary" style="display: none;" (click)="mensaje()">Ver detalles</button>
-        <!--<app-detalles-cuenta style="display: none;" id="detallesComponent"></app-detalles-cuenta>-->
-        <br><br><br><br><br>
-        <div class="datosRescatados" style="display: inline;">
-              <mat-card class="example-card">
-                  <mat-card-header>
-                    <div mat-card-avatar class="example-header-image"></div>
-                    <mat-card-title>{{nom}} {{pater}}</mat-card-title>
-                    <mat-card-subtitle>{{idReport}}</mat-card-subtitle>
-                  </mat-card-header>
-                  <img mat-card-image src="https://lh3.googleusercontent.com/bVasjJiEt_qOoymntYLvLmiw_uezpmQeE2O_4Kk-ZQ77bCODt5Lc0vO5Yrl4Cz7GVA" alt="Radio Compañera">
-                  <mat-card-content>
-                    <p class="caja">
-                      Datos de la cuenta creada
-                    </p>
-              
-                    <h2 class="casillaIzquierda">ID: {{idReport}}</h2>
-                    <h2 class="casillaDerecha">Contraseña: {{contr}}</h2>
-                    <br>
-                    <h2 class="datosSecundarios">Nombre: {{nom}}</h2>
-                    <h2 class="datosSecundarios">Apellido paterno: {{pater}}</h2>
-                    <h2 class="datosSecundarios">Apellido materno: {{mater}}</h2>
-              
-                    <h2 class="datosSecundarios">CI: {{ci}}</h2>
-                    <h2 class="datosSecundarios">Cargo: {{carg}}</h2>
-              
-                  </mat-card-content>
-                  <mat-card-actions>
-                      <a mat-button routerLink="/cuentas">Listo!</a>
-                  </mat-card-actions>
-                </mat-card>
-      </div>
-      </div>
+    </div>
+</form> 
+   
       
       

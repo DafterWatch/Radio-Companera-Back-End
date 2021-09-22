@@ -7,16 +7,6 @@ const client = new Client({
     password:'admin',
     database:'RadioCompanieraBD'
 });
-//TODO: Completar en base a los cargos
-//Periodista, Operador, Admin, Jefe Prensa y Pasante
-const cargos = {
-    'superadministrador':{counts:true, settings:true},
-    'operador':{counts:false, settings:false},
-    'periodista':{counts:false, settings:false},
-    'admin':{counts:false, settings:false},
-    'jefePrensa':{counts:false, settings:false},
-    'pesante':{counts:false, settings:false}
-}
 
 module.exports = (router) =>{
     client.connect();
@@ -48,13 +38,12 @@ module.exports = (router) =>{
         await client.query(`SELECT * FROM Reportero WHERE id_reportero ='${id_usuario}' AND contraseña = '${contra}'`)
             .then(filas => respuestaBD = filas)
             .catch(err => console.log(err.stack))
-            .then(()=>client.end);
+            .then(()=>client.end);        
         
         if(respuestaBD.rowCount == 0){
             res.send(false);
         }else{
-            let cargo = respuestaBD.rows[0].cargo;
-            res.send({usuario:respuestaBD.rows[0], permisos : cargos[cargo]});
+            res.send(respuestaBD.rows[0]);
         }
     });
     //registrar reportero

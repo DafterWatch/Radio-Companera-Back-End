@@ -39,12 +39,6 @@ async deshabiliarcuenta(id:string):Promise<void>{
   }
 }
 
-
-   public mostrarRegistro():void{
-      document.getElementById("formRegistro").style.display='inline';
-      
-      document.getElementById('tablaCuentas').style.display='none';
-   }
    public mostrarDatos():void{
     document.getElementById("formRegistro").style.display='none';
       
