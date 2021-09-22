@@ -46,6 +46,25 @@ module.exports = (router) =>{
             res.send(respuestaBD.rows[0]);
         }
     });
+
+    //verificar ci
+    router.post('/verificarci/:ci',async (req,res)=>{
+
+        let ci=req.params.ci;
+        let existe;
+
+        await client.query(`SELECT * FROM Reportero WHERE ci='${ci}'`)
+        .then(filas=>existe=filas)
+        .catch(err=>console.log(err.stack))
+        .then(()=>client.end);
+
+        if(existe.rowCount==0){
+            res.send(false);
+        }else{
+            res.send(true);
+        }
+    });
+
     //registrar reportero
     router.post('/crearCuenta/:id_reportero/:nombres/:apepaterno/:apematerno/:sexo/:cargo/:contra/:ci',async (req,res)=>{
         let idreport = req.params.id_reportero;
