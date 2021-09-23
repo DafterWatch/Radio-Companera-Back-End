@@ -10,17 +10,22 @@
 
 .title{
   text-align: center;
-  color: rgb(233, 19, 19);
+  color: rgb(255, 233, 233);
   padding-top: 20px;
+  padding-bottom: 5px;
+  text-shadow: 1px 1px #030303;
+  border-radius: 20px 20px 20px 20px;
+  background: linear-gradient(to bottom right, rgb(218, 29, 29), rgb(107, 58, 65));
 }
 
 .content{
 padding: 10px;
+padding-top: 20px;
 }
 
 .example-full-width {
   width: 100%;
-  
+
 }
 
 .container{
@@ -31,5 +36,20 @@ padding-top: 5%;
 }
 
 .selectbtn{
-  padding-left: 20%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+}
+
+.OpcionesPadre{
+  display: flex;
+  justify-content: center;
+  position: relative;
+  margin-top: 10%;
+}
+
+.OpcionesHijo{
+  margin: 0 auto;
+  position: absolute;
+  margin-top: 10%;
 }

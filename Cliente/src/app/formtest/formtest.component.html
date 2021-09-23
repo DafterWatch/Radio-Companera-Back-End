@@ -3,7 +3,10 @@
   <form id="formCreate" [formGroup]="form" (ngSubmit)="verificarCI()" class="example-form">
     <div class="formulario">
       <div class="title"> 
-        <h1>Creación de cuentas</h1>
+        <h1>	<mat-icon>group_add</mat-icon>  CREACIÓN DE CUENTAS</h1>
+      </div>
+      <div class="barra">
+
       </div>
       <div class="content">
 
@@ -107,5 +110,18 @@
       </div>
     </div>
 </form> 
+<div class="OpcionesPadre"id="btnVer">
+  <div class="OpcionesHijo" style="display: none;" >
+<div>
+  <app-detallescuenta style="display: none;" id="detallescuenta" [idCreado]= "this.idReport"></app-detallescuenta>
+</div>
+
+
+    <a (click)="mostrarDetalles()" mat-raised-button style="background-color: rgb(54, 170, 122);color: aliceblue;"><mat-icon> format_align_justify</mat-icon> Ver información </a> &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+    <a routerLink="/cuentas/crearcuenta/detalles" mat-raised-button style="background-color: rgb(54, 170, 122);color: aliceblue;"><mat-icon> vertical_align_bottom</mat-icon> Descargar .txt </a> 
+
+    
+  </div>
+</div>
       
 </div>

@@ -1,8 +1,7 @@
-import { DetallesCuentaComponent } from './../detalles-cuenta/detalles-cuenta.component';
+import { Reportero } from './../types';
 import { Component, OnInit } from '@angular/core';
 import { FormControl,FormGroup,Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { Reportero } from '../types';
 import { debounceTime } from 'rxjs/operators';
 
 interface Generos {
@@ -132,7 +131,13 @@ mensaje():void{
   
 }
 
+mostrarDetalles(){
+  console.log("OCULTADO");
+  document.getElementById('detallescuenta').style.display='inline';
+  
+}
 async verificarCI():Promise<void>{
+  
   if(this.form.valid){
     const value = this.form.value;
     let ci=value.ciCtrl;
@@ -187,6 +192,7 @@ console.log("Creando");
     this.contr=contra;
     this.ci=ci;
 
+    
 
     await this.http.post(this.serverDirection+`/crearCuenta/${ci}/${nombres}/${apepaterno}/${apematerno}/${sexo}/${cargo}/${contra}/${ci}`,{}).toPromise()
     .then(res=>respuestaUser=res);
@@ -203,4 +209,5 @@ console.log("Creando");
     this.form.markAllAsTouched();
   }
   }
+
 }

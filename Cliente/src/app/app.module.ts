@@ -34,8 +34,8 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatRadioModule} from '@angular/material/radio';
 import { HttpClient, HttpClientModule} from '@angular/common/http';
 import { FormtestComponent } from './formtest/formtest.component';
-import { DetallesCuentaComponent } from './detalles-cuenta/detalles-cuenta.component'
 import {MatDialogModule} from '@angular/material/dialog';
+import { DetallescuentaComponent } from './detallescuenta/detallescuenta.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +49,7 @@ import {MatDialogModule} from '@angular/material/dialog';
     MediosComponent,
     CuentasComponent,
     FormtestComponent,
-    DetallesCuentaComponent
+    DetallescuentaComponent,
   ],
   imports: [
     BrowserModule,

@@ -47,6 +47,23 @@ module.exports = (router) =>{
         }
     });
 
+    //recuperar user con ci=id
+    router.post('/getUserByCI/:idUser', async (req,res)=>{        
+        let id_usuario = req.params.idUser;
+        let respuestaBD = null;        
+        //let error = undefined;
+        await client.query(`SELECT * FROM Reportero WHERE id_reportero ='${id_usuario}'`)
+            .then(filas => respuestaBD = filas)
+            .catch(err => console.log(err.stack))
+            .then(()=>client.end);        
+        
+        if(respuestaBD.rowCount == 0){
+            res.send(false);
+        }else{
+            res.send(respuestaBD.rows[0]);
+        }
+    });
+
     //verificar ci
     router.post('/verificarci/:ci',async (req,res)=>{
 

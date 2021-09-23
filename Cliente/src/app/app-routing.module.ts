@@ -1,4 +1,3 @@
-import { DetallesCuentaComponent } from './detalles-cuenta/detalles-cuenta.component';
 import { FormtestComponent } from './formtest/formtest.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
@@ -9,7 +8,7 @@ import { EntradasComponent } from './entradas/entradas.component';
 import { EscritorioComponent } from './escritorio/escritorio.component';
 import { MediosComponent } from './medios/medios.component';
 import { PerfilComponent } from './perfil/perfil.component';
-
+import { DetallescuentaComponent } from './detallescuenta/detallescuenta.component';
 
 const routes: Routes = [  
   {
@@ -47,6 +46,9 @@ const routes: Routes = [
   {
     path:'ajustes',
     component:AjustesComponent
+  },{
+    path:'cuentas/crearcuenta/detalles',
+    component:DetallescuentaComponent
   }
 ];
 
