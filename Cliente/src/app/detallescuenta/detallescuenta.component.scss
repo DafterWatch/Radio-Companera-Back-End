@@ -1,0 +1,36 @@
+.parent {
+    display: grid;
+grid-template-columns: repeat(5, 1fr);
+grid-template-rows: repeat(5, 1fr);
+grid-column-gap: 0px;
+grid-row-gap: 0px;
+    padding: 20px;
+    background-color: cyan;
+    border-radius: 20px;
+}
+    
+.div1 {
+    grid-area: 1 / 1 / 3 / 2;
+    background-color: blue;
+    padding: 20px;
+}
+.div2 { 
+    grid-area: 1 / 2 / 3 / 6;
+    background-color: brown;
+    padding-left: 10%;
+    padding-top: 5%;
+    color: cornsilk;
+}
+.div3 { 
+    grid-area: 3 / 1 / 6 / 4;
+    background-color: chartreuse;
+    padding: 20px;
+}
+.div4 {
+    grid-area: 3 / 4 / 6 / 6;
+    background-color: darkorange;
+}
+
+.imagen{
+    border-radius: 20px;
+}
