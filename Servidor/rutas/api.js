@@ -1,5 +1,8 @@
 //const express = require('express');
+const multer = require('multer');
 const {Client} = require('pg');
+const jsonParser = require('express').json();
+const fs = require('fs');
 const client = new Client({
     host:'localhost',
     user:'postgres',
@@ -17,9 +20,20 @@ const cargos = {
     'jefePrensa':{counts:false, settings:false},
     'pesante':{counts:false, settings:false}
 }
+const storage = multer.diskStorage({
+    destination: (req,file,cb)=>{
+        cb(null,'./archivos/');
+    },
+    filename: (req,file,cb)=>{
+        cb(null, Date.now()+ file.originalname);
+    }
+});
+const upload = multer({storage:storage});
+const SERVER_DIR = 'http://localhost:3000/'
 
 module.exports = (router) =>{
     client.connect();
+<<<<<<< Updated upstream
 
     router.post('/probe', async (req,res)=>{
         //client.connect();
@@ -32,6 +46,9 @@ module.exports = (router) =>{
             }
             client.end;
         });*/           
+=======
+    router.post('/probe', async (req,res)=>{        
+>>>>>>> Stashed changes
         let data;
         await client.query("SELECT * FROM Reportero")
             .then(res => data = res.rows)
@@ -82,5 +99,30 @@ module.exports = (router) =>{
             .then(()=>client.end);        
         res.send(true);
     });
+
+    router.post('/subirArchivo',upload.single('clientFile'),(req,res)=>{
+        //TODO: SUBIR A LA BASE DE DATOS
+        //console.log(req.file);
+        res.send(SERVER_DIR+req.file.path);
+    });
+    router.post('/pruebaM',jsonParser,(req,res)=>{
+        console.log(req.body);
+        
+        res.send(true);
+    });
+    router.post('/saveSchema',jsonParser,(req,res)=>{
+        fs.writeFile('folderSchema.txt',req.body.schema, (err)=>{
+            if(err){
+                console.log('No se puede escribir en el archivo');
+                res.status(500).send(false);
+            }
+        });
+        res.status(200).send(true);
+    });
+    router.get('/getSchema',(req,res)=>{               
+        let schema = fs.readFileSync('folderSchema.txt','utf-8');
+        res.send(schema);
+    });
+
     return router;
 };

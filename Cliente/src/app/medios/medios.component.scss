@@ -1,0 +1,91 @@
+#body{
+    margin: 15px 20px;
+    padding: 0;        
+    height: auto;    
+}
+#Tittle{
+    font-size: 25px;
+}
+#menu{
+    background-color: "#FFFFFF";
+    border-style: solid ;
+    border-color: black;
+    border-width: 1px;
+    width: 98%;
+    height: 50px;            
+    display: grid;
+    grid-template-columns: 30px 40px 170px 180px 300px;    
+    align-items: center;        
+    padding: 7px;
+}
+#searchBar{
+    grid-column: 20/20;
+}
+#newElement{
+    background-color: white;
+    border-radius: 5px;
+    width: 120px;
+    height: 40px;
+}
+#gallery{
+    width: 100%;
+    display: grid;    
+    grid-template-columns: repeat(auto-fit,minmax(240px, 1fr));    
+}
+
+.galleryImg :hover{
+    transform: scale(1.1); 
+    cursor: pointer;
+}
+
+::ng-deep .mat-paginator-page-size-select {
+    width: 27px!important;
+}
+
+::ng-deep .mat-select-value {
+    color: #e00000;  
+    font-weight: bold;
+    font-size: 15px;
+}
+::ng-deep .mat-select-arrow {
+    color: #e00000;
+}
+::ng-deep .mat-option-text {
+    text-align: center;
+}
+::ng-deep .mat-paginator{    
+    font-size: 15px;
+}
+.showOptBtn{
+    cursor: pointer;
+}
+.listImg {
+    margin: 20px;      
+}
+.listImg ul {
+    list-style-type: none;
+    width: 1000px;
+}
+
+.listImg h1 {
+    font: bold 30px/1.5 Helvetica, Verdana, sans-serif;
+}
+
+.listImg li img {
+    float: left;
+    margin: 0 15px 0 0;
+}
+
+.listImg li p {
+    font: 200 20px/1.5;
+}
+
+.listImg li {
+    padding: 10px;
+    overflow: auto; 
+}
+
+.listImg :hover {
+    background: #eee;
+    cursor: pointer;
+}

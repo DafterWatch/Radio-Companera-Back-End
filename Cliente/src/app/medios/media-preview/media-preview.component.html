@@ -1,0 +1,18 @@
+<div>
+  <mat-card>
+      <div [ngSwitch]="data.type">
+      <img *ngSwitchCase="'image'" mat-card-image [src]="data.source" width="500px" height="500px" style ="object-fit: cover;">
+      <audio *ngSwitchCase="'audio'" class="center" controls>
+        <source [src]="data.audioVideoSrc">
+      </audio>
+      <video *ngSwitchCase="'video'" width="480" height="320" class="center" controls>
+        <source [src]="data.audioVideoSrc">
+      </video>
+      </div>
+      <mat-card-content>
+        <h1>Título del archivo: {{data.name}}</h1> 
+        <h4>Tipo: {{data.type}}</h4>
+        <span>Fecha de creación:{{data.date}}</span>
+      </mat-card-content>      
+  </mat-card>
+</div>
