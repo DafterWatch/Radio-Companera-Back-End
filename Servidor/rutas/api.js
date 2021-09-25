@@ -33,7 +33,6 @@ const SERVER_DIR = 'http://localhost:3000/'
 
 module.exports = (router) =>{
     client.connect();
-<<<<<<< Updated upstream
 
     router.post('/probe', async (req,res)=>{
         //client.connect();
@@ -46,9 +45,6 @@ module.exports = (router) =>{
             }
             client.end;
         });*/           
-=======
-    router.post('/probe', async (req,res)=>{        
->>>>>>> Stashed changes
         let data;
         await client.query("SELECT * FROM Reportero")
             .then(res => data = res.rows)

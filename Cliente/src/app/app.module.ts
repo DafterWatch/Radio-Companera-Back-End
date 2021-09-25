@@ -31,14 +31,10 @@ import { ComentariosComponent } from './comentarios/comentarios.component';
 import { MediosComponent } from './medios/medios.component';
 import { CuentasComponent } from './cuentas/cuentas.component';
 import {MatCheckboxModule} from '@angular/material/checkbox';
-<<<<<<< Updated upstream
 import {MatRadioModule} from '@angular/material/radio';
-import { HttpClient, HttpClientModule} from '@angular/common/http';
 import { CrearcuentaComponent } from './crearcuenta/crearcuenta.component';
 import { FormtestComponent } from './formtest/formtest.component';
 import { DetallesCuentaComponent } from './detalles-cuenta/detalles-cuenta.component'
-import {MatDialogModule} from '@angular/material/dialog';
-=======
 import {MatPaginatorModule} from '@angular/material/paginator';
 import { HttpClient, HttpClientModule} from '@angular/common/http';
 import { CustomPaginator } from '../app/medios/paginatorConfig';
@@ -49,7 +45,6 @@ import { FileExplorerComponent } from './file-explorer/file-explorer.component';
 import { NewFolderComponent } from './dialogs/new-folder/new-folder.component';
 import {MatGridListModule} from '@angular/material/grid-list';
 import { RenameDialogComponent } from './dialogs/rename-dialog/rename-dialog.component';
->>>>>>> Stashed changes
 
 @NgModule({
   declarations: [
@@ -62,16 +57,13 @@ import { RenameDialogComponent } from './dialogs/rename-dialog/rename-dialog.com
     ComentariosComponent,
     MediosComponent,
     CuentasComponent,
-<<<<<<< Updated upstream
     CrearcuentaComponent,
     FormtestComponent,
-    DetallesCuentaComponent
-=======
+    DetallesCuentaComponent,
     MediaPreviewComponent,
     FileExplorerComponent,
     NewFolderComponent,
     RenameDialogComponent
->>>>>>> Stashed changes
   ],
   imports: [
     BrowserModule,
