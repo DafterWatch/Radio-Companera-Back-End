@@ -15,6 +15,7 @@ export class DetallescuentaComponent implements OnInit {
   private serverDirection :string = 'http://localhost:3000';
 
   @Input() idCreado:string;
+  @Input() pass:string;
 
   ngOnInit(): void {
     
@@ -27,6 +28,8 @@ export class DetallescuentaComponent implements OnInit {
   cargo:string;
   ci:string;
   habil:boolean;
+  password:string;
+  estado:string;
 
   async recuperarUser():Promise<void>{
     let cuentas=null;
@@ -39,9 +42,17 @@ export class DetallescuentaComponent implements OnInit {
       this.paterno=this.cuentaRecuperada.apepaterno;
       this.materno=this.cuentaRecuperada.apematerno;
       this.sexo=this.cuentaRecuperada.sexo;
-      this.cargo=this.cuentaRecuperada.cargo;
+      this.cargo=this.cuentaRecuperada.cargo.toUpperCase();
       this.ci=this.cuentaRecuperada.ci;
       this.habil=this.cuentaRecuperada.habilitada;
+      this.password=this.pass;
+
+      if(this.habil){
+        this.estado="HABILITADO";
+      }else{this.estado="DESHABILITADO"}
+      if(this.sexo=="M"){
+        this.sexo="MASCULINO";
+      }else{this.sexo="FEMENINO"}
     });
   }
   mostrarID(){

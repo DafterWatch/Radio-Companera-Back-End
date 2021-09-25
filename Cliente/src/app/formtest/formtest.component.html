@@ -1,5 +1,14 @@
-<div class="container">
 
+<div class="container">
+  <div>
+    <app-detallescuenta style="display: none;" id="detallescuenta" [pass]="this.contr" [idCreado]= "this.idReport"></app-detallescuenta>
+  </div>
+  <div class="OpcionesPadre">
+    <div class="OpcionesHijo" style="display: none;"id="btnVer">
+      <a (click)="mostrarDetalles()" mat-raised-button style="background-color: rgb(54, 170, 122);color: aliceblue;"><mat-icon> format_align_justify</mat-icon> Ver información </a> &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+      <a routerLink="/cuentas/crearcuenta/detalles" mat-raised-button style="background-color: rgb(54, 170, 122);color: aliceblue;"><mat-icon> vertical_align_bottom</mat-icon> Descargar .txt </a> 
+    </div>
+  </div>
   <form id="formCreate" [formGroup]="form" (ngSubmit)="verificarCI()" class="example-form">
     <div class="formulario">
       <div class="title"> 
@@ -110,18 +119,6 @@
       </div>
     </div>
 </form> 
-<div class="OpcionesPadre">
-  <div class="OpcionesHijo" style="display: none;"id="btnVer">
-<div>
-  <app-detallescuenta style="display: none;" id="detallescuenta" [idCreado]= "this.idReport"></app-detallescuenta>
-</div>
 
-
-    <a (click)="mostrarDetalles()" mat-raised-button style="background-color: rgb(54, 170, 122);color: aliceblue;"><mat-icon> format_align_justify</mat-icon> Ver información </a> &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-    <a routerLink="/cuentas/crearcuenta/detalles" mat-raised-button style="background-color: rgb(54, 170, 122);color: aliceblue;"><mat-icon> vertical_align_bottom</mat-icon> Descargar .txt </a> 
-
-    
-  </div>
-</div>
       
 </div>
