@@ -13,12 +13,12 @@ const client = new Client({
 //TODO: Completar en base a los cargos
 //Periodista, Operador, Admin, Jefe Prensa y Pasante
 const cargos = {
-    'superadministrador':{counts:true, settings:true},
-    'operador':{counts:false, settings:false},
-    'periodista':{counts:false, settings:false},
-    'admin':{counts:false, settings:false},
-    'jefePrensa':{counts:false, settings:false},
-    'pesante':{counts:false, settings:false}
+    'superadministrador':   {counts:true, settings:true},
+    'operador':             {counts:false, settings:false},
+    'periodista':           {counts:false, settings:false},
+    'administrador':        {counts:false, settings:false},
+    'jefePrensa':           {counts:false, settings:false},
+    'pasante':              {counts:false, settings:false}
 }
 const storage = multer.diskStorage({
     destination: (req,file,cb)=>{

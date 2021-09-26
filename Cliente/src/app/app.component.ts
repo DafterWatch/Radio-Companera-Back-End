@@ -9,7 +9,7 @@ import {FormControl, Validators} from '@angular/forms';
 })
 export class AppComponent {
   title = 'Radio Compañera - Servidor';
-  showLoginScreen : boolean = false;
+  showLoginScreen : boolean = true;
   serverDirection :string = 'http://localhost:3000';
   id_user : string = '';
   password : string = '';
