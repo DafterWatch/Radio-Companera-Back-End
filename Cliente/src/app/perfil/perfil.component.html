@@ -1,7 +1,13 @@
 <div class="container">
     <mat-card>
+        <mat-card-header>
         <mat-card-title>Perfil de usuario</mat-card-title>
         <mat-card-subtitle><b>Datos personales</b></mat-card-subtitle>
+        <div mat-card-avatar class="example-header-image"><img mat-card-image [src]="fotoperfil || 'https://lh3.googleusercontent.com/bVasjJiEt_qOoymntYLvLmiw_uezpmQeE2O_4Kk-ZQ77bCODt5Lc0vO5Yrl4Cz7GVA'" alt="Radio compañera"></div>
+        <input type="file" style="display: none;" id="fotoPerfil">
+        <button (click)="cargarFotoPerfil()">Cargar foto</button>
+        </mat-card-header>
+
         <span><b>ID:</b> {{id_reportero}}</span><br>
         <span><b>Nombres:</b> {{nombres}}</span><br>
         <span><b>Apellido paterno:</b> {{apepaterno}}</span><br>
