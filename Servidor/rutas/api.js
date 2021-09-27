@@ -81,7 +81,8 @@ module.exports = (router) =>{
         let contra = req.params.contra;
         let ci = req.params.ci;
 
-        await client.query(`INSERT INTO reportero (id_reportero,nombres,apepaterno,apematerno,sexo,cargo,contraseña,ci,habilitada) VALUES ('${idreport}','${nombres}','${apepaterno}','${apematerno}','${sexo}','${cargo}','${contra}','${ci}','true');`)
+        await client.query(`INSERT INTO reportero (id_reportero,nombres,apepaterno,apematerno,sexo,cargo,contraseña,ci,habilitada)
+        VALUES ('${idreport}','${nombres}','${apepaterno}','${apematerno}','${sexo}','${cargo}','${contra}','${ci}','true');`)
         .catch(err=>{console.log(err.stack)})
         .then(()=>client.end);
 
@@ -96,8 +97,7 @@ module.exports = (router) =>{
         res.send(true);
     });
 
-    router.post('/subirArchivo',upload.single('clientFile'),(req,res)=>{
-        //TODO: SUBIR A LA BASE DE DATOS
+    router.post('/subirArchivo',upload.single('clientFile'),(req,res)=>{        
         //console.log(req.file);
         res.send(SERVER_DIR+req.file.path);
     });
@@ -118,6 +118,31 @@ module.exports = (router) =>{
     router.get('/getSchema',(req,res)=>{               
         let schema = fs.readFileSync('folderSchema.txt','utf-8');
         res.send(schema);
+    });
+    router.get('/getComentario/:idNoticia', async (req,res)=>{
+        const query = {
+            text: "SELECT * FROM comentarios WHERE id_noticia=$1",            
+            values : [req.params.idNoticia]
+        }                
+        let comentario = await client.query(query);
+        res.send(comentario.rows);
+    });
+    router.post('/postComentario',jsonParser, (req,res)=>{
+        const query = {
+            text: 'INSERT INTO comentarios VALUES ($1,$2,$3,$4)',
+            values:Object.values(req.body)
+        }
+        let error = true;
+        client
+            .query(query)
+            .then()
+            .catch(err => {console.log('Error insertando comentario postComentario'); error = err.stack})
+        res.send(true);
+    });
+    router.post('/getComentarios', (req,res)=>{                    
+        client.query('SELECT * FROM comentarios')
+            .then(comentarios => res.send(comentarios.rows))
+            .catch( err => console.log('Error recuperando comentarios: /getComentarios',err.stack) );
     });
 
     return router;
