@@ -1,1 +1,17 @@
-<p>medios works!</p>
+<div style="height: auto; ">
+  <mat-card style="height: 100%; box-sizing: border-box; padding:0">
+    <app-file-explorer
+      [fileElements]="fileElements | async"
+      [path]="currentPath"
+      [canNavigateUp]="canNavigateUp"
+      (folderAdded)="addFolder($event)"
+      (elementRemoved)="removeElement($event)"
+      (navigatedDown)="navigateToFolder($event)"
+      (navigatedUp)="navigateUp()"
+      (elementRenamed)="renameElement($event)"
+      (elementMoved)="moveElement($event)"
+      (fileAdded)="addFile($event)"
+    >
+    </app-file-explorer>
+  </mat-card>
+</div>

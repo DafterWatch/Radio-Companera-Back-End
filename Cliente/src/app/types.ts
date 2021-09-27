@@ -7,7 +7,8 @@ export class Reportero{
     cargo : string;
     contra : string;
     ci : string;
-    habilitada : boolean    
+    habilitada : boolean
+    fotoperfil:string  
 }
 
 export class Permisos{

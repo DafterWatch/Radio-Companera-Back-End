@@ -19,6 +19,7 @@ export class PerfilComponent implements OnInit {
   cargo:string;
   ci:string;
   validacion:boolean;
+  fotoperfil:string;
   constructor(private http:HttpClient) { 
     let usuario:Reportero=JSON.parse(sessionStorage.getItem('usuarioLogeado')).user;
     this.id_reportero=usuario.id_reportero;
@@ -29,6 +30,8 @@ export class PerfilComponent implements OnInit {
     this.cargo=usuario.cargo;
     this.ci=usuario.ci;
     this.validacion=false;
+    this.fotoperfil=usuario.fotoperfil;
+    console.log(usuario);
   }
 
   ngOnInit(): void {
@@ -51,5 +54,17 @@ export class PerfilComponent implements OnInit {
     else{
       alert('Contraseña no valida')
     }
+  }
+
+  cargarFotoPerfil(){
+    var fotoPerfil:any;
+    fotoPerfil=document.getElementById("fotoPerfil");
+    fotoPerfil.onchange=()=>{
+      var archivo=fotoPerfil.files[0];
+      const formData:FormData=new FormData();
+      formData.append("clientFile",archivo);
+      this.http.post(`http://localhost:3000/subirArchivo/`,formData,{responseType:"text"}).subscribe(resultado=>this.fotoperfil=resultado);
+    };
+    fotoPerfil.click();
   }
 }

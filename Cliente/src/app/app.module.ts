@@ -32,10 +32,18 @@ import { MediosComponent } from './medios/medios.component';
 import { CuentasComponent } from './cuentas/cuentas.component';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatRadioModule} from '@angular/material/radio';
-import { HttpClient, HttpClientModule} from '@angular/common/http';
 import { FormtestComponent } from './formtest/formtest.component';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import { HttpClient, HttpClientModule} from '@angular/common/http';
+import { CustomPaginator } from '../app/medios/paginatorConfig';
+import { MatPaginatorIntl } from '@angular/material/paginator';
+import { MediaPreviewComponent } from './medios/media-preview/media-preview.component';
 import {MatDialogModule} from '@angular/material/dialog';
-import { DetallescuentaComponent } from './detallescuenta/detallescuenta.component';
+import { FileExplorerComponent } from './file-explorer/file-explorer.component';
+import { NewFolderComponent } from './dialogs/new-folder/new-folder.component';
+import {MatGridListModule} from '@angular/material/grid-list';
+import { RenameDialogComponent } from './dialogs/rename-dialog/rename-dialog.component';
+import { DetallescuentaComponent} from './detallescuenta/detallescuenta.component'
 
 @NgModule({
   declarations: [
@@ -49,7 +57,11 @@ import { DetallescuentaComponent } from './detallescuenta/detallescuenta.compone
     MediosComponent,
     CuentasComponent,
     FormtestComponent,
+    MediaPreviewComponent,
+    FileExplorerComponent,
+    NewFolderComponent,
     DetallescuentaComponent,
+    RenameDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -76,9 +88,14 @@ import { DetallescuentaComponent } from './detallescuenta/detallescuenta.compone
     LayoutModule,
     MatToolbarModule,
     MatCheckboxModule,
-    HttpClientModule
+    HttpClientModule,
+    MatPaginatorModule,
+    MatDialogModule,
+    MatGridListModule
   ],
-  providers: [],
+  providers: [
+    { provide: MatPaginatorIntl, useValue: CustomPaginator() }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
