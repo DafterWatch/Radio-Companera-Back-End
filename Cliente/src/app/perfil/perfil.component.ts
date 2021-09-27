@@ -20,8 +20,12 @@ export class PerfilComponent implements OnInit {
   ci:string;
   validacion:boolean;
   fotoperfil:string;
+  serverImagen:string='http://localhost:3000/archivos/';
+  private serverDirection :string = 'http://localhost:3000';
   constructor(private http:HttpClient) { 
+    
     let usuario:Reportero=JSON.parse(sessionStorage.getItem('usuarioLogeado')).user;
+    console.log("usuario: ",usuario);
     this.id_reportero=usuario.id_reportero;
     this.nombres=usuario.nombres;
     this.apepaterno=usuario.apepaterno;
@@ -30,14 +34,33 @@ export class PerfilComponent implements OnInit {
     this.cargo=usuario.cargo;
     this.ci=usuario.ci;
     this.validacion=false;
-    this.fotoperfil=usuario.fotoperfil;
-    console.log(usuario);
+    //this.fotoperfil=usuario.fotoperfil;
+    this.fotoperfil=this.serverImagen+usuario.fotoperfil;
   }
 
   ngOnInit(): void {
     
   }
   
+  async confirmarPerfil(id:string,urlP:string):Promise<void>{
+  
+    let exito;
+    console.log(id);
+    console.log(urlP);
+    let nameFoto=urlP.substring(31,urlP.length);
+    console.log(nameFoto);
+    
+    
+    
+    //await this.http.get(this.serverDirection+`/probe`);
+    await this.http.post(this.serverDirection+`/confirmarfoto/${id}/${nameFoto}`,{}).toPromise()
+    .then((res:any)=>{exito=res
+    });
+    if(exito){
+      alert("Cuenta deshabilitada");
+    }
+  }
+
   async cambiarContrasenia(contraseniaNueva:string): Promise<void> {
     await this.http.post(`http://localhost:3000/cambiarContrasenia/${this.id_reportero}/${contraseniaNueva}`,{}).toPromise().then(resultado=>{});
   }
@@ -56,14 +79,16 @@ export class PerfilComponent implements OnInit {
     }
   }
 
-  cargarFotoPerfil(){
+   cargarFotoPerfil(){
     var fotoPerfil:any;
     fotoPerfil=document.getElementById("fotoPerfil");
-    fotoPerfil.onchange=()=>{
+     fotoPerfil.onchange= async ()=> {
       var archivo=fotoPerfil.files[0];
       const formData:FormData=new FormData();
       formData.append("clientFile",archivo);
-      this.http.post(`http://localhost:3000/subirArchivo/`,formData,{responseType:"text"}).subscribe(resultado=>this.fotoperfil=resultado);
+      let urlPerfil=this.fotoperfil= await this.http.post(`http://localhost:3000/subirArchivo/`,formData,{responseType:"text"}).toPromise()//.subscribe(resultado=>this.fotoperfil=resultado);
+      console.log("URL PEFIL: ",urlPerfil);
+      
     };
     fotoPerfil.click();
   }

@@ -56,17 +56,16 @@ module.exports = (router) =>{
     router.post('/getUser/:idUser/:contrasenia', async (req,res)=>{        
         let id_usuario = req.params.idUser;
         let contra = req.params.contrasenia;
-        let respuestaBD = null;        
-        //let error = undefined;
+        let respuestaBD = null;                
         await client.query(`SELECT * FROM Reportero WHERE id_reportero ='${id_usuario}' AND contraseña = '${contra}'`)
             .then(filas => respuestaBD = filas)
             .catch(err => console.log(err.stack))
-            .then(()=>client.end);        
-        
+            .then(()=>client.end);
         if(respuestaBD.rowCount == 0){
             res.send(false);
         }else{
-            res.send(respuestaBD.rows[0]);
+            let cargo = respuestaBD.rows[0].cargo;
+            res.send({usuario:respuestaBD.rows[0], permisos : cargos[cargo]});
         }
     });
 
@@ -131,6 +130,30 @@ module.exports = (router) =>{
         res.send(true);
     });
 
+    router.post('/cambiarFotoPerfil',jsonParser,(req,res)=>{     
+        let urlFoto =req.body.urlPerfil;   
+        let id_usuario = req.body.idUser;       
+        client.query(`UPDATE reportero SET fotoperfil = '${urlFoto}' WHERE id_reportero ='${id_usuario}'`)
+            .catch(err => res.send(false))
+            .then(()=>client.end);      
+            console.log(req.body);  
+        res.send(true);
+        
+    });
+
+    //TODO Intentar 
+    router.post('/confirmarfoto/:idUser/:urlPerfil', async (req,res)=>{        
+        let id_usuario = req.params.idUser;   
+        let urlFot =req.params.urlPerfil;
+            console.log(id_usuario);
+            console.log(urlFot);
+
+        await client.query(`UPDATE reportero SET fotoperfil = '${urlFot}' WHERE id_reportero ='${id_usuario}'`)
+            .catch(err => res.send(false))
+            .then(()=>client.end);        
+        res.send(true);
+    });
+
     router.post('/subirArchivo',upload.single('clientFile'),(req,res)=>{
         //TODO: SUBIR A LA BASE DE DATOS
         //console.log(req.file);
@@ -153,6 +176,16 @@ module.exports = (router) =>{
     router.get('/getSchema',(req,res)=>{               
         let schema = fs.readFileSync('folderSchema.txt','utf-8');
         res.send(schema);
+    });
+
+    router.post('/cambiarContrasenia/:idUser/:nuevaContrasenia', async (req,res)=>{        
+        let id_usuario = req.params.idUser;
+        let contra = req.params.nuevaContrasenia;
+        let respuestaBD = null;        
+        await client.query(`UPDATE reportero SET contraseña = '${contra}' WHERE id_reportero ='${id_usuario}'`)
+            .catch(err => res.send(false))
+            .then(()=>client.end);        
+        res.send(true);
     });
 
     return router;

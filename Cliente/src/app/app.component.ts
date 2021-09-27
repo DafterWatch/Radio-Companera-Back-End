@@ -64,6 +64,8 @@ export class AppComponent {
         sessionStorage.setItem('usuarioLogeado', JSON.stringify({user :data.usuario, remember : true}));
       }else{
         sessionStorage.setItem('usuarioLogeado', JSON.stringify({user :data.usuario, remember : false}));
+        console.log(data);
+        
       }    
     }else{      
       this.changeButton('Login','1',false);    

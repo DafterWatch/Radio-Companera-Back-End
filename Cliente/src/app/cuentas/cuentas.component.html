@@ -6,9 +6,10 @@
 </div>
 </div>
 <div class="linea"></div>
- <div class="container" style="background-color: rgba(61, 128, 190, 0.438);">
+ <div class="container" style="background-color: rgba(97, 97, 97, 0.438);">
 <div id="tablaCuentas" class="wrapper-grid">
     <div *ngFor="let mensaje of logcuentas; let i = index" >
+      <!--
 <div class="wrapper-grid">
         <mat-card class="example-card">
             <mat-card-header>
@@ -29,8 +30,7 @@
             <mat-card-actions style="display: flex;
             align-items: center;
             justify-content: center;">
-                <!--<button mat-raised-button color="primary">Ver</button>-->
-               
+              
                 <button mat-raised-button color="warn" (click)="confirmar(mensaje.id_reportero)">Deshabilitar</button>
 
                 <div id="{{mensaje.id_reportero}}" style="display: none;">
@@ -42,7 +42,47 @@
             </mat-card-actions>
           </mat-card>
         </div>
-        
+      -->
+      <div class="parent">
+
+        <div class="div1">
+          <p class="cargo">{{mensaje.cargo}}</p>
+          <P class="nombre">{{mensaje.nombres}} {{mensaje.apepaterno}} {{mensaje.apematerno}}</P>
+        </div>
+        <div class="div2"><img class="imagen" src="https://dpi4fupzvxbqq.cloudfront.net/rfm/uploads/rlogo/300/300_1503525028.jpg" alt="x"></div>
+        <div class="div3">
+            <p class="datosTarjeta">CODIGO:</p>
+            <p class="datosTarjeta">SEXO:</p>
+            <p class="datosTarjeta">CI:</p>
+            <p class="datosTarjeta">ESTADO:</p>
+            
+        </div>
+        <div class="div4">
+          <p class="valor">{{mensaje.id_reportero}}</p>
+            <p class="valor">{{mensaje.sexo}}</p>
+            <p class="valor">{{mensaje.ci}}</p>
+            <p class="valor">{{mensaje.habilitada}}</p>
+        </div>
+        <div class="div5">
+          <div >
+            <img class="foto" [src]="serverImagen+mensaje.fotoperfil || 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'"  alt="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png">
+          </div>
+        </div>
+        <mat-card-actions style="display: flex;
+        align-items: center;
+        justify-content: center;">
+          
+            <button mat-raised-button color="warn" (click)="confirmar(mensaje.id_reportero)">Deshabilitar</button>
+
+            <div id="{{mensaje.id_reportero}}" style="display: none;">
+                <P>¿Desea desahibilar la cuenta {{mensaje.id_reportero}}?</P>
+                <button mat-raised-button color="primary" (click)="deshabiliarcuenta(mensaje.id_reportero)">SI</button>
+                <button mat-raised-button color="warn" (click)="ocultarConfirmacion(mensaje.id_reportero)">NO</button>
+            </div>
+            
+        </mat-card-actions>
+      </div>
+
     </div>
 </div>
 
