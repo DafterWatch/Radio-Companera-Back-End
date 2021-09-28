@@ -121,7 +121,7 @@ module.exports = (router) =>{
     });
     router.get('/getComentario/:idNoticia', async (req,res)=>{
         const query = {
-            text: "SELECT * FROM comentarios WHERE id_noticia=$1",            
+            text: "SELECT * FROM comentarios WHERE id_noticia=$1 ORDER BY id_comentario DESC",            
             values : [req.params.idNoticia]
         }                
         let comentario = await client.query(query);
