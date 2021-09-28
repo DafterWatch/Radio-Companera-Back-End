@@ -1,0 +1,159 @@
+.parent {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+    background-color: rgb(0, 0, 0);
+    padding: 10px;
+    width: 100%;
+    height: 100%;
+    
+    }
+    
+    .div1 { 
+        grid-area: 1 / 5 / 3 / 6;
+        background: linear-gradient(to right, brown, rgb(109, 109, 109));
+        padding-top: 15%;
+        padding-left: 12%;
+        padding-right: 15%;
+        padding-bottom: 15%;
+        border-bottom: 5px solid rgb(0, 0, 0);
+        border-left: 5px solid rgb(0, 0, 0);
+     }
+    .div2 { 
+        grid-area: 3 / 5 / 6 / 6;
+        background-color: rgb(116, 116, 116);
+        padding: 30px;
+        border-left: 5px solid rgb(0, 0, 0);
+    }
+    .div3 { 
+        grid-area: 1 / 1 / 2 / 2;
+        background-color: brown;
+        border-bottom: 5px solid rgb(22, 21, 21);
+     }
+    .div4 { 
+        grid-area: 1 / 2 / 2 / 4;
+        background-color: brown;
+        padding-top: 8%;
+        border-bottom: 5px solid rgb(0, 0, 0);
+     }
+
+     .div5 { 
+         grid-area: 1 / 4 / 2 / 5;
+         background-color: brown;
+         float: right;
+         border-bottom: 5px solid rgb(0, 0, 0);
+         }
+    .div6 { 
+        grid-area: 2 / 1 / 6 / 5;
+        background-color: rgb(253, 253, 253); 
+        padding-left: 10%;
+        padding-right: 10%;
+        padding-top: 5%;
+    }
+
+     .marco{
+        width: 96%;
+        max-width: 960px;
+        margin: 0 auto;
+        padding: 12px;
+        background: linear-gradient(rgb(255, 0, 0), rgb(0, 0, 0));
+     }
+
+     img {
+        width: 100%;
+        height: auto;
+        }
+
+.cargo{
+    font-size: 50px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    text-shadow: rgb(0, 0, 0) 2px 2px;
+    color: rgb(255, 255, 255);
+}
+
+.nombre{
+    padding-top: 30px;
+    font-size: 30px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    color: darkgray;
+}
+
+.datos{
+color: honeydew;
+font-size: 15px;
+font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;  
+}
+.valor{
+    color: honeydew;
+font-size: 25px;
+font-family: 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', sans-serif; 
+text-shadow: black 2px 2px;
+padding-left: 5%;
+}
+.logo{
+    width: 150px;
+        height: auto;
+        border-radius: 20px;
+}
+.marcologo{
+    width: 150px;
+    max-width: 160px;
+    margin: 0 auto;
+    padding: 5%;
+ }
+
+.opciones{
+    float: right;
+    background-color: rgb(5, 5, 7);
+    padding: 15px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    
+}
+
+.btnFloat{
+    float: right;
+}
+
+.btnopc{
+    float: right;
+    margin-bottom: 5px;
+    color: rgb(8, 7, 7);
+    border-style: solid ;
+    border-color: brown;
+    border-radius: 10px;
+}
+
+.example-full-width {
+    width: 100%;
+  
+  }
+
+  .formcambiopass{
+      background-color: rgb(210, 30, 30);
+      padding: 20px;
+      border-radius: 20px;
+  }
+
+  .title{
+      padding: 20px;
+      font-size: 30px;
+      font-family: Arial, Helvetica, sans-serif;
+      color: white;
+  }
+
+  .content{
+      background-color: rgb(255, 255, 255);
+      padding: 10px;
+      border-radius: 20px;
+      padding-left: 40px;
+      padding-right: 40px;
+  }
+
+  .btnpass{
+    display: flex;
+    justify-content: center;
+    position: relative;
+  }

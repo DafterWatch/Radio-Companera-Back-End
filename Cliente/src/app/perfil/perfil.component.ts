@@ -30,8 +30,12 @@ export class PerfilComponent implements OnInit {
     this.nombres=usuario.nombres;
     this.apepaterno=usuario.apepaterno;
     this.apematerno=usuario.apematerno;
-    this.sexo=usuario.sexo;
-    this.cargo=usuario.cargo;
+    if(usuario.sexo=="M"){
+this.sexo="Masculino";
+    }else{
+      this.sexo="Femenino";
+    }
+    this.cargo=usuario.cargo.toUpperCase();
     this.ci=usuario.ci;
     this.validacion=false;
     //this.fotoperfil=usuario.fotoperfil;
@@ -57,7 +61,7 @@ export class PerfilComponent implements OnInit {
     .then((res:any)=>{exito=res
     });
     if(exito){
-      alert("Cuenta deshabilitada");
+      alert("Foto de perfil guardada");
     }
   }
 
@@ -69,6 +73,7 @@ export class PerfilComponent implements OnInit {
       if(contrasenia1===contrasenia2){
         this.cambiarContrasenia(contrasenia1);
         alert('¡Exito al cambiar la contraseña!')
+        document.getElementById("cambiopass").style.display="none";
       }
       else{
         alert('Las contraseñas no coinciden')
@@ -91,5 +96,32 @@ export class PerfilComponent implements OnInit {
       
     };
     fotoPerfil.click();
+    document.getElementById("btnConfirmarFoto").style. display= "flex";
+    document.getElementById("btnConfirmarFoto").style.justifyContent="center";
+    document.getElementById("btnConfirmarFoto").style.position="relative";
+  }
+
+  mostraropc(){
+    console.log("entra");
+    console.log(document.getElementById("opciones").style.display);
+    
+    if(document.getElementById("opciones").style.display=="inline"){
+      document.getElementById("opciones").style.display="none";
+    }else{
+      document.getElementById("opciones").style.display="inline";
+    }
+    
+  }
+
+  mostrarFormpass(){
+    document.getElementById("opciones").style.display="none";
+    console.log(document.getElementById("cambiopass").style.display);
+    
+    if(document.getElementById("cambiopass").style.display=="inline"){
+      document.getElementById("cambiopass").style.display="none";
+    }else{
+      document.getElementById("cambiopass").style.display="inline";
+    }
+    
   }
 }
