@@ -19,3 +19,4 @@ export class getUserType{
     usuario : Reportero;
     permisos : Permisos;
 }
+

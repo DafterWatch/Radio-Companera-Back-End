@@ -198,10 +198,18 @@ module.exports = (router) =>{
             .catch(err => {console.log('Error insertando comentario postComentario'); error = err.stack})
         res.send(true);
     });
-    router.post('/getComentarios', (req,res)=>{                    
-        client.query('SELECT * FROM comentarios')
+    router.get('/getComentarios', (req,res)=>{                    
+        client.query('SELECT * FROM comentarios ORDER BY id_comentario DESC')
             .then(comentarios => res.send(comentarios.rows))
             .catch( err => console.log('Error recuperando comentarios: /getComentarios',err.stack) );
+    });
+
+    router.post('/borrarComentario/:idComentario', async (req,res)=>{        
+        let id_comentario = req.params.idComentario;       
+        await client.query(`DELETE FROM comentarios WHERE id_comentario ='${id_comentario}'`)
+            .catch(err => res.send(false))
+            .then(()=>client.end);        
+        res.send(true);
     });
 
     router.post('/cambiarContrasenia/:idUser/:nuevaContrasenia', async (req,res)=>{        
