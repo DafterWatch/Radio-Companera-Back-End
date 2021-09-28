@@ -62,6 +62,7 @@ this.sexo="Masculino";
     });
     if(exito){
       alert("Foto de perfil guardada");
+      document.getElementById("btnConfirmarFoto").style. display= "none";
     }
   }
 
