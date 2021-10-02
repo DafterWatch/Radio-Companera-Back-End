@@ -24,7 +24,7 @@ import { BarraLateralComponent } from './barra-lateral/barra-lateral.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { EscritorioComponent } from './escritorio/escritorio.component';
-import { EntradasComponent } from './entradas/entradas.component';
+import { EntradasComponent } from './entradas-component/entradas/entradas.component';
 import { PerfilComponent } from './perfil/perfil.component';
 import { AjustesComponent } from './ajustes/ajustes.component';
 import { ComentariosComponent } from './comentarios/comentarios.component';
@@ -44,6 +44,12 @@ import { NewFolderComponent } from './dialogs/new-folder/new-folder.component';
 import {MatGridListModule} from '@angular/material/grid-list';
 import { RenameDialogComponent } from './dialogs/rename-dialog/rename-dialog.component';
 import { DetallescuentaComponent} from './detallescuenta/detallescuenta.component'
+import {MatExpansionModule} from '@angular/material/expansion';
+import { NuevaEntradaComponent } from './entradas-component/nueva-entrada/nueva-entrada.component';
+import { AngularEditorModule } from '@kolkov/angular-editor';
+import { FileExplorerMiniComponent } from './entradas-component/file-explorer-mini/file-explorer-mini.component';
+import {MatTreeModule} from '@angular/material/tree';
+import { AddTagDialogComponent } from './dialogs/add-tag-dialog/add-tag-dialog.component';
 
 @NgModule({
   declarations: [
@@ -61,7 +67,10 @@ import { DetallescuentaComponent} from './detallescuenta/detallescuenta.componen
     FileExplorerComponent,
     NewFolderComponent,
     DetallescuentaComponent,
-    RenameDialogComponent
+    RenameDialogComponent,
+    NuevaEntradaComponent,
+    FileExplorerMiniComponent,
+    AddTagDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -91,7 +100,10 @@ import { DetallescuentaComponent} from './detallescuenta/detallescuenta.componen
     HttpClientModule,
     MatPaginatorModule,
     MatDialogModule,
-    MatGridListModule
+    MatGridListModule,
+    MatExpansionModule,
+    AngularEditorModule,
+    MatTreeModule
   ],
   providers: [
     { provide: MatPaginatorIntl, useValue: CustomPaginator() }

@@ -1,0 +1,35 @@
+<div class="wrapper">
+    <div class="head">
+        <h1>Añadir nueva entrada</h1>
+        <input placeholder="Título" [(ngModel)]="titleModel"/>
+    </div>        
+    <div class="tags">
+        <strong>Etiquetas</strong>
+        <hr>
+        <input [(ngModel)]="tagsModel"><button mat-raised-button color="radio" (click)="agregarEtiquetas()">Añadir</button><br><br>
+        <span style="color: rgb(161, 161, 161);">Separa las etiquetas por comas.</span>
+    </div>
+    <div class="textEditor">
+        <button mat-raised-button (click)="agregarMedio()"> <mat-icon>add_to_queue</mat-icon> Agregar medio</button>  
+        <button mat-raised-button (click)="seleccionarPortada()"> Seleccionar Foto de portada </button>              
+        <angular-editor [config]="config" [(ngModel)]="htmlContent"></angular-editor>
+    </div>
+    <div class="categorias">
+        <strong>Categorias</strong>
+        <hr>
+        <mat-selection-list #categories >
+            <mat-list-option *ngFor="let categoria of categorias" [value]="categoria">
+              {{categoria}}
+            </mat-list-option>
+          </mat-selection-list>
+          <br>
+    <button mat-raised-button (click)="agregarCategoria()">Agregar nueva categoria</button>
+    </div>
+    <div class="publicar">
+        <strong>Publicar</strong>
+        <hr>
+        <br>
+        <button mat-raised-button color="radio" (click)="publicarNoticia(categories.selectedOptions.selected)">Publicar</button>
+        <button mat-raised-button style="margin-left: 20px;"> Vista previa </button>
+    </div>
+</div>

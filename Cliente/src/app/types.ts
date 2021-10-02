@@ -20,3 +20,19 @@ export class getUserType{
     permisos : Permisos;
 }
 
+export class Notice{
+    id_noticia? : number;
+    id_reportero : string;
+    ultima_modificacion? : string; 
+    fecha : Date;
+    estado : boolean;
+}
+
+export class Notice_Content{
+    id_noticia : number;
+    id_contenido? : number;
+    imagen_portada : string;
+    titulo : string;
+    contenido : string;
+    etiquetas : string[];
+}

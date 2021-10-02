@@ -222,5 +222,47 @@ module.exports = (router) =>{
         res.send(true);
     });
 
+    router.post('/crearNoticia',jsonParser, async (req,res)=>{
+        const text = `INSERT INTO Noticias
+                      (id_noticia,id_reportero,ultima_modificacion,fecha_publicacion,estado) 
+                      VALUES (DEFAULT,$1,$2,$3,$4) RETURNING id_noticia`;        
+        const values = Object.values(req.body);
+        try {
+            const dbRes = await client.query(text,values);
+            console.log(dbRes.rows[0].id_noticia);
+            res.send(dbRes.rows[0].id_noticia.toString());
+        } catch (error) {
+            console.log('Error insertando noticia /crearNoticia',error.stack);
+            res.send(false);
+        }
+    });
+    router.post('/cargarContenidoNoticia',jsonParser, async (req,res)=>{
+
+        //INSERTAR CONTENIDO NOTICIA
+        const text = `INSERT INTO ContenidoNoticia 
+                     (id_contenido,id_noticia,imagen,titulo,contenido,etiquetas) 
+                     VALUES(DEFAULT, $1,$2,$3,$4,$5) RETURNING *`;
+        const values = Object.values(req.body.ContenidoNoticia);
+        let idContenido = undefined;
+        await client.query(text,values)
+            .then(response => idContenido = response.rows[0].id_contenido)
+            .catch(err=> {
+                if(err){
+                    console.log('Error insertando contenido /cargarContenidoNoticia',err.stack);
+                    res.send(false);
+                }
+            });
+        //INSERTAR CATEGORIAS
+        const categoriesId_query = `SELECT id_categoria FROM categorias WHERE nombre in (${req.body.categorias.join(',')});`;
+        console.log(categoriesId_query);
+        let categoriesId = await client.query(categoriesId_query);        
+        categoriesId = categoriesId.rows.map(row => `(${row.id_categoria},${idContenido})`);
+        let categoryNotice_query = `INSERT INTO CategoriaNoticia(id_categoria,id_noticia) VALUES `+ categoriesId.join(',');    
+        console.log(categoryNotice_query)
+        client.query(categoryNotice_query);
+        res.send(true);
+    });
+    
+
     return router;
 };
