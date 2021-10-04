@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { getUserType, Permisos } from './types';
 import {FormControl, Validators} from '@angular/forms';
@@ -26,7 +25,7 @@ export class AppComponent {
     Validators.required    
   ]);
 
-  constructor(private http:HttpClient, private reporteroService : UserService){
+  constructor(private reporteroService : UserService){
     let data = sessionStorage.getItem('tokenLoged');    
     if(data !== null){
       let jsonData = JSON.parse(data);      
@@ -49,20 +48,10 @@ export class AppComponent {
       return;
     } 
     this.changeButton('Buscando','0.5',true);    
-    //Cambiar a un servicio de usuarios     
-    let data : getUserType = await this.http.post(this.serverDirection+`/getUser/${this.id_user}/${this.password}`,{}).toPromise() as getUserType ;
-        
-    if(data){
+    let login_succes = await this.reporteroService.setReportero(this.id_user,this.password, this.recordarUsuario);  
+    if(login_succes){
       this.showLoginScreen=false;
-      this.permisos = data.permisos;
-      if(this.recordarUsuario){
-        //El sessionStorage Tradicional no guardará para todas las pantallas, para corregir esto:
-        //https://stackoverflow.com/questions/24382266/sessionstorage-is-not-empty-when-link-opened-in-new-tab-in-internet-explorer
-        sessionStorage.setItem('tokenLoged', JSON.stringify({user :data.usuario.id_reportero, remember : true}));
-      }
-      this.reporteroService.setReportero(data.usuario);   
-      console.log(data.usuario);
-      
+      this.permisos = this.reporteroService.getPermisos();              
     }else{      
       this.changeButton('Login','1',false);    
       document.getElementById('error').style.display='block';

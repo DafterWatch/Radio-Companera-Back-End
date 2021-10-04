@@ -15,14 +15,14 @@ import { MatListOption } from '@angular/material/list';
 export class NuevaEntradaComponent implements OnInit {
 
   constructor(private dialog:MatDialog, private userService : UserService, private reportService : ReportService) { 
-    
+    this.userService.getReportero().subscribe((_reportero : Reportero)=> this.currentReporter = _reportero);
   }
   categorias : string[] = ['Ciencia y tecnología', 'Deportes','Economía','Internacional','Política','Seguridad','Social','Moda'];
   htmlContent : string='';
   coverImage : string = '';
   tagsModel : string ='';
   titleModel : string = '';
-  currentReporter : Reportero;
+  currentReporter : Reportero;  
   ngOnInit(): void {
     
   }
@@ -43,7 +43,7 @@ export class NuevaEntradaComponent implements OnInit {
     ]
   }
   async publicarNoticia(categories : any) : Promise<void>{
-     this.currentReporter = this.userService.getReportero();
+     
      let notice : Notice = {
        id_reportero : this.currentReporter.id_reportero,
        ultima_modificacion : null,
