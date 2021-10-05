@@ -11,7 +11,7 @@
     </div>
     <div class="textEditor">
         <button mat-raised-button (click)="agregarMedio()"> <mat-icon>add_to_queue</mat-icon> Agregar medio</button>  
-        <button mat-raised-button (click)="seleccionarPortada()"> Seleccionar Foto de portada </button>              
+        <button mat-raised-button (click)="seleccionarPortada()"> Seleccionar Foto de portada </button>  &nbsp; <img [src]="coverImage" height="50px" width="50px"/>            
         <angular-editor [config]="config" [(ngModel)]="htmlContent"></angular-editor>
     </div>
     <div class="categorias">

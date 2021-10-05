@@ -1,4 +1,4 @@
-import { Component,Input } from '@angular/core';
+import { Component,Input, Output,EventEmitter } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
@@ -17,11 +17,12 @@ export class BarraLateralComponent {
       shareReplay()
     );
   @Input() permisos : Permisos = {counts:false, settings:false};  
+  @Output() sessionClose : EventEmitter<void> = new EventEmitter<void>();
 
   constructor(private breakpointObserver: BreakpointObserver) {
-    console.log(this.permisos);    
+    
   }
   cerrarSesion(){
-    //TODO: Emitir evento para cerrar la sesión
+    this.sessionClose.emit();
   }
 }

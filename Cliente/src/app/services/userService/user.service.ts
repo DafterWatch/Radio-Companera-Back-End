@@ -18,10 +18,9 @@ export class UserService {
   public getReportero() : Observable<Reportero>{
     return this.$reportero;
   }
-  public async setReportero(id_reportero : string, contrasenia : string, recordar : boolean) : Promise<boolean> {
+  public async setReportero(id_reportero : string, contrasenia : string) : Promise<boolean> {
     let data : getUserType = await this.http.post(this.SERVER_DIR+`/getUser/${id_reportero}/${contrasenia}`,{}).toPromise() as getUserType ;
-    if(data){
-      sessionStorage.setItem('tokenLoged', JSON.stringify({user :data.usuario.id_reportero, remember : recordar}));
+    if(data){      
       this._reportero = data.usuario;
       this._permisos = data.permisos;
       this.$reportero.next(this._reportero);      
@@ -31,5 +30,9 @@ export class UserService {
   }
   public getPermisos() : Permisos{
     return this._permisos;
+  }
+  public closeSession() : void{
+    this._permisos = null;
+    this.$reportero.next(null);
   }
 }

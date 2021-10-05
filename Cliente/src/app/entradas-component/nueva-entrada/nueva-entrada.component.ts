@@ -6,7 +6,8 @@ import { FileExplorerMiniComponent } from '../file-explorer-mini/file-explorer-m
 import { Notice,Notice_Content, Reportero } from '../../types';
 import { UserService } from 'src/app/services/userService/user.service';
 import { ReportService } from 'src/app/services/reports/report.service';
-import { MatListOption } from '@angular/material/list';
+import {MatSnackBar} from '@angular/material/snack-bar';
+
 @Component({
   selector: 'app-nueva-entrada',
   templateUrl: './nueva-entrada.component.html',
@@ -14,10 +15,11 @@ import { MatListOption } from '@angular/material/list';
 })
 export class NuevaEntradaComponent implements OnInit {
 
-  constructor(private dialog:MatDialog, private userService : UserService, private reportService : ReportService) { 
+  constructor(private dialog:MatDialog, private userService : UserService, private reportService : ReportService, private snackBar: MatSnackBar) { 
     this.userService.getReportero().subscribe((_reportero : Reportero)=> this.currentReporter = _reportero);
+    this.reportService.getCategorias().then((cat:string[])=> this.categorias = cat);
   }
-  categorias : string[] = ['Ciencia y tecnología', 'Deportes','Economía','Internacional','Política','Seguridad','Social','Moda'];
+  categorias : string[];
   htmlContent : string='';
   coverImage : string = '';
   tagsModel : string ='';
@@ -43,33 +45,53 @@ export class NuevaEntradaComponent implements OnInit {
     ]
   }
   async publicarNoticia(categories : any) : Promise<void>{
-     
-     let notice : Notice = {
-       id_reportero : this.currentReporter.id_reportero,
-       ultima_modificacion : null,
-       fecha : new Date,
-       estado : true
-     }
+    
+    if(categories.length === 0){
+      this.snackBar.open('Por favor seleccione una o más categorias',"OK");
+      return;
+    }
+
+    if(this.coverImage === ''){
+      this.snackBar.open('Por favor seleccione una foto de portada',"OK");
+      return;
+    }
+    if(this.titleModel === ''){
+      this.snackBar.open('Debe especificar el título',"OK");
+      return;
+    }
+    if(this.htmlContent===''){
+      this.snackBar.open('Debe agregar contenido para la noticia',"OK");
+      return;
+    }
+    
+
+    let notice : Notice = {
+      id_reportero : this.currentReporter.id_reportero,
+      ultima_modificacion : null,
+      fecha : new Date,
+      estado : true
+    }
     //publicamos noticia
-     let id_noticia_str : string = await this.reportService.createReport(notice);
-     let id_noticia : number = parseInt(id_noticia_str);
-     if(!id_noticia){
-       alert('Problema creando la noticia');
-       return;
-     }
-     let notice_content : Notice_Content = {
-       id_noticia,
-       imagen_portada : this.coverImage,
-       titulo : this.titleModel,
-       contenido : this.htmlContent,
-       etiquetas : this.tagsModel.split(',')
-     }
+    let id_noticia_str : string = await this.reportService.createReport(notice);
+    let id_noticia : number = parseInt(id_noticia_str);
+    if(!id_noticia){       
+      this.snackBar.open("¡Problema creando la noticia!","Ok");
+      return;
+    }
+    let notice_content : Notice_Content = {
+      id_noticia,
+      imagen_portada : this.coverImage,
+      titulo : this.titleModel,
+      contenido : this.htmlContent,
+      etiquetas : this.tagsModel===''?null: this.tagsModel.split(',')
+    }
     categories = categories.map(cat => `'${cat.value}'`);
     let status : boolean = await this.reportService.createReportContent(notice_content,categories);
     if(status){
-
+      this.snackBar.open("¡Noticia creada!","Ok");
+      //redirigir a historial de medios
     }else{
-
+      this.snackBar.open("¡Problema creando la noticia, verifique los campos y vuelva a intentar!","Ok");
     }
   }
 
@@ -79,9 +101,8 @@ export class NuevaEntradaComponent implements OnInit {
       if(mediaData.type === 'image'){
         this.coverImage = mediaData.src;
         return;
-      }
-      //Usar mensaje emergente
-      alert('Seleccione un tipo de medio válido para la portada de la noticia');
+      }            
+      this.snackBar.open("Seleccione un tipo de medio valido","¡Entiendo!");
     });
   }
   agregarCategoria(){
@@ -90,11 +111,9 @@ export class NuevaEntradaComponent implements OnInit {
       this.categorias.push(newCategory);
     });
   }
-  agregarEtiquetas(){
-    console.log(this.tagsModel);
-    
+  agregarEtiquetas(){        
     if(this.tagsModel === ''){
-      alert('Debe agregar etiquetas');
+      this.snackBar.open("Debe de agregar etiquetas","Ok");
       return;
     }
     
@@ -102,9 +121,7 @@ export class NuevaEntradaComponent implements OnInit {
 
   agregarMedio() : void{
     const dialogsRef = this.dialog.open(FileExplorerMiniComponent);
-    dialogsRef.afterClosed().subscribe(mediaData =>{
-      //
-      
+    dialogsRef.afterClosed().subscribe(mediaData =>{      
       switch (mediaData.type) {
         case 'video':
           this.htmlContent += `

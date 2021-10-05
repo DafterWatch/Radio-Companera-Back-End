@@ -229,7 +229,6 @@ module.exports = (router) =>{
         const values = Object.values(req.body);
         try {
             const dbRes = await client.query(text,values);
-            console.log(dbRes.rows[0].id_noticia);
             res.send(dbRes.rows[0].id_noticia.toString());
         } catch (error) {
             console.log('Error insertando noticia /crearNoticia',error.stack);
@@ -254,15 +253,24 @@ module.exports = (router) =>{
             });
         //INSERTAR CATEGORIAS
         const categoriesId_query = `SELECT id_categoria FROM categorias WHERE nombre in (${req.body.categorias.join(',')});`;
-        console.log(categoriesId_query);
         let categoriesId = await client.query(categoriesId_query);        
         categoriesId = categoriesId.rows.map(row => `(${row.id_categoria},${idContenido})`);
-        let categoryNotice_query = `INSERT INTO CategoriaNoticia(id_categoria,id_noticia) VALUES `+ categoriesId.join(',');    
-        console.log(categoryNotice_query)
+        let categoryNotice_query = `INSERT INTO CategoriaNoticia(id_categoria,id_noticia) VALUES `+ categoriesId.join(',');            
         client.query(categoryNotice_query);
         res.send(true);
     });
-    
+    router.get('/getCategorias',async (req,res)=>{
+        const query = "SELECT * FROM categorias";
+        const categories = await client.query(query);
+        res.send(categories.rows.map(cat => cat.nombre));
+    });
+    router.post('/createCategory',jsonParser,(req,res)=>{
+        const query = "INSERT INTO categorias (nombre) VALUES ($1)";
+        const values = [req.body.category];
+        client.query(query,values)
+            .catch((err)=> {console.log("Error insertando categoria /createCategory", err.stack); res.send(false)});
+        res.send(true);
+    });
 
     return router;
 };

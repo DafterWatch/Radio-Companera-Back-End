@@ -50,6 +50,7 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
 import { FileExplorerMiniComponent } from './entradas-component/file-explorer-mini/file-explorer-mini.component';
 import {MatTreeModule} from '@angular/material/tree';
 import { AddTagDialogComponent } from './dialogs/add-tag-dialog/add-tag-dialog.component';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -103,7 +104,8 @@ import { AddTagDialogComponent } from './dialogs/add-tag-dialog/add-tag-dialog.c
     MatGridListModule,
     MatExpansionModule,
     AngularEditorModule,
-    MatTreeModule
+    MatTreeModule,
+    MatSnackBarModule
   ],
   providers: [
     { provide: MatPaginatorIntl, useValue: CustomPaginator() }

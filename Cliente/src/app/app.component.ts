@@ -17,6 +17,7 @@ export class AppComponent {
   permisos : Permisos = {counts:false, settings:false};
   loginDisabled : boolean = false;
   recordarUsuario : boolean = false;
+  hide : boolean = true;
 
   idFormControl = new FormControl('', [
     Validators.required    
@@ -26,15 +27,11 @@ export class AppComponent {
   ]);
 
   constructor(private reporteroService : UserService){
-    let data = sessionStorage.getItem('tokenLoged');    
-    if(data !== null){
-      let jsonData = JSON.parse(data);      
-      if(jsonData.remember){
-        //TODO: Ahora en el session no se guardará todo el usuario
-        this.showLoginScreen = false;
-      }else{
-        sessionStorage.clear();
-      }
+    let data = sessionStorage.getItem('tokenUser');
+    if(data){
+      const rememberedUser : any = JSON.parse(data);
+      this.showLoginScreen = false;
+      this.reporteroService.setReportero(rememberedUser.user,rememberedUser.password);
     }
   }
 
@@ -48,8 +45,12 @@ export class AppComponent {
       return;
     } 
     this.changeButton('Buscando','0.5',true);    
-    let login_succes = await this.reporteroService.setReportero(this.id_user,this.password, this.recordarUsuario);  
+    let login_succes = await this.reporteroService.setReportero(this.id_user,this.password);  
     if(login_succes){
+      if(this.recordarUsuario){
+        sessionStorage.setItem("tokenUser", JSON.stringify({user : this.id_user, password: this.password}) )
+        //hay que cifrar el password !!!
+      }
       this.showLoginScreen=false;
       this.permisos = this.reporteroService.getPermisos();              
     }else{      
@@ -62,5 +63,14 @@ export class AppComponent {
     button.innerText = value;
     button.style.opacity =opacity;
     this.loginDisabled = active;
+  }
+  closeSession(){
+    this.showLoginScreen = true;
+    this.id_user = "";
+    this.password = "";
+    this.idFormControl.markAsUntouched();
+    this.passwordFormControl.markAsUntouched();
+    sessionStorage.removeItem("tokenUser");
+    setTimeout(()=> this.changeButton("Login","1",false), 2000);    
   }
 }

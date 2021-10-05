@@ -1,5 +1,5 @@
 <h1>Agregar categoria</h1>
 <hr>
-<input matInput #categoryInput placeholder="Nombre categoria"/>
+<input #categoryInput placeholder="Nombre categoria" autocomplete="off"/>
 <br><br>
-<button mat-raised-button [mat-dialog-close]="categoryInput.value"> Agregar </button> &nbsp; <button mat-raised-button color="radio" (click)="closeDialog()">Descartar</button>
+<button mat-raised-button (click)="addCategory(categoryInput.value)" [mat-dialog-close]="categoryInput.value"> Agregar </button> &nbsp; <button mat-raised-button color="radio" (click)="closeDialog()">Descartar</button>
