@@ -10,15 +10,31 @@ const client = new Client({
     password:'admin',
     database:'RadioCompanieraBD'
 });
-//TODO: Completar en base a los cargos
+
 //Periodista, Operador, Admin, Jefe Prensa y Pasante
+//ADMINISTRADOR : * 
+//Jefe de prensa : * , !Crear cuentas
+//Periodista : !Crear cuentas , !Borrar contenido ageno
+//Pasante : No puede borrar nada
+//Operador : Solo puede ver
+
+let permisos = {
+    CREAR_CUENTAS :             false,
+    ELIMINAR_COMENTARIOS :      false,
+    BORRAR_NOTICIAS_AJENAS :    false,
+    BORRAR_NOTICIAS_PROPIAS :   false,
+    MODIFICAR_NOTICIAS_AJENAS : false,
+    MODIFICAR_NOTICIAS_PROPIAS :false,
+    CREAR_NOTICIAS :            false
+    //TODO COMPLETAR CON PUBLICIDADES    
+}
+
 const cargos = {
-    'superadministrador':   {counts:true, settings:true},
-    'operador':             {counts:false, settings:false},
-    'periodista':           {counts:false, settings:false},
-    'administrador':        {counts:false, settings:false},
-    'jefePrensa':           {counts:false, settings:false},
-    'pasante':              {counts:false, settings:false}
+    'Administrador':        '*',
+    'Jefe de prensa':       ['BORRAR_NOTICIAS_AJENAS','BORRAR_NOTICIAS_PROPIAS','MODIFICAR_NOTICIAS_AJENAS','BORRAR_NOTICIAS_PROPIAS','CREAR_NOTICIAS'],
+    'Periodista':           ['BORRAR_NOTICIAS_PROPIAS','MODIFICAR_NOTICIAS_PROPIAS','CREAR_NOTICIAS'],
+    'Pasante':              ['MODIFICAR_NOTICIAS_PROPIAS','CREAR_NOTICIAS'],
+    'Operador':             [],
 }
 const storage = multer.diskStorage({
     destination: (req,file,cb)=>{
@@ -34,23 +50,12 @@ const SERVER_DIR = 'http://localhost:3000/'
 module.exports = (router) =>{
     client.connect();
 
-    router.post('/probe', async (req,res)=>{
-        //client.connect();
-        /*client.query("SELECT * FROM Reportero", (err,res)=>{
-            if(!err){
-                console.log(res.rows);
-                console.log(res.rows[0].contraseña);
-            }else{
-                console.log(err.message);
-            }
-            client.end;
-        });*/           
+    router.post('/probe', async (req,res)=>{      
         let data;
         await client.query("SELECT * FROM Reportero")
             .then(res => data = res.rows)
             .catch(err => console.log(err.stack))
-            .then(()=>client.end);
-            //console.log(data);
+            .then(()=>client.end);            
         res.send(data);
     });   
     router.post('/getUser/:idUser/:contrasenia', async (req,res)=>{        
@@ -65,9 +70,25 @@ module.exports = (router) =>{
             res.send(false);
         }else{
             let cargo = respuestaBD.rows[0].cargo;
-            res.send({usuario:respuestaBD.rows[0], permisos : cargos[cargo]});
+            const permisos_usuario = createPermisions(cargo);
+            res.send({usuario:respuestaBD.rows[0], permisos : permisos_usuario});
         }
     });
+    function createPermisions(cargo){
+        if(cargos[cargo] === '*'){
+            Object.keys(permisos).forEach(k => permisos[k] = true);
+            return permisos;
+        }
+        let user_permission = cargos[cargo];
+        for(let p of Object.keys(permisos)){
+            if(user_permission.includes(p)){
+                permisos[p] = true;
+            }else{
+                permisos[p] = false;
+            }
+        }
+        return permisos
+    }
 
     //recuperar user con ci=id
     router.post('/getUserByCI/:idUser', async (req,res)=>{        

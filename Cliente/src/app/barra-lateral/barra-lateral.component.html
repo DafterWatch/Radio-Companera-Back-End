@@ -17,11 +17,11 @@
           <a mat-list-item routerLink="/nueva-entrada" class="subButton"> Crear nueva entrada</a>
         </mat-expansion-panel>
       </mat-accordion> 
-      <a mat-list-item routerLink="/medios"><mat-icon      class="icon" >insert_photo</mat-icon> Medios</a>
-      <a mat-list-item routerLink="/comentarios"><mat-icon class="icon" >keyboard</mat-icon> Comentarios</a>
-      <a mat-list-item routerLink="/cuentas"><mat-icon     class="icon" >group</mat-icon> Cuentas</a>
-      <a mat-list-item routerLink="/perfil"><mat-icon      class="icon" >person_outline</mat-icon> Perfil</a>
-      <a mat-list-item routerLink="/ajustes"><mat-icon     class="icon" >build</mat-icon> Ajustes</a>      
+      <a mat-list-item routerLink="/medios"><mat-icon      class="icon"  >insert_photo</mat-icon> Medios</a>
+      <a mat-list-item routerLink="/comentarios"><mat-icon class="icon"  >keyboard</mat-icon> Comentarios</a>
+      <a mat-list-item *ngIf="_permisos?.CREAR_CUENTAS || false" routerLink="/cuentas"><mat-icon     class="icon"  >group</mat-icon> Cuentas</a>
+      <a mat-list-item routerLink="/perfil"><mat-icon      class="icon"  >person_outline</mat-icon> Perfil</a>
+      <a mat-list-item *ngIf="_permisos?.CREAR_CUENTAS || false" routerLink="/ajustes"><mat-icon     class="icon"  >build</mat-icon> Ajustes</a>      
       <a mat-list-item (click)="cerrarSesion()">Salir</a>  
       
     </mat-nav-list>
@@ -39,7 +39,7 @@
       <mat-icon>home</mat-icon> &nbsp;
       <span>Radio compañera</span>
       <div style="float: left; width: 100%;">
-        <span style="float: right; margin-right: 10px;">Hola, Peter</span>
+        <span style="float: right; margin-right: 10px;">Hola, {{currentUser?.nombres}}</span>        
       </div>
     </mat-toolbar>
     <!-- Add Content Here -->

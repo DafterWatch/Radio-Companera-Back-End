@@ -12,8 +12,13 @@ export class Reportero{
 }
 
 export class Permisos{
-    counts : boolean;
-    settings : boolean;
+    CREAR_CUENTAS :             boolean;
+    ELIMINAR_COMENTARIOS :      boolean;
+    BORRAR_NOTICIAS_AJENAS :    boolean;
+    BORRAR_NOTICIAS_PROPIAS :   boolean;
+    MODIFICAR_NOTICIAS_AJENAS : boolean;
+    MODIFICAR_NOTICIAS_PROPIAS :boolean;
+    CREAR_NOTICIAS :            boolean;
 }
 export class getUserType{
     usuario : Reportero;

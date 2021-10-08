@@ -13,8 +13,7 @@ export class AppComponent {
   showLoginScreen : boolean = true;
   serverDirection :string = 'http://localhost:3000';
   id_user : string = '';
-  password : string = '';
-  permisos : Permisos = {counts:false, settings:false};
+  password : string = '';  
   loginDisabled : boolean = false;
   recordarUsuario : boolean = false;
   hide : boolean = true;
@@ -52,7 +51,7 @@ export class AppComponent {
         //hay que cifrar el password !!!
       }
       this.showLoginScreen=false;
-      this.permisos = this.reporteroService.getPermisos();              
+                   
     }else{      
       this.changeButton('Login','1',false);    
       document.getElementById('error').style.display='block';

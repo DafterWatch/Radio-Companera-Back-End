@@ -23,7 +23,7 @@ export class UserService {
     if(data){      
       this._reportero = data.usuario;
       this._permisos = data.permisos;
-      this.$reportero.next(this._reportero);      
+      this.$reportero.next(this._reportero);          
       return true;
     }
     return false;
