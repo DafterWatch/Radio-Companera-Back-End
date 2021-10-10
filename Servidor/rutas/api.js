@@ -226,13 +226,15 @@ module.exports = (router) =>{
         await client.query(`INSERT INTO comentarios (id_noticia, fecha, nombre, contenido) VALUES ('${noticia}','${fecha}','${nom}','${cont}');`)
         .catch(err=>{console.log(err.stack)})
         .then(()=>client.end);
-        router.get('/getComentario/:idNoticia', async (req,res)=>{
-        const query = {
-            text: "SELECT * FROM comentarios WHERE id_noticia=$1 ORDER BY id_comentario DESC",            
-            values : [req.params.idNoticia]
-        }                
-        let comentario = await client.query(query);
-        res.send(comentario.rows);
+        res.send(true);
+    });
+    router.post('/getComentarios', async (req,res)=>{        
+        let data;
+        await client.query("SELECT * FROM comentarios")
+            .then(res => data = res.rows)
+            .catch(err => console.log(err.stack))
+            .then(()=>client.end);
+        res.send(data);
     });
     router.get('/getComentarios', (req,res)=>{                    
         client.query('SELECT * FROM comentarios ORDER BY id_comentario DESC')
@@ -305,9 +307,6 @@ module.exports = (router) =>{
         const values = [req.body.category];
         client.query(query,values)
             .catch((err)=> {console.log("Error insertando categoria /createCategory", err.stack); res.send(false)});
-        res.send(true);
-    });
-
         res.send(true);
     });
     router.post('/getComentarios', async (req,res)=>{        
