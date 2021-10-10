@@ -226,25 +226,13 @@ module.exports = (router) =>{
         await client.query(`INSERT INTO comentarios (id_noticia, fecha, nombre, contenido) VALUES ('${noticia}','${fecha}','${nom}','${cont}');`)
         .catch(err=>{console.log(err.stack)})
         .then(()=>client.end);
-    router.get('/getComentario/:idNoticia', async (req,res)=>{
+        router.get('/getComentario/:idNoticia', async (req,res)=>{
         const query = {
             text: "SELECT * FROM comentarios WHERE id_noticia=$1 ORDER BY id_comentario DESC",            
             values : [req.params.idNoticia]
         }                
         let comentario = await client.query(query);
         res.send(comentario.rows);
-    });
-    router.post('/postComentario',jsonParser, (req,res)=>{
-        const query = {
-            text: 'INSERT INTO comentarios VALUES ($1,$2,$3,$4)',
-            values:Object.values(req.body)
-        }
-        let error = true;
-        client
-            .query(query)
-            .then()
-            .catch(err => {console.log('Error insertando comentario postComentario'); error = err.stack})
-        res.send(true);
     });
     router.get('/getComentarios', (req,res)=>{                    
         client.query('SELECT * FROM comentarios ORDER BY id_comentario DESC')
@@ -332,7 +320,7 @@ module.exports = (router) =>{
     });   
     router.post('/getNoticias', async (req,res)=>{        
         let data;
-        await client.query("select n.id_noticia, n.id_reportero, n.ultima_modificacion, n.fecha, n.estado, c.id_contenido, c.imagen, c.titulo, c.contenido, c.etiquetas, cat.id_categoria, cat.nombre from ((noticias n inner join contenidonoticia c on n.id_noticia = c.id_noticia) inner join categorianoticia cn on n.id_noticia = cn.id_noticia) inner join categorias cat on cn.id_categoria = cat.id_categoria")
+        await client.query("select n.id_noticia, n.id_reportero, n.ultima_modificacion, n.fecha_publicacion, n.estado, c.id_contenido, c.imagen, c.titulo, c.contenido, c.etiquetas, cat.id_categoria, cat.nombre from ((noticias n inner join contenidonoticia c on n.id_noticia = c.id_noticia) inner join categorianoticia cn on n.id_noticia = cn.id_noticia) inner join categorias cat on cn.id_categoria = cat.id_categoria")
             .then(res => data = res.rows)
             .catch(err => console.log(err.stack))
             .then(()=>client.end);
@@ -340,7 +328,7 @@ module.exports = (router) =>{
     });
     router.get('/getNoticias/:idNoticia', async (req,res)=>{
         const query = {
-            text: "select n.id_noticia, n.id_reportero, n.ultima_modificacion, n.fecha, n.estado, c.id_contenido, c.imagen, c.titulo, c.contenido, c.etiquetas, cat.id_categoria, cat.nombre from ((noticias n inner join contenidonoticia c on n.id_noticia = c.id_noticia) inner join categorianoticia cn on n.id_noticia = cn.id_noticia) inner join categorias cat on cn.id_categoria = cat.id_categoria where n.id_noticia = $1",            
+            text: "select n.id_noticia, n.id_reportero, n.ultima_modificacion, n.fecha_publicacion, n.estado, c.id_contenido, c.imagen, c.titulo, c.contenido, c.etiquetas, cat.id_categoria, cat.nombre from ((noticias n inner join contenidonoticia c on n.id_noticia = c.id_noticia) inner join categorianoticia cn on n.id_noticia = cn.id_noticia) inner join categorias cat on cn.id_categoria = cat.id_categoria where n.id_noticia = $1",            
             values : [req.params.idNoticia]
         }                
         let noticia = await client.query(query);
