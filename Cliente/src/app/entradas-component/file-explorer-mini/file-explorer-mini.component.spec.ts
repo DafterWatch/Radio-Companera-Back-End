@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CrearcuentaComponent } from './crearcuenta.component';
+import { FileExplorerMiniComponent } from './file-explorer-mini.component';
 
-describe('CrearcuentaComponent', () => {
-  let component: CrearcuentaComponent;
-  let fixture: ComponentFixture<CrearcuentaComponent>;
+describe('FileExplorerMiniComponent', () => {
+  let component: FileExplorerMiniComponent;
+  let fixture: ComponentFixture<FileExplorerMiniComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CrearcuentaComponent ]
+      declarations: [ FileExplorerMiniComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CrearcuentaComponent);
+    fixture = TestBed.createComponent(FileExplorerMiniComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

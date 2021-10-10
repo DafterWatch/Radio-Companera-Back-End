@@ -1,35 +1,72 @@
-<div class="container">
-    <mat-card>
-        <mat-card-header>
-        <mat-card-title>Perfil de usuario</mat-card-title>
-        <mat-card-subtitle><b>Datos personales</b></mat-card-subtitle>
-        <div mat-card-avatar class="example-header-image"><img mat-card-image [src]="fotoperfil || 'https://lh3.googleusercontent.com/bVasjJiEt_qOoymntYLvLmiw_uezpmQeE2O_4Kk-ZQ77bCODt5Lc0vO5Yrl4Cz7GVA'" alt="Radio compañera"></div>
-        <input type="file" style="display: none;" id="fotoPerfil">
-        <button (click)="cargarFotoPerfil()">Cargar foto</button>
-        </mat-card-header>
 
-        <span><b>ID:</b> {{id_reportero}}</span><br>
-        <span><b>Nombres:</b> {{nombres}}</span><br>
-        <span><b>Apellido paterno:</b> {{apepaterno}}</span><br>
-        <span><b>Apellido materno:</b> {{apematerno}}</span><br>
-        <span><b>Sexo:</b> {{sexo}}</span><br>
-        <span><b>Cargo:</b> {{cargo}}</span><br>
-        <span><b>C.I.:</b> {{ci}}</span><br>
-    </mat-card>
-</div>
-<div class="container">
-    <mat-card>
-        <mat-card-subtitle><b>Cambiar contraseña</b></mat-card-subtitle>
-        <mat-form-field appearance="fill">
-            <mat-label>Nueva contraseña</mat-label>
-            <input matInput #nuevaContrasenia1>
-        </mat-form-field><br>
-        <mat-form-field appearance="fill">
-            <mat-label>Vuelva a ingresarla</mat-label>
-            <input matInput #nuevaContrasenia2>
-        </mat-form-field><br>
-        
-        <button mat-raised-button color="primary" (click)="validar(nuevaContrasenia1.value,nuevaContrasenia2.value)">Cambiar contraseña</button>
-        
-    </mat-card>
+<div class="parent">
+
+    <div class="div1">
+        <div class="marco">
+            <div mat-card-avatar class="example-header-image"><img mat-card-image [src]="fotoperfil || 'https://lh3.googleusercontent.com/bVasjJiEt_qOoymntYLvLmiw_uezpmQeE2O_4Kk-ZQ77bCODt5Lc0vO5Yrl4Cz7GVA'" alt="Radio compañera"></div>
+            
+            <button id="btnConfirmarFoto"  (click)="confirmarPerfil(this.id_reportero,this.fotoperfil)" style="display: none;" mat-raised-button color="primary">Guardar cambio</button>
+        </div>
+    </div>
+
+    <div class="div2">
+        <p class="datos">CODIGO EMPLEADO:</p>
+        <p class="valor">{{id_reportero}}</p>
+        <p class="datos">NOMBRE/S</p>
+        <p class="valor">{{nombres}}</p>
+        <p class="datos">APELLIDO PATERNO</p>
+        <p class="valor">{{apepaterno}}</p>
+        <p class="datos">APELLIDO MATERNO</p>
+        <p class="valor">{{apematerno}}</p>
+        <p class="datos">SEXO:</p>
+        <p class="valor">{{sexo}}</p>
+        <p class="datos">CI:</p>
+        <p class="valor">{{ci}} LP</p>
+      
+    </div>
+
+    <div class="div3">
+        <div class="marcologo">
+            <img class="logo" src="../assets/images/radio_logo.jpg"/>
+        </div>
+    </div>
+
+    <div class="div4">
+        <p class="cargo">{{cargo}}</p>
+        <P class="nombre">{{nombres}} {{apepaterno}} {{apematerno}}</P>
+    </div>
+    <div class="div5">
+            <button (click)="mostraropc()" class="btnFloat" mat-icon-button aria-label="Example icon button with a vertical three dot icon">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+              <div class="opciones" id="opciones" style="display: none;">
+                <input type="file" style="display: none;" id="fotoPerfil">
+                <p><button class="btnopc" (click)="cargarFotoPerfil()" mat-raised-button>Editar foto</button></p>
+                <p><button class="btnopc" (click)="mostrarFormpass()" mat-raised-button>Cambiar contraseña</button></p>
+              </div>
+    </div>
+    <div class="div6">
+        <div class="cambiopass" id="cambiopass" style="display: none;">
+                <div class="formcambiopass">
+                    <div class="title">
+                        <p>CAMBIO DE CONTRASEÑA</p>
+                    </div>
+                    <div class="content">
+                        <mat-form-field class="example-full-width">
+                            <mat-label>Nueva contraseña</mat-label>
+                            <input matInput #nuevaContrasenia1>
+                        </mat-form-field><br>
+                        <mat-form-field class="example-full-width">
+                            <mat-label>Confirme la contraseña</mat-label>
+                            <input matInput #nuevaContrasenia2>
+                        </mat-form-field>
+                        <div class="btnpass">
+                            <button mat-raised-button color="primary" (click)="validar(nuevaContrasenia1.value,nuevaContrasenia2.value)">Guardar cambio</button>
+                        </div>                    
+                    </div>
+
+                </div>
+        </div>
+    </div>
+
 </div>

@@ -1,8 +1,7 @@
-import { DetallesCuentaComponent } from './../detalles-cuenta/detalles-cuenta.component';
+import { Reportero } from './../types';
 import { Component, OnInit } from '@angular/core';
 import { FormControl,FormGroup,Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { Reportero } from '../types';
 import { debounceTime } from 'rxjs/operators';
 
 interface Generos {
@@ -132,9 +131,42 @@ mensaje():void{
   
 }
 
+mostrarDetalles(){
+  console.log("OCULTADO");
+  document.getElementById('detallescuenta').style.display='inline';
+  
+}
+async verificarCI():Promise<void>{
+  
+  if(this.form.valid){
+    const value = this.form.value;
+    let ci=value.ciCtrl;
+    let existe;
+
+    await this.http.post(this.serverDirection+`/verificarci/${ci}`,{}).toPromise()
+    .then(res=>existe=res);
+
+    if(existe){
+      console.log("Error de creacion");
+      
+      alert("Una cuenta ya fue registrada con el CI");
+
+    }else{
+      console.log("No esta repetido");
+      
+      this.createUser();
+    }
+
+  }else {
+    this.form.markAllAsTouched();
+  }
+
+}
+
   async createUser():Promise<void>{
   if (this.form.valid) {
     const value = this.form.value;
+console.log("Creando");
 
     let nombres=value.nameCtrl;
     let apepaterno=value.apepatCtrl;
@@ -143,47 +175,15 @@ mensaje():void{
     let ci=value.ciCtrl;
     let cargo=value.cargoCtrl;
 
-    let cargoIniciales;
-    switch(cargo) { 
-      case 'Administrador': { 
-         cargoIniciales="admin"
-         break; 
-      } 
-      case 'Jefe de prensa': { 
-        cargoIniciales="jp"
-         break; 
-      } 
-      case 'Periodista': { 
-        cargoIniciales="per"
-        break; 
-     }
-     case 'Operador': { 
-      cargoIniciales="ope"
-      break; 
-   }
-   case 'Pasante': { 
-    cargoIniciales="pas"
-    break; 
- }
-      default: { 
-        cargoIniciales="null"
-         break; 
-      } 
-   } 
-    let id_reportero = nombres.substr(0,1)
-                      +apepaterno.substr(0,1)
-                      +apematerno.substr(0,1)
-                      +"-"
-                      +cargoIniciales+"-"
-                      +this.generaNumber.substr(0,5);
-    console.log(id_reportero);
-    
+  
     let contra = this.generaNss.substr(0,8);
     //console.log( contra );
     //databinding
     let respuestaUser=null;
 
-    this.idReport=id_reportero;
+
+    //globales
+    this.idReport=ci;
     this.nom=nombres;
     this.pater=apepaterno;
     this.mater=apematerno;
@@ -191,7 +191,10 @@ mensaje():void{
     this.carg=cargo;
     this.contr=contra;
     this.ci=ci;
-    await this.http.post(this.serverDirection+`/crearCuenta/${id_reportero}/${nombres}/${apepaterno}/${apematerno}/${sexo}/${cargo}/${contra}/${ci}`,{}).toPromise()
+
+    
+
+    await this.http.post(this.serverDirection+`/crearCuenta/${ci}/${nombres}/${apepaterno}/${apematerno}/${sexo}/${cargo}/${contra}/${ci}`,{}).toPromise()
     .then(res=>respuestaUser=res);
 
     if(respuestaUser){
@@ -206,4 +209,5 @@ mensaje():void{
     this.form.markAllAsTouched();
   }
   }
+
 }

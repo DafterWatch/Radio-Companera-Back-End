@@ -14,6 +14,7 @@ export class CuentasComponent implements OnInit {
   
   
   public logcuentas:Reportero[];
+  serverImagen:string='http://localhost:3000/archivos/';
   private serverDirection :string = 'http://localhost:3000';
   constructor(private http:HttpClient) {}
 
@@ -39,12 +40,6 @@ async deshabiliarcuenta(id:string):Promise<void>{
   }
 }
 
-
-   public mostrarRegistro():void{
-      document.getElementById("formRegistro").style.display='inline';
-      
-      document.getElementById('tablaCuentas').style.display='none';
-   }
    public mostrarDatos():void{
     document.getElementById("formRegistro").style.display='none';
       

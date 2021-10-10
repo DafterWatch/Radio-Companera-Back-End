@@ -1,20 +1,20 @@
-import { DetallesCuentaComponent } from './detalles-cuenta/detalles-cuenta.component';
 import { FormtestComponent } from './formtest/formtest.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AjustesComponent } from './ajustes/ajustes.component';
 import { ComentariosComponent } from './comentarios/comentarios.component';
-import { CrearcuentaComponent } from './crearcuenta/crearcuenta.component';
 import { CuentasComponent } from './cuentas/cuentas.component';
-import { EntradasComponent } from './entradas/entradas.component';
+import { EntradasComponent } from './entradas-component/entradas/entradas.component';
+import { NuevaEntradaComponent } from './entradas-component/nueva-entrada/nueva-entrada.component'
 import { EscritorioComponent } from './escritorio/escritorio.component';
 import { MediosComponent } from './medios/medios.component';
 import { PerfilComponent } from './perfil/perfil.component';
-
+import { DetallescuentaComponent } from './detallescuenta/detallescuenta.component';
+import { FileExplorerMiniComponent } from './entradas-component/file-explorer-mini/file-explorer-mini.component';
 
 const routes: Routes = [  
   {
-    path:'',
+    path:'',    
     component:EscritorioComponent
   },    
   {
@@ -24,6 +24,10 @@ const routes: Routes = [
   {
     path:'entradas',
     component:EntradasComponent
+  },
+  {
+    path:'nueva-entrada',
+    component:NuevaEntradaComponent
   },
   {
     path:'medios',
@@ -42,16 +46,15 @@ const routes: Routes = [
     component:FormtestComponent
   },
   {
-    path:'cuentas/crearcuenta/detalles',
-    component:DetallesCuentaComponent
-  },
-  {
     path:'perfil',
     component:PerfilComponent
   },
   {
     path:'ajustes',
     component:AjustesComponent
+  },{
+    path:'cuentas/crearcuenta/detalles',
+    component:DetallescuentaComponent
   }
 ];
 
