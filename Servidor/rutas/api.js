@@ -7,8 +7,8 @@ const client = new Client({
     host:'localhost',
     user:'postgres',
     port:5432,
-    password:'admin',
-    database:'RadioCompanieraBD'
+    password:'hmfdzpkjqx',
+    database:'RadioCompaneraDB'
 });
 //TODO: Completar en base a los cargos
 //Periodista, Operador, Admin, Jefe Prensa y Pasante
@@ -70,6 +70,21 @@ module.exports = (router) =>{
             res.send({usuario:respuestaBD.rows[0], permisos : cargos[cargo]});
         }
     });
+    router.post('/getComentarios/:idNoticia', async (req,res)=>{        
+        let idNoticia = req.params.idNoticia;
+        let respuestaBD = null;
+        await client.query(`SELECT * FROM Comentarios WHERE idNoticia ='${idNoticia}'`)
+            .then(filas => respuestaBD = filas)
+            .catch(err => console.log(err.stack))
+            .then(()=>client.end);
+        
+        if(respuestaBD.rowCount == 0){
+            res.send(false);
+        }else{
+            let cargo = respuestaBD.rows[0].cargo;
+            res.send(respuestaBD);
+        }
+    });
     //registrar reportero
     router.post('/crearCuenta/:id_reportero/:nombres/:apepaterno/:apematerno/:sexo/:cargo/:contra/:ci',async (req,res)=>{
         let idreport = req.params.id_reportero;
@@ -115,10 +130,49 @@ module.exports = (router) =>{
         });
         res.status(200).send(true);
     });
-    router.get('/getSchema',(req,res)=>{               
-        let schema = fs.readFileSync('folderSchema.txt','utf-8');
-        res.send(schema);
+    router.get('/getComentario/:idNoticia', async (req,res)=>{
+        const query = {
+            text: "SELECT * FROM comentarios WHERE id_noticia=$1",            
+            values : [req.params.idNoticia]
+        }                
+        let comentario = await client.query(query);
+        res.send(comentario.rows);
     });
+    router.post('/postComentario',jsonParser, async (req,res)=>{
+        let noticia = req.body.idNoticia;
+        let fecha = req.body.fecha;
+        let nom = req.body.nombre;
+        let cont = req.body.contenido;
+        await client.query(`INSERT INTO comentarios (id_noticia, fecha, nombre, contenido) VALUES ('${noticia}','${fecha}','${nom}','${cont}');`)
+        .catch(err=>{console.log(err.stack)})
+        .then(()=>client.end);
 
+        res.send(true);
+    });
+    router.post('/getComentarios', async (req,res)=>{        
+        let data;
+        await client.query("SELECT * FROM comentarios")
+            .then(res => data = res.rows)
+            .catch(err => console.log(err.stack))
+            .then(()=>client.end);
+        res.send(data);
+    });   
+    router.post('/getNoticias', async (req,res)=>{        
+        let data;
+        await client.query("select n.id_noticia, n.id_reportero, n.ultima_modificacion, n.fecha, n.estado, c.id_contenido, c.imagen, c.titulo, c.contenido, c.etiquetas, cat.id_categoria, cat.nombre from ((noticias n inner join contenidonoticia c on n.id_noticia = c.id_noticia) inner join categorianoticia cn on n.id_noticia = cn.id_noticia) inner join categorias cat on cn.id_categoria = cat.id_categoria")
+            .then(res => data = res.rows)
+            .catch(err => console.log(err.stack))
+            .then(()=>client.end);
+        res.send(data);
+    });
+    router.get('/getNoticias/:idNoticia', async (req,res)=>{
+        const query = {
+            text: "select n.id_noticia, n.id_reportero, n.ultima_modificacion, n.fecha, n.estado, c.id_contenido, c.imagen, c.titulo, c.contenido, c.etiquetas, cat.id_categoria, cat.nombre from ((noticias n inner join contenidonoticia c on n.id_noticia = c.id_noticia) inner join categorianoticia cn on n.id_noticia = cn.id_noticia) inner join categorias cat on cn.id_categoria = cat.id_categoria where n.id_noticia = $1",            
+            values : [req.params.idNoticia]
+        }                
+        let noticia = await client.query(query);
+        res.send(noticia.rows);
+    });
     return router;
+    
 };
