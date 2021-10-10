@@ -210,6 +210,10 @@ module.exports = (router) =>{
         });
         res.status(200).send(true);
     });
+    router.get('/getSchema',(req,res)=>{
+        let schema = fs.readFileSync('folderSchema.txt','utf-8');
+        res.send(schema);
+    });
     router.get('/getComentario/:idNoticia', async (req,res)=>{
         const query = {
             text: "SELECT * FROM comentarios WHERE id_noticia=$1",            
