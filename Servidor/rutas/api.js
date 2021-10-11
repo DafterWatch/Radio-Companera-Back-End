@@ -245,7 +245,6 @@ module.exports = (router) =>{
             .then(comentarios => res.send(comentarios.rows))
             .catch( err => console.log('Error recuperando comentarios: /getComentarios',err.stack) );
     });
-
     router.post('/borrarComentario/:idComentario', async (req,res)=>{        
         let id_comentario = req.params.idComentario;       
         await client.query(`DELETE FROM comentarios WHERE id_comentario ='${id_comentario}'`)
@@ -323,19 +322,27 @@ module.exports = (router) =>{
     });   
     router.post('/getNoticias', async (req,res)=>{        
         let data;
-        await client.query("select n.id_noticia, n.id_reportero, n.ultima_modificacion, n.fecha_publicacion, n.estado, c.id_contenido, c.imagen, c.titulo, c.contenido, c.etiquetas, cat.id_categoria, cat.nombre from ((noticias n inner join contenidonoticia c on n.id_noticia = c.id_noticia) inner join categorianoticia cn on n.id_noticia = cn.id_noticia) inner join categorias cat on cn.id_categoria = cat.id_categoria")
+        await client.query("select n.id_noticia, n.id_reportero, n.ultima_modificacion, n.fecha_publicacion, n.estado, c.id_contenido, c.imagen, c.titulo, c.contenido, c.etiquetas from noticias n inner join contenidonoticia c on n.id_noticia = c.id_noticia")
             .then(res => data = res.rows)
             .catch(err => console.log(err.stack))
             .then(()=>client.end);
         res.send(data);
     });
-    router.get('/getNoticias/:idNoticia', async (req,res)=>{
+    router.get('/getCategorias/:idNoticia', async (req,res)=>{
         const query = {
-            text: "select n.id_noticia, n.id_reportero, n.ultima_modificacion, n.fecha_publicacion, n.estado, c.id_contenido, c.imagen, c.titulo, c.contenido, c.etiquetas, cat.id_categoria, cat.nombre from ((noticias n inner join contenidonoticia c on n.id_noticia = c.id_noticia) inner join categorianoticia cn on n.id_noticia = cn.id_noticia) inner join categorias cat on cn.id_categoria = cat.id_categoria where n.id_noticia = $1",            
+            text: "select cat.id_noticia, c.id_categoria, c.nombre from categorias c inner join categorianoticia cat on c.id_categoria = cat.id_categoria where cat.id_noticia = $1",            
             values : [req.params.idNoticia]
         }                
-        let noticia = await client.query(query);
-        res.send(noticia.rows);
+        let comentario = await client.query(query);
+        res.send(comentario.rows);
+    });
+    router.get('/getNoticias/:idNoticia', async (req,res)=>{
+        const query = {
+            text: "select n.id_noticia, n.id_reportero, n.ultima_modificacion, n.fecha_publicacion, n.estado, c.id_contenido, c.imagen, c.titulo, c.contenido, c.etiquetas from noticias n inner join contenidonoticia c on n.id_noticia = c.id_noticia where n.id_noticia= $1",            
+            values : [req.params.idNoticia]
+        }                
+        let comentario = await client.query(query);
+        res.send(comentario.rows);
     });
     return router;
     
