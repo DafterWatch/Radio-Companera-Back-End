@@ -2,6 +2,9 @@
     <div class="head">
         <h1>Editar entrada: <strong>{{idNoticia}}</strong>
             <div class="infobtn">
+                <button (click)="volver()" style="color: rgb(0, 0, 0);"  mat-icon-button aria-label="Example icon button with a vertical three dot icon">
+                    <mat-icon>arrow_back</mat-icon>
+                  </button>
                 <button (click)="openInfoReport()" style="color: rgb(24, 75, 185);"  mat-icon-button aria-label="Example icon button with a vertical three dot icon">
                     <mat-icon>info</mat-icon>
                   </button>
