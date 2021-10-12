@@ -159,4 +159,7 @@ export class EntradasComponent implements OnInit {
     this.ComunicacionComponentesService.setIDEntrada(id_noticia);
     this.router.navigate(['/entradas/edit']);
   }
+  mandarAddEntrada(){
+    this.router.navigate(['/nueva-entrada']);
+  }
 }

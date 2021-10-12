@@ -60,6 +60,8 @@ import { ChangepassComponent } from './dialogs/changepass/changepass.component';
 import { ListacuentasComponent } from './cuentas/listacuentas/listacuentas.component';
 import { InforeportEditComponent } from './dialogs/inforeport-edit/inforeport-edit.component';
 import { PruebaComponent } from './prueba/prueba.component';
+import { ConfirmDeleteComponent } from './dialogs/confirm-delete/confirm-delete.component';
+import { ConfirmModifyComponent } from './dialogs/confirm-modify/confirm-modify.component';
 
 
 @NgModule({
@@ -90,6 +92,8 @@ import { PruebaComponent } from './prueba/prueba.component';
     ListacuentasComponent,
     InforeportEditComponent,
     PruebaComponent,
+    ConfirmDeleteComponent,
+    ConfirmModifyComponent,
 
   ],
   imports: [

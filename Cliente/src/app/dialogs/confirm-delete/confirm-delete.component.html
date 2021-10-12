@@ -7,30 +7,28 @@
         </div>
     </div>
     <div class="title">
-        <p>Información de la noticia</p>
+        <p><mat-icon>delete</mat-icon> Desea eliminar la noticia: {{idNoticia}}</p>
     </div>
     <div>
         <div class="contenido" >
-            <p>Reportero a cargo: <strong>{{nombreReport}} {{apepatReport}}</strong></p>
+            <p><strong>{{titleModel}} </strong></p>
             <hr>
-            <p>Codigo reportero: <strong>{{idReport}}</strong></p>
+            <p>Codigo reportero a cargo: <strong>{{idReportEncargado}}</strong></p>
             <hr>
-            <p>Fecha de publicación: <strong>{{fechaPubli | date}}</strong></p>
+            <p>Fecha de publicación: <strong>{{fecha_publicacion | date}}</strong></p>
             <hr>
-            <p>Ultima modificación por: <strong>{{idUltimaModif}}</strong></p>
             <hr>
-            <p>Codigo de la noticia: <strong>{{idNotice}}</strong></p>
-            <hr>
-            <p>Titulo de la noticia: <strong>{{titleNotice}}</strong></p>
-         
-         
-         
+           
 
         </div>
         <div class="fotoPortada">
             <p><strong>Foto de portada:</strong></p>
             <img [src]="coverImage" width="160px" height="160px">
          </div>
+    </div>
+
+    <div class="btn">
+        <button mat-raised-button (click)="deleteReport()" style="background-color: #e00;color: white;">Confirmar eliminación</button>
     </div>
     
 </div>

@@ -1,6 +1,6 @@
 <div class="parent">   
   <div class="div1"> 
-    <p class="title"><strong>Entradas de noticias</strong></p>
+    <p class="title"><strong>Entradas de noticias</strong><button style="margin-left: 10px;background-color: black;" mat-raised-button (click)="mandarAddEntrada()">Añadir nueva<mat-icon>add</mat-icon></button></p>
   <div class="busquedatitle">
     <button mat-raised-button (click)="setDataSource()"><mat-icon>list</mat-icon>Mostrar todo </button>&nbsp;
     <input class="inputTitle" type="text" #txtTitulo name="Titulo">  
@@ -68,7 +68,7 @@
     
         <ng-container matColumnDef="Fecha">
           <th mat-header-cell *matHeaderCellDef> Fecha </th>
-          <td mat-cell *matCellDef="let element"> {{element.fecha}} </td>
+          <td mat-cell *matCellDef="let element"> {{element.fecha | date}} </td>
         </ng-container>
     
         <ng-container matColumnDef="Estado">
@@ -80,9 +80,9 @@
         </ng-container>
     
         <ng-container matColumnDef="Cambiar">
-          <th mat-header-cell *matHeaderCellDef> Cambiar </th>
+          <th mat-header-cell *matHeaderCellDef> Acciones </th>
           <td mat-cell *matCellDef="let element"> 
-            <button style="background-color: black;color: rgb(255, 255, 255);" mat-raised-button (click)="modificarEntrada(element.id_noticia)" *ngIf="permisosModificar(element.id_reportero)">Modificar/Eliminar</button>
+            <button style="background-color: black;color: rgb(255, 255, 255);" mat-raised-button (click)="modificarEntrada(element.id_noticia)" *ngIf="permisosModificar(element.id_reportero)">Editar  <mat-icon>edit</mat-icon></button>
           </td>
         </ng-container>
       

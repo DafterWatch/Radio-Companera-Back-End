@@ -1,3 +1,5 @@
+import { ConfirmDeleteComponent } from './../../dialogs/confirm-delete/confirm-delete.component';
+import { ChangepassComponent } from './../../dialogs/changepass/changepass.component';
 import { comunicacionComponentesService } from 'src/app/services/comunicacionComponentesService/comunicacionComponentes.service';
 import { InforeportEditComponent } from './../../dialogs/inforeport-edit/inforeport-edit.component';
 import { Component, OnInit,Input } from '@angular/core';
@@ -129,10 +131,7 @@ else{
 }
   }
 
-  async deleteReport(): Promise<void>{
-    let state =await this.reportService.deshabilitarNotice(this.idNoticia);
-if(state){this.snackBar.open("Noticia deshabilitada","Ok");}
-  }
+  
   seleccionarPortada(){
     const dialogsRef = this.dialog.open(FileExplorerMiniComponent);
     dialogsRef.afterClosed().subscribe( mediaData =>{
@@ -163,7 +162,9 @@ if(state){this.snackBar.open("Noticia deshabilitada","Ok");}
   volver(){
     this.router.navigate(['/entradas']);
   }
-
+  openDeleteReport(){
+    const dialogRes=this.dialog.open(ConfirmDeleteComponent);
+  }
   agregarMedio() : void{
     const dialogsRef = this.dialog.open(FileExplorerMiniComponent);
     dialogsRef.afterClosed().subscribe(mediaData =>{   
