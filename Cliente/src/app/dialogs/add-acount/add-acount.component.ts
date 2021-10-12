@@ -1,8 +1,9 @@
-import { Reportero } from './../types';
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators, FormsModule } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { HttpClient } from '@angular/common/http';
-import { debounceTime } from 'rxjs/operators';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { Component, OnInit,Inject } from '@angular/core';
+import { FormControl, FormGroup, Validators, FormsModule } from '@angular/forms';
+
 
 interface Generos {
   value: string;
@@ -18,13 +19,13 @@ interface Extencion {
 }
 
 @Component({
-  selector: 'app-formtest',
-  templateUrl: './formtest.component.html',
-  styleUrls: ['./formtest.component.scss']
+  selector: 'app-add-acount',
+  templateUrl: './add-acount.component.html',
+  styleUrls: ['./add-acount.component.scss']
 })
 
 
-export class FormtestComponent implements OnInit {
+export class AddAcountComponent implements OnInit {
 
   public idReport:string="";
   public nom:string="";
@@ -66,11 +67,18 @@ export class FormtestComponent implements OnInit {
   serverDirection :string = 'http://localhost:3000';
 
 
-  
-  constructor(private http:HttpClient) {
-    this.buildForm();
-   }
+  constructor(public dialogRef:MatDialogRef<AddAcountComponent>, @Inject(MAT_DIALOG_DATA)public data:any,private http:HttpClient,private snackbar:MatSnackBar) { 
+    this.buildForm();}
 
+  openSnackBar(messaje:string) {
+    this.snackbar.open(messaje, 'Listo!', {
+      horizontalPosition:'center',
+      verticalPosition: 'top',
+    });
+  }
+
+  ngOnInit(): void {
+  }
 
   private buildForm() {
     this.form = new FormGroup({
@@ -79,20 +87,9 @@ export class FormtestComponent implements OnInit {
       apematCtrl : new FormControl('', [Validators.required]),
       cargoCtrl : new FormControl('', [Validators.required]),
       sexoCtrl : new FormControl('', [Validators.required]),
-      ciCtrl : new FormControl('',[Validators.required,Validators.minLength(7),Validators.maxLength(11)]),
+      ciCtrl : new FormControl('',[Validators.required,Validators.minLength(7),Validators.maxLength(9),Validators.pattern(/^[0-9]+(\.?[0-9]+)?$/)]),
       extCtrl:new FormControl('',[Validators.required])
     });
-
-    /*this.form.valueChanges
-    .pipe(
-      debounceTime(500)
-    )
-    .subscribe(value => {
-      console.log(value);
-    });*/
-  }
-
-  ngOnInit(): void {
   }
 
   get nombreField(){
@@ -135,22 +132,7 @@ get generaNumber() {
   return result;
   
 }
-async ocultar():Promise<void>{
-  alert('Cuenta registrada con exito');
-      document.getElementById('formCreate').style.display='none';
-      document.getElementById('btnVer').style.display='none';
-}
-mensaje():void{
-  document.getElementById('btnVer').style.display='none';
-  document.getElementById('datosRescatados').style.display='inline';
-  
-}
 
-mostrarDetalles(){
-  console.log("OCULTADO");
-  document.getElementById('detallescuenta').style.display='inline';
-  
-}
 async verificarCI():Promise<void>{
   
   if(this.form.valid){
@@ -178,7 +160,7 @@ async verificarCI():Promise<void>{
 
 }
 
-  async createUser():Promise<void>{
+async createUser():Promise<void>{
   if (this.form.valid) {
     const value = this.form.value;
 console.log("Creando");
@@ -216,16 +198,16 @@ console.log("Creando");
     .then(res=>respuestaUser=res);
 
     if(respuestaUser){
-      alert('Cuenta registrada con exito');
-      document.getElementById('formCreate').style.display='none';
-      document.getElementById('btnVer').style.display='inline';
+      //window.location.reload();
+      this.openSnackBar('Cuenta creada con exito!');
+      this.dialogRef.close();
+      
     }else{
-      alert('Error');
+      this.openSnackBar('No se pudo crear la cuenta');
     }
     
   } else {
     this.form.markAllAsTouched();
   }
   }
-
 }

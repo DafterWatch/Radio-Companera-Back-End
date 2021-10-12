@@ -18,6 +18,9 @@ export class UserService {
   public getReportero() : Observable<Reportero>{
     return this.$reportero;
   }
+
+
+
   public async setReportero(id_reportero : string, contrasenia : string) : Promise<boolean> {
     let data : getUserType = await this.http.post(this.SERVER_DIR+`/getUser/${id_reportero}/${contrasenia}`,{}).toPromise() as getUserType ;
     if(data){      

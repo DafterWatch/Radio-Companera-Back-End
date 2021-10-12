@@ -1,0 +1,52 @@
+<div class="wrapper">
+    <div class="head">
+        <h1>Editar entrada: <strong>{{idNoticia}}</strong>
+            <div class="infobtn">
+                <button (click)="openInfoReport()" style="color: rgb(24, 75, 185);"  mat-icon-button aria-label="Example icon button with a vertical three dot icon">
+                    <mat-icon>info</mat-icon>
+                  </button>
+                  <button (click)="deleteReport()" style="color: rgb(218, 24, 24);" mat-icon-button aria-label="Example icon button with a vertical three dot icon">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+            </div>
+        </h1>
+        <input  [(ngModel)]="titleModel"/>
+    </div>        
+    <div class="tags">
+        <strong>Etiquetas</strong>
+        <hr>
+        <input [(ngModel)]="tagsModel"><button mat-raised-button color="radio" (click)="agregarEtiquetas()">Añadir</button><br><br>
+        <span style="color: rgb(161, 161, 161);">Separa las etiquetas por comas.</span>
+    </div>
+    <div class="textEditor">
+        <button mat-raised-button (click)="agregarMedio()"> <mat-icon>add_to_queue</mat-icon> Agregar medio</button>  
+        <button mat-raised-button (click)="seleccionarPortada()"> Seleccionar Foto de portada </button>  &nbsp; <img [src]="coverImage" height="50px" width="50px"/>            
+        <angular-editor [config]="config" [(ngModel)]="htmlContent"></angular-editor>
+    </div>
+    <div class="categorias">
+        
+        
+        <strong>Categorias</strong>
+        <hr>
+        <mat-selection-list #categories >
+            <p><strong> &nbsp;Categorias actuales</strong></p>
+            <mat-list-option *ngFor="let categoria of categoriasNoticia" [selected]="true" [value]="categoria">
+                {{categoria}}
+              </mat-list-option>
+              <hr>
+            <mat-list-option *ngFor="let categoria of categorias"  [value]="categoria">
+              {{categoria}}
+            </mat-list-option>
+          </mat-selection-list>
+          <br>
+    <button mat-raised-button (click)="agregarCategoria()">Agregar nueva categoria</button>
+    </div>
+    <div class="publicar">
+        <strong>Publicar</strong>
+        <hr>
+        <br>
+        <button mat-raised-button color="radio" (click)="publicarNoticia(categories.selectedOptions.selected)">Guardar cambios</button>
+        <button mat-raised-button style="margin-left: 20px;"> Vista previa </button> &nbsp; &nbsp;<br>
+        
+    </div>
+</div>

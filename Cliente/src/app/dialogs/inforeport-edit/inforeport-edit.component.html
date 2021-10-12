@@ -1,0 +1,36 @@
+<div class="content">
+    <div class="btnCerrar" style="color: rgb(0, 0, 0);">
+        <div class="infobtn">
+            <button (click)="close()" mat-icon-button aria-label="Example icon button with a vertical three dot icon">
+                <mat-icon>close</mat-icon>
+              </button>
+        </div>
+    </div>
+    <div class="title">
+        <p>Información de la noticia</p>
+    </div>
+    <div>
+        <div class="contenido" >
+            <p>Reportero a cargo: <strong>{{nombreReport}} {{apepatReport}}</strong></p>
+            <hr>
+            <p>Codigo reportero: <strong>{{idReport}}</strong></p>
+            <hr>
+            <p>Fecha publicada: <strong>{{fechaPubli}}</strong></p>
+            <hr>
+            <p>Ultima modificación por: <strong>{{idUltimaModif}}</strong></p>
+            <hr>
+            <p>Codigo de la noticia: <strong>{{idNotice}}</strong></p>
+            <hr>
+            <p>Titulo de la noticia: <strong>{{titleNotice}}</strong></p>
+         
+         
+         
+
+        </div>
+        <div class="fotoPortada">
+            <p><strong>Foto de portada:</strong></p>
+            <img [src]="coverImage" width="160px" height="160px">
+         </div>
+    </div>
+    
+</div>

@@ -1,13 +1,6 @@
-  <div>
-    <app-detallescuenta style="display: none;" id="detallescuenta" [pass]="this.contr" [idCreado]= "this.idReport"></app-detallescuenta>
-  </div>
-  <div class="OpcionesPadre">
-    <div class="OpcionesHijo" style="display: none;"id="btnVer">
-      <a (click)="mostrarDetalles()" mat-raised-button style="background-color: rgb(54, 170, 122);color: aliceblue;"><mat-icon> format_align_justify</mat-icon> Ver información </a> &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-      <a routerLink="/cuentas/crearcuenta/detalles" mat-raised-button style="background-color: rgb(54, 170, 122);color: aliceblue;"><mat-icon> vertical_align_bottom</mat-icon> Descargar .txt </a> 
-    </div>
-  </div>
-  <form id="formCreate" [formGroup]="form" (ngSubmit)="verificarCI()" class="example-form">
+
+
+<form id="formCreate" [formGroup]="form" (ngSubmit)="verificarCI()" class="example-form">
     <div class="formulario">
       <div class="title"> 
         <h1>	<mat-icon>group_add</mat-icon>  CREACIÓN DE CUENTAS</h1>
@@ -93,9 +86,9 @@
                 <div class="sexocargo">
                <mat-form-field class="example-width" appearance="fill">
                  <mat-label>CI</mat-label>
-                 <input matInput formControlName="ciCtrl" >
+                 <input  matInput formControlName="ciCtrl" >
                </mat-form-field>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 
-               <mat-form-field style="width: 10%;">
+               <mat-form-field style="width: 20%;">
                 <mat-label>Extención</mat-label>
                 <mat-select formControlName="extCtrl">
                   <mat-option *ngFor="let extencion of extenciones" [value]="extencion.value">
@@ -110,27 +103,26 @@
                    CI y la extención es <strong>requerida</strong>
                  </mat-error>
                  <mat-error *ngIf="ciField.hasError('minlength')">
-                   Ingrese un CI <strong>valido</strong>
+                   Ingrese un CI <strong>valido (min 7)</strong>
                  </mat-error>
                  <mat-error *ngIf="ciField.hasError('maxlength')">
-                  Ingrese un CI <strong>valido</strong>
+                  Ingrese un CI <strong>valido (max 9)</strong>
+                </mat-error>
+                <mat-error *ngIf="ciField.hasError('pattern')">
+                    Ingrese un CI <strong>numerico</strong>
                 </mat-error>
                  <br><br>
                </div>
 
               </div>
-             
+              <br><br>
                <!--<button  type="button" (click)="createUser()">Save</button>-->
                <div style=" display: flex;
                align-items: center;
                justify-content: center;">
+               
                  <button mat-flat-button style="background: rgb(30, 116, 27);color: cornsilk;" type="submit"><mat-icon>done_outline</mat-icon> Registrar cuenta</button>
                 
-               </div><br>
-               <div style=" display: flex;
-               align-items: center;
-               justify-content: center;">
-                <a mat-raised-button style="background-color: rgb(235, 55, 11);color: aliceblue;" routerLink="/cuentas"><mat-icon>undo</mat-icon> Cancelar</a>
                </div>
               
 
@@ -138,4 +130,3 @@
       </div>
     </div>
 </form> 
-

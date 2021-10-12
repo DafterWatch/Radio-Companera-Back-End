@@ -3,6 +3,7 @@ const multer = require('multer');
 const {Client} = require('pg');
 const jsonParser = require('express').json();
 const fs = require('fs');
+const { NODATA } = require('dns');
 const client = new Client({
     host:'localhost',
     user:'postgres',
@@ -46,7 +47,7 @@ module.exports = (router) =>{
             client.end;
         });*/           
         let data;
-        await client.query("SELECT * FROM Reportero")
+        await client.query("SELECT * FROM Reportero ORDER BY Reportero.nombres")
             .then(res => data = res.rows)
             .catch(err => console.log(err.stack))
             .then(()=>client.end);
@@ -269,6 +270,81 @@ module.exports = (router) =>{
         const values = [req.body.category];
         client.query(query,values)
             .catch((err)=> {console.log("Error insertando categoria /createCategory", err.stack); res.send(false)});
+        res.send(true);
+    });
+    router.post('/getReportComplet/:idNoticia',async (req,res)=>{
+        let idNot = req.params.idNoticia;
+        let data;
+        await client.query(`select noticias.id_noticia ,noticias.fecha_publicacion,noticias.ultima_modificacion,
+        contenidonoticia.imagen,contenidonoticia.contenido,contenidonoticia.etiquetas,contenidonoticia.titulo,
+        reportero.id_reportero,reportero.nombres as nombreReportero,reportero.apepaterno as apepaReportero
+    from noticias 
+    inner join contenidonoticia on noticias.id_noticia=contenidonoticia.id_noticia
+    inner join reportero on reportero.id_reportero=noticias.id_reportero
+    where noticias.id_noticia='${idNot}'
+    group by noticias.id_noticia,contenidonoticia.imagen,contenidonoticia.contenido,
+    contenidonoticia.etiquetas,contenidonoticia.titulo,
+    reportero.id_reportero,reportero.nombres,reportero.apepaterno
+    order by noticias.id_noticia,contenidonoticia.imagen,contenidonoticia.contenido,
+    contenidonoticia.etiquetas,contenidonoticia.titulo,
+    reportero.id_reportero,reportero.nombres,reportero.apepaterno asc;`)
+            .then(res => data = res.rows)
+            .catch(err => console.log(err.stack))
+            .then(()=>client.end);
+            //console.log(data);
+        res.send(data);
+    });
+
+    router.get('/getCategoriaNotice/:idNoticia',async (req,res)=>{
+        let idNot = req.params.idNoticia;
+        const query = `select * from categorianoticia inner join categorias on categorianoticia.id_categoria=categorias.id_categoria where id_noticia='${idNot}'`;
+        const categories = await client.query(query);
+        res.send(categories.rows.map(cat => cat.nombre));
+    });
+
+    router.post('/updateNoticia/:idNoticia/:idReport', async (req,res)=>{
+        let NotID=req.params.idNoticia;
+        let idReport=req.params.idReport;
+        //reportero
+        const text = `UPDATE noticias SET ultima_modificacion='${idReport}' WHERE id_noticia='${NotID}';`;       
+        try {
+            await client.query(text);
+            res.send(true);
+        } catch (error) {
+            console.log('Error actualizando noticia /updateNoticia',error.stack);
+            res.send(false);
+        }
+    });
+
+    router.post('/updateContenidoNoticia/:idNoticia',jsonParser, async (req,res)=>{
+        let NotID=req.params.idNoticia;
+        const query = `update ContenidoNoticia set id_noticia=$1,imagen=$2,titulo=$3,contenido=$4,etiquetas=$5 WHERE id_noticia='${NotID}';`;
+        console.log(query);
+        const values = Object.values(req.body.ContenidoNoticia);
+        let idContenido =NotID;
+
+        await client.query(query,values);
+
+        //
+        const deleteCateActuales = `delete from categorianoticia where id_noticia='${NotID}';`;
+        await client.query(deleteCateActuales);
+
+         //insertar
+         const categoriesId_query = `SELECT id_categoria FROM categorias WHERE nombre in (${req.body.categorias.join(',')});`;
+         let categoriesId = await client.query(categoriesId_query);        
+         
+         categoriesId = categoriesId.rows.map(row => `(${row.id_categoria},${idContenido})`);
+         
+         let categoryNotice_query = `INSERT INTO CategoriaNoticia(id_categoria,id_noticia) VALUES `+ categoriesId.join(',');            
+         client.query(categoryNotice_query);
+       res.send(true);
+    });
+
+    router.post('/deshabilitarNotice/:idNotice', async (req,res)=>{        
+        let idNot = req.params.idNotice;       
+        await client.query(`UPDATE noticias SET estado = 'false' WHERE id_noticia ='${idNot}'`)
+            .catch(err => res.send(false))
+            .then(()=>client.end);        
         res.send(true);
     });
 

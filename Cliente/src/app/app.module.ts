@@ -1,3 +1,4 @@
+import { MatTabsModule } from '@angular/material/tabs';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -51,6 +52,15 @@ import { FileExplorerMiniComponent } from './entradas-component/file-explorer-mi
 import {MatTreeModule} from '@angular/material/tree';
 import { AddTagDialogComponent } from './dialogs/add-tag-dialog/add-tag-dialog.component';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { AddAcountComponent } from './dialogs/add-acount/add-acount.component';
+import { DetailsComponent } from './dialogs/details/details.component';
+import { DisableAccountComponent } from './dialogs/disable-account/disable-account.component';
+import { EditEntradaComponent } from './entradas-component/edit-entrada/edit-entrada.component';
+import { ChangepassComponent } from './dialogs/changepass/changepass.component';
+import { ListacuentasComponent } from './cuentas/listacuentas/listacuentas.component';
+import { InforeportEditComponent } from './dialogs/inforeport-edit/inforeport-edit.component';
+import { PruebaComponent } from './prueba/prueba.component';
+
 
 @NgModule({
   declarations: [
@@ -71,7 +81,16 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     RenameDialogComponent,
     NuevaEntradaComponent,
     FileExplorerMiniComponent,
-    AddTagDialogComponent
+    AddTagDialogComponent,
+    AddAcountComponent,
+    DetailsComponent,
+    DisableAccountComponent,
+    EditEntradaComponent,
+    ChangepassComponent,
+    ListacuentasComponent,
+    InforeportEditComponent,
+    PruebaComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -105,7 +124,8 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     MatExpansionModule,
     AngularEditorModule,
     MatTreeModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatTabsModule
   ],
   providers: [
     { provide: MatPaginatorIntl, useValue: CustomPaginator() }

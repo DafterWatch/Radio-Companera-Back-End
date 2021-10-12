@@ -5,7 +5,7 @@ export class Reportero{
     apematerno : string;
     sexo : string;
     cargo : string;
-    contra : string;
+    contraseña : string;
     ci : string;
     habilitada : boolean
     fotoperfil:string  

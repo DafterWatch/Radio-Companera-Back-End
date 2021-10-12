@@ -1,0 +1,32 @@
+<div class="content">
+    <div class="formcambiopass">
+        <div class="title">
+            <p>Cambio de contraseña</p>
+        </div>
+        <div class="content">
+            <div class="actual">
+            <mat-form-field class="example-full-width">
+                <br>
+                <mat-label>Contraseña actual</mat-label>
+                <input matInput #contraactual>
+            </mat-form-field>
+            </div>
+<div class="new">
+            <mat-form-field class="example-full-width">
+                <mat-label>Nueva contraseña</mat-label>
+                <input matInput #nuevaContrasenia1>
+            </mat-form-field><br>
+            <mat-form-field class="example-full-width">
+                <mat-label>Confirme la contraseña</mat-label>
+                <input matInput #nuevaContrasenia2>
+            </mat-form-field>
+        </div>
+            <div class="botons">
+                <button mat-raised-button style="color: white;background-color: black;" (click)="validar(contraactual.value,nuevaContrasenia1.value,nuevaContrasenia2.value)">Guardar cambio</button>&nbsp;&nbsp;&nbsp;
+                <button mat-raised-button style="color: rgb(0, 0, 0);background-color: #e00;" (click)="close()"><mat-icon>close</mat-icon></button>        
+            </div>                    
+        </div>
+
+    </div>
+</div>
+

@@ -1,0 +1,16 @@
+<div>
+  <div class="title">
+    <mat-card-title>Deshabiliar cuenta</mat-card-title>
+    <hr>
+  </div>
+  <div class="texto">
+    <mat-card-subtitle class="texto">¿Esta seguro que desea deshabilitar la cuenta {{idCuenta}}?</mat-card-subtitle>
+    <br>
+  </div>
+  
+  <mat-card-actions class="botons">
+    <button mat-button style="background-color: red;color:white;" (click)="deshabiliarcuenta(idCuenta)">SI</button>&nbsp;&nbsp;&nbsp;
+    <button mat-button style="background-color: black;color: white;" (click)="cerrar()">NO</button>
+  </mat-card-actions>
+
+</div>

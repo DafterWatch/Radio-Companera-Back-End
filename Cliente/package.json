@@ -10,7 +10,7 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "~12.1.2",
+    "@angular/animations": "^12.1.5",
     "@angular/cdk": "^12.2.4",
     "@angular/common": "~12.1.2",
     "@angular/compiler": "~12.1.2",
@@ -23,6 +23,7 @@
     "@kolkov/angular-editor": "^1.2.0",
     "@swimlane/ngx-datatable": "^19.0.0",
     "ajv-keywords": "^5.0.0",
+    "jquery": "^3.6.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.2.0",
     "zone.js": "~0.11.4"
