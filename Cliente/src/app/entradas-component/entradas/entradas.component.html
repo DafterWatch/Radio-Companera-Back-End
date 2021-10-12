@@ -2,7 +2,7 @@
     <h1>Entradas</h1>
 
     <div align="right">
-        <input type="text" #txtTitulo name="Titulo">
+        <input type="text" #txtTitulo name="Titulo" style:bordes>
         <button mat-raised-button (click)="buscarTitulo(txtTitulo.value)">Buscar por título</button><br><br>
         {{numeroEntradas()}}
         <button mat-raised-button (click)="dosPaginasAtras()">&lt; &lt; </button>
@@ -28,7 +28,7 @@
     <button mat-raised-button (click)="setDataSource()">Mostrar todas las entradas</button>
 </div>
 <br>
-<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+<table mat-table [dataSource]="dataTabla" class="mat-elevation-z8">
     <ng-container matColumnDef="ID">
       <th mat-header-cell *matHeaderCellDef> ID </th>
       <td mat-cell *matCellDef="let element"> {{element.id_noticia}} </td>

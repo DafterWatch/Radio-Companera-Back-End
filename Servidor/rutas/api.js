@@ -316,7 +316,7 @@ module.exports = (router) =>{
 
     router.get('/getEntradas', (req,res)=>{                    
         client.query(`
-                select N.id_noticia, Con.titulo, CONCAT(R.nombres, ' ', R.apepaterno, ' ', R.apematerno) autor, Con.etiquetas,
+                select DISTINCT N.id_noticia, Con.titulo, CONCAT(R.nombres, ' ', R.apepaterno, ' ', R.apematerno) autor, Con.etiquetas,
 	                N.fecha_publicacion as fecha, N.estado, Ca.nombre as categoria, R.id_reportero
                 from reportero R inner join noticias N on R.id_reportero=N.id_reportero
 	                inner join contenidonoticia Con on N.id_noticia=Con.id_noticia
@@ -332,7 +332,7 @@ module.exports = (router) =>{
         let medio = "%"+req.params.tituloNoticia+"%";
         let derecha = req.params.tituloNoticia+"%";
         client.query(`
-                    select N.id_noticia, Con.titulo, CONCAT(R.nombres, ' ', R.apepaterno, ' ', R.apematerno) autor, Con.etiquetas,
+                    select DISTINCT N.id_noticia, Con.titulo, CONCAT(R.nombres, ' ', R.apepaterno, ' ', R.apematerno) autor, Con.etiquetas,
                         N.fecha_publicacion as fecha, N.estado, Ca.nombre as categoria, R.id_reportero
                     from reportero R inner join noticias N on R.id_reportero=N.id_reportero
                         inner join contenidonoticia Con on N.id_noticia=Con.id_noticia
@@ -347,7 +347,7 @@ module.exports = (router) =>{
     router.get('/getFiltarEntradasFecha/:fecha', (req,res)=>{
         let fecha = req.params.fecha;
         client.query(`
-                    select N.id_noticia, Con.titulo, CONCAT(R.nombres, ' ', R.apepaterno, ' ', R.apematerno) autor, Con.etiquetas,
+                    select DISTINCT N.id_noticia, Con.titulo, CONCAT(R.nombres, ' ', R.apepaterno, ' ', R.apematerno) autor, Con.etiquetas,
                         N.fecha_publicacion as fecha, N.estado, Ca.nombre as categoria, R.id_reportero
                     from reportero R inner join noticias N on R.id_reportero=N.id_reportero
                         inner join contenidonoticia Con on N.id_noticia=Con.id_noticia
@@ -362,7 +362,7 @@ module.exports = (router) =>{
     router.get('/getFiltarEntradasCategoria/:categoria', (req,res)=>{
         let categoria = req.params.categoria;
         client.query(`
-                    select N.id_noticia, Con.titulo, CONCAT(R.nombres, ' ', R.apepaterno, ' ', R.apematerno) autor, Con.etiquetas,
+                    select DISTINCT N.id_noticia, Con.titulo, CONCAT(R.nombres, ' ', R.apepaterno, ' ', R.apematerno) autor, Con.etiquetas,
                         N.fecha_publicacion as fecha, N.estado, Ca.nombre as categoria, R.id_reportero
                     from reportero R inner join noticias N on R.id_reportero=N.id_reportero
                         inner join contenidonoticia Con on N.id_noticia=Con.id_noticia
