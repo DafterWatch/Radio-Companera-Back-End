@@ -24,6 +24,7 @@ export class EntradasComponent implements OnInit {
     this.categoriaSelect="";
     this.setDataSource();
     this.nroPagina=1;
+    this.nroItem=0;
     this.reportService.getCategorias().then((_categoria:string[])=>this.categorias=_categoria);
   }
 
@@ -31,9 +32,8 @@ export class EntradasComponent implements OnInit {
     await this.reportService.getEntradas().then((data:Entradas[])=>{
       this.dataSource=data
       
-      this.cargarPagina();
+      this.cargarPaginacion();
     })
-
   }
   
   permisos : Permisos;
@@ -44,13 +44,8 @@ export class EntradasComponent implements OnInit {
   displayedColumns: string[] = ['ID', 'Titulo', 'Autor', 'Etiqueta', 'Fecha', 'Estado', 'Cambiar'];
   dataSource:Entradas[];
 
-  cargarPagina():void{
-    this.dataTabla=this.dataSource;
-    /*this.dataTabla[0]=this.dataSource[this.nroPagina];
-    this.dataTabla[1]=this.dataSource[this.nroPagina+1];
-    this.dataTabla[2]=this.dataSource[this.nroPagina+2];
-    this.dataTabla[3]=this.dataSource[this.nroPagina+3];
-    this.dataTabla[4]=this.dataSource[this.nroPagina+4];*/
+  cargarPaginacion():void{
+    this.dataTabla=[this.dataSource[this.nroItem],this.dataSource[this.nroItem+1],this.dataSource[this.nroItem+2],this.dataSource[this.nroItem+3],this.dataSource[this.nroItem+4]];
   }
 
   async buscarTitulo(titulo:string): Promise<void>{
@@ -58,6 +53,7 @@ export class EntradasComponent implements OnInit {
       await this.reportService.getBuscarEntradas(titulo).then((data:Entradas[])=>{
       
         this.dataSource=data
+        this.cargarPaginacion();
       })
     }
     else{
@@ -68,7 +64,8 @@ export class EntradasComponent implements OnInit {
     if(fecha!=""){
       await this.reportService.getFiltarEntradasFecha(fecha).then((data:Entradas[])=>{
       
-        this.dataSource=data;
+        this.dataSource=data
+        this.cargarPaginacion();
       })
     }
     else{
@@ -81,6 +78,7 @@ export class EntradasComponent implements OnInit {
       await this.reportService.getFiltarEntradasCategoria(this.categoriaSelect).then((data:Entradas[])=>{
       
         this.dataSource=data
+        this.cargarPaginacion();
       })
     }
     else{
@@ -107,34 +105,45 @@ export class EntradasComponent implements OnInit {
     return this.dataSource.length+" elementos";
   }
   nroPagina:number;
+  nroItem:number;
   paginacion():string{
-    return "Página: "+this.nroPagina+" de: "+this.dataSource.length/5;
+    return "Página: "+Math.ceil(this.nroPagina)+" de: "+Math.ceil(this.dataSource.length/5);
   }
   dosPaginasAtras():void{
     if(this.nroPagina>2){
       this.nroPagina-=2;
+      this.nroItem-=10;
     }
     else{
       this.nroPagina=1;
+      this.nroItem=0;
     }
+    this.cargarPaginacion();
   }
   unaPaginasAtras():void{
     if(this.nroPagina>1){
       this.nroPagina-=1;
+      this.nroItem-=5;
     }
+    this.cargarPaginacion();
   }
   dosPaginasAdelante():void{
-    if(this.nroPagina<(this.dataSource.length/5)-1){
+    if(this.nroPagina<(this.dataSource.length/5)-2){
       this.nroPagina+=2;
+      this.nroItem+=10;
     }
     else{
       this.nroPagina=this.dataSource.length/5;
+      this.nroItem=this.dataSource.length-5;
     }
+    this.cargarPaginacion();
   }
   unaPaginasAdelante():void{
     if(this.nroPagina<this.dataSource.length/5){
       this.nroPagina+=1;
+      this.nroItem+=5;
     }
+    this.cargarPaginacion();
   }
 
   openSnackBar(message: string, action: string) {
