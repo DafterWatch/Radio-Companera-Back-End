@@ -107,6 +107,21 @@ module.exports = (router) =>{
             res.send(respuestaBD.rows[0]);
         }
     });
+    router.post('/getComentarios/:idNoticia', async (req,res)=>{        
+        let idNoticia = req.params.idNoticia;
+        let respuestaBD = null;
+        await client.query(`SELECT * FROM Comentarios WHERE idNoticia ='${idNoticia}'`)
+            .then(filas => respuestaBD = filas)
+            .catch(err => console.log(err.stack))
+            .then(()=>client.end);
+        
+        if(respuestaBD.rowCount == 0){
+            res.send(false);
+        }else{
+            let cargo = respuestaBD.rows[0].cargo;
+            res.send(respuestaBD);
+        }
+    });
 
     //verificar ci
     router.post('/verificarci/:ci',async (req,res)=>{
@@ -196,36 +211,41 @@ module.exports = (router) =>{
         });
         res.status(200).send(true);
     });
-    router.get('/getSchema',(req,res)=>{               
+    router.get('/getSchema',(req,res)=>{
         let schema = fs.readFileSync('folderSchema.txt','utf-8');
         res.send(schema);
     });
     router.get('/getComentario/:idNoticia', async (req,res)=>{
         const query = {
-            text: "SELECT * FROM comentarios WHERE id_noticia=$1 ORDER BY id_comentario DESC",            
+            text: "SELECT * FROM comentarios WHERE id_noticia=$1",            
             values : [req.params.idNoticia]
         }                
         let comentario = await client.query(query);
         res.send(comentario.rows);
     });
-    router.post('/postComentario',jsonParser, (req,res)=>{
-        const query = {
-            text: 'INSERT INTO comentarios VALUES ($1,$2,$3,$4)',
-            values:Object.values(req.body)
-        }
-        let error = true;
-        client
-            .query(query)
-            .then()
-            .catch(err => {console.log('Error insertando comentario postComentario'); error = err.stack})
+    router.post('/postComentario',jsonParser, async (req,res)=>{
+        let noticia = req.body.idNoticia;
+        let fecha = req.body.fecha;
+        let nom = req.body.nombre;
+        let cont = req.body.contenido;
+        await client.query(`INSERT INTO comentarios (id_noticia, fecha, nombre, contenido) VALUES ('${noticia}','${fecha}','${nom}','${cont}');`)
+        .catch(err=>{console.log(err.stack)})
+        .then(()=>client.end);
         res.send(true);
+    });
+    router.post('/getComentarios', async (req,res)=>{        
+        let data;
+        await client.query("SELECT * FROM comentarios")
+            .then(res => data = res.rows)
+            .catch(err => console.log(err.stack))
+            .then(()=>client.end);
+        res.send(data);
     });
     router.get('/getComentarios', (req,res)=>{                    
         client.query('SELECT * FROM comentarios ORDER BY id_comentario DESC')
             .then(comentarios => res.send(comentarios.rows))
             .catch( err => console.log('Error recuperando comentarios: /getComentarios',err.stack) );
     });
-
     router.post('/borrarComentario/:idComentario', async (req,res)=>{        
         let id_comentario = req.params.idComentario;       
         await client.query(`DELETE FROM comentarios WHERE id_comentario ='${id_comentario}'`)
@@ -356,4 +376,5 @@ module.exports = (router) =>{
     });
 
     return router;
+    
 };
