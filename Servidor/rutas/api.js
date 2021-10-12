@@ -75,6 +75,7 @@ module.exports = (router) =>{
             res.send({usuario:respuestaBD.rows[0], permisos : permisos_usuario});
         }
     });
+    
     function createPermisions(cargo){
         if(cargos[cargo] === '*'){
             Object.keys(permisos).forEach(k => permisos[k] = true);

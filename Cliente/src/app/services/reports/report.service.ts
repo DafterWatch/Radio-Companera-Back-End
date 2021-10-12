@@ -1,11 +1,14 @@
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Notice,Notice_Content } from '../../types' ;
+import { Notice,Notice_Content, Entradas } from '../../types' ;
+
 @Injectable({
   providedIn: 'root'
 })
 export class ReportService {
+  private 
+
 
   SERVER_DIR : string = 'http://localhost:3000';
   constructor(private http:HttpClient) { }
