@@ -16,7 +16,11 @@ export class EntradasComponent implements OnInit {
 
   currentReporter:Reportero;
   constructor(private http:HttpClient, private userService : UserService, private reportService : ReportService, private _snackBar: MatSnackBar, private ComunicacionComponentesService:comunicacionComponentesService, private router: Router) {  
+    userService.getReportero().subscribe((_reportero : Reportero)=>{
+      this.permisos = userService.getPermisos();
+    });
     this.userService.getReportero().subscribe((_reportero:Reportero)=>this.currentReporter=_reportero);
+
     this.categoriaSelect="";
     this.setDataSource();
     this.nroPagina=1;
@@ -24,22 +28,30 @@ export class EntradasComponent implements OnInit {
   }
 
   async setDataSource(): Promise<void>{
-    this.permisos = await this.userService.getPermisos();
     await this.reportService.getEntradas().then((data:Entradas[])=>{
+      this.dataSource=data
       
-      this.dataSource=data;
+      this.cargarPagina();
     })
+
   }
   
   permisos : Permisos;
-  categorias: string[] = [/*
-    {nombre: 'Categoria1'},
-    {nombre: 'Categoria2'}*/
-  ];
+  categorias: string[] = [];
   NOTICIA_DATA: Promise<Entradas[]>;
+  dataTabla:Entradas[]
 
   displayedColumns: string[] = ['ID', 'Titulo', 'Autor', 'Etiqueta', 'Fecha', 'Estado', 'Cambiar'];
   dataSource:Entradas[];
+
+  cargarPagina():void{
+    this.dataTabla=this.dataSource;
+    /*this.dataTabla[0]=this.dataSource[this.nroPagina];
+    this.dataTabla[1]=this.dataSource[this.nroPagina+1];
+    this.dataTabla[2]=this.dataSource[this.nroPagina+2];
+    this.dataTabla[3]=this.dataSource[this.nroPagina+3];
+    this.dataTabla[4]=this.dataSource[this.nroPagina+4];*/
+  }
 
   async buscarTitulo(titulo:string): Promise<void>{
     if(titulo!=""){
@@ -56,7 +68,7 @@ export class EntradasComponent implements OnInit {
     if(fecha!=""){
       await this.reportService.getFiltarEntradasFecha(fecha).then((data:Entradas[])=>{
       
-        this.dataSource=data
+        this.dataSource=data;
       })
     }
     else{
@@ -77,7 +89,8 @@ export class EntradasComponent implements OnInit {
   }
 
   permisosModificar(id:string):boolean{
-    /*if(id==this.currentReporter.id_reportero){
+
+    if(id==this.currentReporter.id_reportero){
       return true;
     }
     else{
@@ -87,8 +100,7 @@ export class EntradasComponent implements OnInit {
       else{
         return false;
       }
-    }*/
-    return true;
+    }
   }
 
   numeroEntradas():string{
