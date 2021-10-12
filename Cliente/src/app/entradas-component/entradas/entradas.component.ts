@@ -5,6 +5,7 @@ import { ReportService } from 'src/app/services/reports/report.service';
 import { comunicacionComponentesService } from 'src/app/services/comunicacionComponentesService/comunicacionComponentes.service';
 import { Permisos, Entradas, Reportero } from '../../types';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-entradas',
@@ -14,7 +15,7 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 export class EntradasComponent implements OnInit {
 
   currentReporter:Reportero;
-  constructor(private http:HttpClient, private userService : UserService, private reportService : ReportService, private _snackBar: MatSnackBar, private ComunicacionComponentesService:comunicacionComponentesService) {  
+  constructor(private http:HttpClient, private userService : UserService, private reportService : ReportService, private _snackBar: MatSnackBar, private ComunicacionComponentesService:comunicacionComponentesService, private router: Router) {  
     this.userService.getReportero().subscribe((_reportero:Reportero)=>this.currentReporter=_reportero);
     this.categoriaSelect="";
     this.setDataSource();
@@ -135,6 +136,6 @@ export class EntradasComponent implements OnInit {
 
   modificarEntrada(id_noticia:string):void{
     this.ComunicacionComponentesService.setIDEntrada(id_noticia);
-    console.log(this.ComunicacionComponentesService.getIDEntrada());
+    this.router.navigate(['/comentarios']);
   }
 }
