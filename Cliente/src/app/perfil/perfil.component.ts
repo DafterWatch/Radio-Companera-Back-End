@@ -1,8 +1,10 @@
+import { ChangepassComponent } from './../dialogs/changepass/changepass.component';
+import { MatDialog } from '@angular/material/dialog';
 import { HttpClient } from '@angular/common/http';
 import { ThisReceiver } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../services/userService/user.service';
-
+import { DisableAccountComponent } from '../dialogs/disable-account/disable-account.component';
 import { Reportero } from '../types';
 
 @Component({
@@ -23,7 +25,7 @@ export class PerfilComponent implements OnInit {
   fotoperfil:string;
   serverImagen:string='http://localhost:3000/archivos/';
   private serverDirection :string = 'http://localhost:3000';
-  constructor(private http:HttpClient, private reporteroService : UserService) { 
+  constructor(private http:HttpClient, private reporteroService : UserService,public dialog:MatDialog) { 
     
     //let usuario:Reportero=JSON.parse(sessionStorage.getItem('usuarioLogeado')).user;
     reporteroService.getReportero().subscribe((_reportero : Reportero)=>{
@@ -61,25 +63,6 @@ export class PerfilComponent implements OnInit {
     }
   }
 
-  async cambiarContrasenia(contraseniaNueva:string): Promise<void> {
-    await this.http.post(`http://localhost:3000/cambiarContrasenia/${this.id_reportero}/${contraseniaNueva}`,{}).toPromise().then(resultado=>{});
-  }
-  validar(contrasenia1:string, contrasenia2:string){
-    if(contrasenia1.length>=1){
-      if(contrasenia1===contrasenia2){
-        this.cambiarContrasenia(contrasenia1);
-        alert('¡Exito al cambiar la contraseña!')
-        document.getElementById("cambiopass").style.display="none";
-      }
-      else{
-        alert('Las contraseñas no coinciden')
-      }
-    }
-    else{
-      alert('Contraseña no valida')
-    }
-  }
-
    cargarFotoPerfil(){
     var fotoPerfil:any;
     fotoPerfil=document.getElementById("fotoPerfil");
@@ -109,14 +92,7 @@ export class PerfilComponent implements OnInit {
   }
 
   mostrarFormpass(){
-    document.getElementById("opciones").style.display="none";
-    console.log(document.getElementById("cambiopass").style.display);
-    
-    if(document.getElementById("cambiopass").style.display=="inline"){
-      document.getElementById("cambiopass").style.display="none";
-    }else{
-      document.getElementById("cambiopass").style.display="inline";
-    }
-    
+      const dialogRes=this.dialog.open(ChangepassComponent)
+      //dialogRes.afterClosed().subscribe(data=>)
   }
 }

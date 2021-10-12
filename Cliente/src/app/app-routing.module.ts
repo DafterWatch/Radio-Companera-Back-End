@@ -11,6 +11,8 @@ import { MediosComponent } from './medios/medios.component';
 import { PerfilComponent } from './perfil/perfil.component';
 import { DetallescuentaComponent } from './detallescuenta/detallescuenta.component';
 import { FileExplorerMiniComponent } from './entradas-component/file-explorer-mini/file-explorer-mini.component';
+import { EditEntradaComponent } from './entradas-component/edit-entrada/edit-entrada.component';
+import { PruebaComponent } from './prueba/prueba.component';
 
 const routes: Routes = [  
   {
@@ -24,6 +26,10 @@ const routes: Routes = [
   {
     path:'entradas',
     component:EntradasComponent
+  },
+  {
+    path:'entradas/edit',
+    component:EditEntradaComponent
   },
   {
     path:'nueva-entrada',
@@ -55,6 +61,9 @@ const routes: Routes = [
   },{
     path:'cuentas/crearcuenta/detalles',
     component:DetallescuentaComponent
+  },{
+    path:'prueba',
+    component:PruebaComponent
   }
 ];
 

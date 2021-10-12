@@ -10,7 +10,7 @@ export class comunicacionComponentesService {
   SERVER_DIR : string = 'http://localhost:3000';
   constructor(private http : HttpClient) { }
 
-  private idEntrada:string;
+  private idEntrada:string="";
   public getIDEntrada():string{
     return this.idEntrada;
   }

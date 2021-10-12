@@ -3,7 +3,8 @@
 
     <div class="div1">
         <div class="marco">
-            <div mat-card-avatar class="example-header-image"><img mat-card-image [src]="fotoperfil || 'https://lh3.googleusercontent.com/bVasjJiEt_qOoymntYLvLmiw_uezpmQeE2O_4Kk-ZQ77bCODt5Lc0vO5Yrl4Cz7GVA'" alt="Radio compañera"></div>
+            <div mat-card-avatar class="example-header-image">
+                <img mat-card-image [src]="fotoperfil || 'https://lh3.googleusercontent.com/bVasjJiEt_qOoymntYLvLmiw_uezpmQeE2O_4Kk-ZQ77bCODt5Lc0vO5Yrl4Cz7GVA'" alt="Radio compañera"></div>
             
             <button id="btnConfirmarFoto"  (click)="confirmarPerfil(this.id_reportero,this.fotoperfil)" style="display: none;" mat-raised-button color="primary">Guardar cambio</button>
         </div>
@@ -46,27 +47,7 @@
               </div>
     </div>
     <div class="div6">
-        <div class="cambiopass" id="cambiopass" style="display: none;">
-                <div class="formcambiopass">
-                    <div class="title">
-                        <p>CAMBIO DE CONTRASEÑA</p>
-                    </div>
-                    <div class="content">
-                        <mat-form-field class="example-full-width">
-                            <mat-label>Nueva contraseña</mat-label>
-                            <input matInput #nuevaContrasenia1>
-                        </mat-form-field><br>
-                        <mat-form-field class="example-full-width">
-                            <mat-label>Confirme la contraseña</mat-label>
-                            <input matInput #nuevaContrasenia2>
-                        </mat-form-field>
-                        <div class="btnpass">
-                            <button mat-raised-button color="primary" (click)="validar(nuevaContrasenia1.value,nuevaContrasenia2.value)">Guardar cambio</button>
-                        </div>                    
-                    </div>
-
-                </div>
-        </div>
+       
     </div>
 
 </div>

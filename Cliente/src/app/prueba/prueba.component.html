@@ -1,0 +1,19 @@
+<p>prueba works!</p>
+<mat-selection-list *ngIf="ventanas" [formControl]="modulos">
+    <mat-list-option *ngFor="let mod of ventanas"  [selected]="mod.seleccionado">
+      {{mod.nombre}} 
+    </mat-list-option>
+  </mat-selection-list>
+
+
+  <hr>
+  <mat-selection-list #categories >
+    <mat-list-option *ngFor="let categoria of categorias" [selected]="true" [value]="categoria">
+      {{categoria}}
+    </mat-list-option>
+    <mat-list-option *ngFor="let categoria of categorias" [selected]="false" [value]="categoria">
+        {{categoria}}
+      </mat-list-option>
+  </mat-selection-list>
+
+  <button mat-raised-button color="radio" (click)="verCategorias(categories.selectedOptions.selected)">Publicar</button>

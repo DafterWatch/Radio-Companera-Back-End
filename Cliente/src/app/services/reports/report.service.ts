@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Notice,Notice_Content, Entradas } from '../../types' ;
@@ -29,6 +30,39 @@ export class ReportService {
     return status;
   }
 
+  public async getReport(idNoticia :string):Promise<any>{
+    let notice=null;
+    //await this.http.get(this.serverDirection+`/probe`);
+    notice=await this.http.post(this.SERVER_DIR+`/getReportComplet/${idNoticia}`,{}).toPromise();
+    /*.then((res:any)=>{notice=res.rows
+      console.log(notice);
+      return notice;
+    });*/
+    console.log(notice);
+    return notice;
+  }
+
+  public async getCategoriasNotice(idNoticia:string):Promise<string[]>{
+    let categoriasSeleccionadas:string[];
+
+    categoriasSeleccionadas= await this.http.get<string[]>(this.SERVER_DIR+`/getCategoriaNotice/${idNoticia}`,{}).toPromise();
+    return categoriasSeleccionadas;
+
+  }
+  
+  public async updateReport(idNoticia:string,idReportModif:string) : Promise<any>{
+    let state = await this.http.post(this.SERVER_DIR + `/updateNoticia/${idNoticia}/${idReportModif}`,{}).toPromise();
+    return state;
+  }
+  public async updateReportContent(idNotice:string,reportContent : Notice_Content, categorias : string[]) : Promise<boolean>{
+    let queryStatus = await this.http.post<boolean>(this.SERVER_DIR+`/updateContenidoNoticia/${idNotice}`,{ContenidoNoticia: reportContent, categorias}).toPromise();
+    return queryStatus;
+  }
+  public async deshabilitarNotice(idNoticia:string) : Promise<any>{
+    let state = await this.http.post(this.SERVER_DIR + `/deshabilitarNotice/${idNoticia}`,{}).toPromise();
+    return state;
+  }
+
   async getEntradas():Promise<Entradas[]>{
     let entradas: Entradas[] = await this.http.get<Entradas[]>(`http://localhost:3000/getEntradas`,{}).toPromise();
     return entradas;
@@ -45,4 +79,5 @@ export class ReportService {
     let entradas: Entradas[] = await this.http.get<Entradas[]>(`http://localhost:3000/getFiltarEntradasCategoria/${categoria}`,{}).toPromise();
     return entradas;
   }
+  
 }

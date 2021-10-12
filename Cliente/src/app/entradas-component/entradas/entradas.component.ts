@@ -157,6 +157,6 @@ export class EntradasComponent implements OnInit {
 
   modificarEntrada(id_noticia:string):void{
     this.ComunicacionComponentesService.setIDEntrada(id_noticia);
-    this.router.navigate(['/comentarios']);
+    this.router.navigate(['/entradas/edit']);
   }
 }

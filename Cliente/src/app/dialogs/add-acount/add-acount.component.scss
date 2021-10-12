@@ -1,0 +1,55 @@
+.example-form{
+    width: 800px;
+    height: 530px;
+}
+  
+  .title{
+    text-align: center;
+    color: rgb(255, 233, 233);
+    padding-top: 20px;
+    padding-bottom: 10px;
+    text-shadow: 1px 1px #030303;
+    background: rgb(238, 2, 2);
+  }
+  
+  .content{
+  padding: 10px;
+  padding-top: 30px;
+  }
+  
+  .example-full-width {
+    width: 100%;
+  }
+  
+  .example-width {
+    width: 55%;
+  }
+  
+  .container{
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  padding-top: 1px;
+  }
+  
+  
+  .OpcionesPadre{
+    display: flex;
+    justify-content: center;
+    position: relative;
+    margin-top: 7%;
+  }
+  
+  
+  .sexocargo{
+    display: flex;
+    justify-content: center;
+    position: relative;
+    color: #030303;
+  }
+  
+  .OpcionesHijo{
+    margin: 0 auto;
+    position: absolute;
+    margin-top: 10%;
+  }

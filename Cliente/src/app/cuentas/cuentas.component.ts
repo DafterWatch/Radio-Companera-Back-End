@@ -1,3 +1,6 @@
+import { DisableAccountComponent } from './../dialogs/disable-account/disable-account.component';
+import { DetailsComponent } from './../dialogs/details/details.component';
+import { AddAcountComponent } from './../dialogs/add-acount/add-acount.component';
 import { Component, OnInit, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -16,35 +19,12 @@ export class CuentasComponent implements OnInit {
   public logcuentas:Reportero[];
   serverImagen:string='http://localhost:3000/archivos/';
   private serverDirection :string = 'http://localhost:3000';
-  constructor(private http:HttpClient) {}
+
+  constructor(private http:HttpClient,private dialog:MatDialog) {}
 
   
-  public confirmar(id:string):void{
-    document.getElementById(id).style.display='inline';
- }
- refresh(): void { window.location.reload(); }
 
- public ocultarConfirmacion(id:string):void{
-  document.getElementById(id).style.display='none';
-}
 
-async deshabiliarcuenta(id:string):Promise<void>{
-  
-  let exito;
-  //await this.http.get(this.serverDirection+`/probe`);
-  await this.http.post(this.serverDirection+`/deshabilitarUser/${id}`,{}).toPromise()
-  .then((res:any)=>{exito=res
-  });
-  if(exito){
-    alert("Cuenta deshabilitada");
-  }
-}
-
-   public mostrarDatos():void{
-    document.getElementById("formRegistro").style.display='none';
-      
-    document.getElementById('tablaCuentas').style.display='inline';
-   }
   getUsers():Observable<any> {
     return this.http.get(this.serverDirection);
   }
@@ -68,5 +48,21 @@ async deshabiliarcuenta(id:string):Promise<void>{
     console.log(this.logcuentas);
 
     
+  }
+  refresh(){
+    this.getCuentas();
+  }
+
+
+  detallescuenta(id:string){
+    const dialogRes=this.dialog.open(DisableAccountComponent,{data:id})
+    //dialogRes.afterClosed().subscribe(data=>)
+  }
+  deshabilitar(id:string){
+    const dialogRes=this.dialog.open(DetailsComponent,{data:id})
+    //dialogRes.afterClosed().subscribe(data=>)
+  }
+  openCreateUser(){
+this.dialog.open(AddAcountComponent);
   }
 }
