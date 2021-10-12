@@ -1,3 +1,4 @@
+import { comunicacionComponentesService } from 'src/app/services/comunicacionComponentesService/comunicacionComponentes.service';
 import { InforeportEditComponent } from './../../dialogs/inforeport-edit/inforeport-edit.component';
 import { Component, OnInit,Input } from '@angular/core';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
@@ -17,9 +18,9 @@ import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog
 })
 export class EditEntradaComponent implements OnInit {
 
-  @Input() idNoticia:any='4';
+idNoticia:any=this.comunicacion.getIDEntrada();
 
-  constructor(private dialog:MatDialog, private userService : UserService, private reportService : ReportService, private snackBar: MatSnackBar) { 
+  constructor(private dialog:MatDialog, private userService : UserService, private reportService : ReportService,private comunicacion:comunicacionComponentesService, private snackBar: MatSnackBar) { 
     this.userService.getReportero().subscribe((_reportero : Reportero)=> this.currentReporter = _reportero);
     this.reportService.getCategorias().then((cat:string[])=> this.categorias = cat);
     this.recuperarReport();

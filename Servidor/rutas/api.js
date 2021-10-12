@@ -390,6 +390,67 @@ module.exports = (router) =>{
         res.send(true);
     });
 
+    router.get('/getEntradas', (req,res)=>{                    
+        client.query(`
+                select N.id_noticia, Con.titulo, CONCAT(R.nombres, ' ', R.apepaterno, ' ', R.apematerno) autor, Con.etiquetas,
+	                N.fecha_publicacion as fecha, N.estado, Ca.nombre as categoria, R.id_reportero
+                from reportero R inner join noticias N on R.id_reportero=N.id_reportero
+	                inner join contenidonoticia Con on N.id_noticia=Con.id_noticia
+	                inner join categorianoticia Can on Con.id_noticia=Can.id_noticia
+	                inner join categorias Ca on Can.id_categoria=Ca.id_categoria
+                ORDER BY N.id_noticia DESC
+                `)
+            .then(entradas => res.send(entradas.rows))
+            .catch( err => console.log('Error recuperando entradas: /getEntradas',err.stack) );
+    });
+    router.get('/getBuscarEntradas/:tituloNoticia', (req,res)=>{
+        let izquierda = "%"+req.params.tituloNoticia;
+        let medio = "%"+req.params.tituloNoticia+"%";
+        let derecha = req.params.tituloNoticia+"%";
+        client.query(`
+                    select N.id_noticia, Con.titulo, CONCAT(R.nombres, ' ', R.apepaterno, ' ', R.apematerno) autor, Con.etiquetas,
+                        N.fecha_publicacion as fecha, N.estado, Ca.nombre as categoria, R.id_reportero
+                    from reportero R inner join noticias N on R.id_reportero=N.id_reportero
+                        inner join contenidonoticia Con on N.id_noticia=Con.id_noticia
+                        inner join categorianoticia Can on Con.id_noticia=Can.id_noticia
+                        inner join categorias Ca on Can.id_categoria=Ca.id_categoria
+                    where Con.titulo LIKE '${izquierda}' or Con.titulo LIKE '${medio}' or Con.titulo LIKE '${derecha}'
+                    ORDER BY N.id_noticia DESC`
+        )               
+        .then(entradas => res.send(entradas.rows))
+        .catch( err => console.log('Error recuperando entradas: /getBuscarEntradas',err.stack) );
+    });
+    router.get('/getFiltarEntradasFecha/:fecha', (req,res)=>{
+        let fecha = req.params.fecha;
+        client.query(`
+                    select N.id_noticia, Con.titulo, CONCAT(R.nombres, ' ', R.apepaterno, ' ', R.apematerno) autor, Con.etiquetas,
+                        N.fecha_publicacion as fecha, N.estado, Ca.nombre as categoria, R.id_reportero
+                    from reportero R inner join noticias N on R.id_reportero=N.id_reportero
+                        inner join contenidonoticia Con on N.id_noticia=Con.id_noticia
+                        inner join categorianoticia Can on Con.id_noticia=Can.id_noticia
+                        inner join categorias Ca on Can.id_categoria=Ca.id_categoria
+                    where N.fecha_publicacion='${fecha}'
+                    ORDER BY N.id_noticia DESC`
+        )               
+        .then(entradas => res.send(entradas.rows))
+        .catch( err => console.log('Error recuperando entradas: /getFiltarEntradasFecha',err.stack) );
+    });
+    router.get('/getFiltarEntradasCategoria/:categoria', (req,res)=>{
+        let categoria = req.params.categoria;
+        client.query(`
+                    select N.id_noticia, Con.titulo, CONCAT(R.nombres, ' ', R.apepaterno, ' ', R.apematerno) autor, Con.etiquetas,
+                        N.fecha_publicacion as fecha, N.estado, Ca.nombre as categoria, R.id_reportero
+                    from reportero R inner join noticias N on R.id_reportero=N.id_reportero
+                        inner join contenidonoticia Con on N.id_noticia=Con.id_noticia
+                        inner join categorianoticia Can on Con.id_noticia=Can.id_noticia
+                        inner join categorias Ca on Can.id_categoria=Ca.id_categoria
+                    where Ca.nombre='${categoria}'
+                    ORDER BY N.id_noticia DESC`
+        )               
+        .then(entradas => res.send(entradas.rows))
+        .catch( err => console.log('Error recuperando entradas: /getFiltarEntradasCategoria',err.stack) );
+    });
+
     return router;
     
 };

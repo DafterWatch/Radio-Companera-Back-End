@@ -62,5 +62,22 @@ export class ReportService {
     let state = await this.http.post(this.SERVER_DIR + `/deshabilitarNotice/${idNoticia}`,{}).toPromise();
     return state;
   }
+
+  async getEntradas():Promise<Entradas[]>{
+    let entradas: Entradas[] = await this.http.get<Entradas[]>(`http://localhost:3000/getEntradas`,{}).toPromise();
+    return entradas;
+  }
+  async getBuscarEntradas(tituloNoticia:string): Promise<Entradas[]> {
+    let entradas: Entradas[] = await this.http.get<Entradas[]>(`http://localhost:3000/getBuscarEntradas/${tituloNoticia}`,{}).toPromise();
+    return entradas;
+  }
+  async getFiltarEntradasFecha(fecha:string): Promise<Entradas[]> {
+    let entradas: Entradas[] = await this.http.get<Entradas[]>(`http://localhost:3000/getFiltarEntradasFecha/${fecha}`,{}).toPromise();
+    return entradas;
+  }
+  async getFiltarEntradasCategoria(categoria:string): Promise<Entradas[]> {
+    let entradas: Entradas[] = await this.http.get<Entradas[]>(`http://localhost:3000/getFiltarEntradasCategoria/${categoria}`,{}).toPromise();
+    return entradas;
+  }
   
 }
