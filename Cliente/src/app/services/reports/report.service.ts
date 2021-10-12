@@ -1,10 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Notice,Notice_Content } from '../../types' ;
+import { Notice,Notice_Content, Entradas } from '../../types' ;
+
 @Injectable({
   providedIn: 'root'
 })
 export class ReportService {
+  private 
+
 
   SERVER_DIR : string = 'http://localhost:3000';
   constructor(private http:HttpClient) { }
@@ -24,5 +27,22 @@ export class ReportService {
   public async createCategoria(catName :string) : Promise<boolean>{
     let status : boolean = await this.http.post<boolean>(this.SERVER_DIR+'/createCategory',{category : catName}).toPromise();
     return status;
+  }
+
+  async getEntradas():Promise<Entradas[]>{
+    let entradas: Entradas[] = await this.http.get<Entradas[]>(`http://localhost:3000/getEntradas`,{}).toPromise();
+    return entradas;
+  }
+  async getBuscarEntradas(tituloNoticia:string): Promise<Entradas[]> {
+    let entradas: Entradas[] = await this.http.get<Entradas[]>(`http://localhost:3000/getBuscarEntradas/${tituloNoticia}`,{}).toPromise();
+    return entradas;
+  }
+  async getFiltarEntradasFecha(fecha:string): Promise<Entradas[]> {
+    let entradas: Entradas[] = await this.http.get<Entradas[]>(`http://localhost:3000/getFiltarEntradasFecha/${fecha}`,{}).toPromise();
+    return entradas;
+  }
+  async getFiltarEntradasCategoria(categoria:string): Promise<Entradas[]> {
+    let entradas: Entradas[] = await this.http.get<Entradas[]>(`http://localhost:3000/getFiltarEntradasCategoria/${categoria}`,{}).toPromise();
+    return entradas;
   }
 }

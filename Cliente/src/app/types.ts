@@ -41,3 +41,14 @@ export class Notice_Content{
     contenido : string;
     etiquetas : string[];
 }
+
+export interface Entradas {
+    id_noticia: number;
+    titulo: string;
+    autor: string;
+    etiquetas: string[];
+    fecha: string;
+    estado: boolean;
+    categoria: string;
+    id_reportero:number;
+}
