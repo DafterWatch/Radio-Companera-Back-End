@@ -2,7 +2,8 @@ import { Component,Input, Output,EventEmitter } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
-import { Permisos } from '../types';
+import { Permisos, Reportero } from '../types';
+import { UserService } from '../services/userService/user.service';
 
 @Component({
   selector: 'app-barra-lateral',
@@ -15,12 +16,16 @@ export class BarraLateralComponent {
     .pipe(
       map(result => result.matches),
       shareReplay()
-    );
-  @Input() permisos : Permisos = {counts:false, settings:false};  
+    );   
+  _permisos : Permisos;
+  currentUser : Reportero;
   @Output() sessionClose : EventEmitter<void> = new EventEmitter<void>();
 
-  constructor(private breakpointObserver: BreakpointObserver) {
-    
+  constructor(private breakpointObserver: BreakpointObserver, private _usuarioService : UserService) {
+    _usuarioService.getReportero().subscribe((_reportero : Reportero)=> {
+      this.currentUser = _reportero;
+      this._permisos = _usuarioService.getPermisos();
+    });
   }
   cerrarSesion(){
     this.sessionClose.emit();

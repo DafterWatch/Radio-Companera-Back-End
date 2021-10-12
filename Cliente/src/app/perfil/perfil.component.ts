@@ -29,6 +29,7 @@ export class PerfilComponent implements OnInit {
     
     //let usuario:Reportero=JSON.parse(sessionStorage.getItem('usuarioLogeado')).user;
     reporteroService.getReportero().subscribe((_reportero : Reportero)=>{
+      if(!_reportero) return;
         this.id_reportero=_reportero.id_reportero;
         this.nombres=_reportero.nombres;
         this.apepaterno=_reportero.apepaterno;
