@@ -62,6 +62,7 @@ import { InforeportEditComponent } from './dialogs/inforeport-edit/inforeport-ed
 import { PruebaComponent } from './prueba/prueba.component';
 import { ConfirmDeleteComponent } from './dialogs/confirm-delete/confirm-delete.component';
 import { ConfirmModifyComponent } from './dialogs/confirm-modify/confirm-modify.component';
+import { MatNativeDateModule } from '@angular/material/core';
 
 
 @NgModule({
@@ -129,10 +130,13 @@ import { ConfirmModifyComponent } from './dialogs/confirm-modify/confirm-modify.
     AngularEditorModule,
     MatTreeModule,
     MatSnackBarModule,
-    MatTabsModule
+    MatTabsModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   providers: [
-    { provide: MatPaginatorIntl, useValue: CustomPaginator() }
+    { provide: MatPaginatorIntl, useValue: CustomPaginator() },
+    MatDatepickerModule
   ],
   bootstrap: [AppComponent]
 })
