@@ -8,7 +8,9 @@ const client = new Client({
     host:'localhost',
     user:'postgres',
     port:5432,
+    //password:'hmfdzpkjqx',
     password:'admin',
+    //database:'RadioCompaneraDB'
     database:'RadioCompanieraBD'
 });
 
@@ -482,6 +484,22 @@ module.exports = (router) =>{
         let comentario = await client.query(query);
         res.send(comentario.rows);
     });
+    router.post('/getPublicidades', async (req,res)=>{        
+        let data;
+        await client.query("SELECT * FROM publicidad")
+            .then(res => data = res.rows)
+            .catch(err => console.log(err.stack))
+            .then(()=>client.end);
+        res.send(data);
+    });
+    router.post('/getConfiguraciones', async (req,res)=>{        
+        let data;
+        await client.query("SELECT * FROM configuracion")
+            .then(res => data = res.rows)
+            .catch(err => console.log(err.stack))
+            .then(()=>client.end);
+        res.send(data);
+    }); 
     return router;
     
 };
