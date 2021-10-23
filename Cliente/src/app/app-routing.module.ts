@@ -13,6 +13,7 @@ import { DetallescuentaComponent } from './detallescuenta/detallescuenta.compone
 import { FileExplorerMiniComponent } from './entradas-component/file-explorer-mini/file-explorer-mini.component';
 import { EditEntradaComponent } from './entradas-component/edit-entrada/edit-entrada.component';
 import { PruebaComponent } from './prueba/prueba.component';
+import { PublicidadComponent } from './publicidad/publicidad.component';
 
 const routes: Routes = [  
   {
@@ -64,6 +65,9 @@ const routes: Routes = [
   },{
     path:'prueba',
     component:PruebaComponent
+  },{
+    path:'publicidad',
+    component:PublicidadComponent
   }
 ];
 
