@@ -52,3 +52,13 @@ export interface Entradas {
     categoria: string;
     id_reportero:number;
 }
+
+export interface Publicidad {
+    id_publicidad: number;
+    titulo: string;
+    empresa: string;
+    autor: string;
+    fechainicio:string;
+    fechafin:string;
+    estado:boolean;
+  }

@@ -2,12 +2,12 @@
 <div class="div1"> 
       <p class="title"><strong>Publicidad</strong><button style="margin-left: 10px;background-color: black;" (click)='nuevaPublicidad()' mat-raised-button>Añadir nueva<mat-icon>add</mat-icon></button></p>
     <div class="busquedatitle">
-      <button mat-raised-button ><mat-icon>list</mat-icon>Mostrar todo</button>&nbsp;
+      <button mat-raised-button (click)="setDataSource()"><mat-icon>list</mat-icon>Mostrar todo</button>&nbsp;
       <input class="inputTitle" type="text" #txtTitulo name="Titulo">  
-      <button style="margin-left: 10px;" mat-raised-button >Buscar por título<mat-icon>search</mat-icon></button>
+      <button style="margin-left: 10px;" mat-raised-button (click)="buscarTitulo(txtTitulo.value)">Buscar por título<mat-icon>search</mat-icon></button>
       <br>
       <input class="inputEmpresa" type="text" #txtEmpresa name="Empresa">  
-      <button style="margin-left: 10px;" mat-raised-button >Buscar por Empresa<mat-icon>search</mat-icon></button>
+      <button style="margin-left: 10px;" mat-raised-button (click)="buscarEmpresa(txtEmpresa.value)">Buscar por Empresa<mat-icon>search</mat-icon></button>
       <br>
     </div>
 </div>
@@ -16,28 +16,27 @@
 <div class="div2">
     <div class="filtrofech">
         <div class="filtroper">
-            <input  type="date" #fechaFiltrar1 style="width : 200px; height: 40px;">&nbsp;
-            <input  type="date" #fechaFiltrar2 style="width : 200px; height: 40px;">&nbsp;
-            <button mat-raised-button >Filtrar<mat-icon>manage_search</mat-icon></button> 
+            Fecha activa: <input  type="date" #fechaFiltrar1 style="width : 200px; height: 40px;">&nbsp;
+            <button mat-raised-button (click)="buscarFecha(fechaFiltrar1.value)">Filtrar<mat-icon>manage_search</mat-icon></button> 
         </div>
     </div>
 </div>
 
 <div class="div3" style="text-align:right"> 
     <div class="pag">
-      20 Elementos
-      <button style="background-color: rgb(100, 100, 100);color: white;" mat-raised-button >&lt; &lt; </button>
-      <button style="background-color: rgb(172, 172, 172);color: rgb(0, 0, 0);" mat-raised-button >&lt; </button>
-      Pagina 1 de 5
-      <button style="background-color: rgb(172, 172, 172);color: rgb(0, 0, 0);" mat-raised-button >&gt; </button>
-      <button style="background-color: rgb(100, 100, 100);color: white;" mat-raised-button >&gt; &gt; </button> 
+      {{numeroEntradas()}}
+      <button style="background-color: rgb(100, 100, 100);color: white;" mat-raised-button (click)="dosPaginasAtras()">&lt; &lt; </button>
+      <button style="background-color: rgb(172, 172, 172);color: rgb(0, 0, 0);" mat-raised-button (click)="unaPaginasAtras()">&lt; </button>
+      {{paginacion()}}
+      <button style="background-color: rgb(172, 172, 172);color: rgb(0, 0, 0);" mat-raised-button (click)="unaPaginasAdelante()">&gt; </button>
+      <button style="background-color: rgb(100, 100, 100);color: white;" mat-raised-button (click)="dosPaginasAdelante()">&gt; &gt; </button> 
     </div>
 </div>
 </div>
 
 <div class="div4"> 
     <div class="tabla">
-        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+        <table mat-table [dataSource]="dataTabla" class="mat-elevation-z8">
             <ng-container matColumnDef="ID">
               <th mat-header-cell *matHeaderCellDef> ID </th>
               <td mat-cell *matCellDef="let publicidad"> {{publicidad.id_publicidad}} </td>
@@ -56,7 +55,7 @@
             </ng-container>
             <ng-container matColumnDef="Fecha activa">
                 <th mat-header-cell *matHeaderCellDef> Fecha activa </th>
-                <td mat-cell *matCellDef="let publicidad"> Del: {{publicidad.fechainicio}} al: {{publicidad.fechafin}}</td>
+                <td mat-cell *matCellDef="let publicidad"> Del: {{publicidad.fechainicio | date}} al: {{publicidad.fechafin | date}}</td>
             </ng-container>
             <ng-container matColumnDef="Estado">
                 <th mat-header-cell *matHeaderCellDef> Estado </th>
@@ -68,7 +67,7 @@
             <ng-container matColumnDef="Modificar">
                 <th mat-header-cell *matHeaderCellDef> Modificar </th>
                 <td mat-cell *matCellDef="let publicidad"> 
-                    <button style="background-color: black;color: rgb(255, 255, 255);" mat-raised-button>Editar  <mat-icon>edit</mat-icon></button>
+                    <button style="background-color: black;color: rgb(255, 255, 255);" mat-raised-button (click)="editarPublicidad(publicidad.id_publicidad)">Editar  <mat-icon>edit</mat-icon></button>
                 </td>
             </ng-container>
           
