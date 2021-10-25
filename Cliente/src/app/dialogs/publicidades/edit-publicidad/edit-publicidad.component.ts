@@ -1,3 +1,4 @@
+import { Publicidad } from './../../../types';
 import { comunicacionComponentesService } from './../../../services/comunicacionComponentesService/comunicacionComponentes.service';
 import { UserService } from 'src/app/services/userService/user.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -34,8 +35,9 @@ export class EditPublicidadComponent implements OnInit {
   apematerno:string;
 
   estadoPubli;
+  publicidadesHabiles;
   stringEstado="Activa";
-
+  publicidadOld;
 
   constructor(private comunicacion:comunicacionComponentesService,private dialogRef:MatDialogRef<EditPublicidadComponent>,private publicidadService:PublicidadService,private http:HttpClient,private snackBar:MatSnackBar,private userService:UserService) { 
     this.userService.getReportero().subscribe((_reportero : Reportero)=> this.currentReporter = _reportero);
@@ -138,9 +140,31 @@ export class EditPublicidadComponent implements OnInit {
 
     console.log(publicidadNueva);
     let status=await this.publicidadService.updatePublicidad(this.idPublicidad,publicidadNueva);
-if(status){this.snackBar.open("Modificacion exita","Ok");this.dialogRef.close();}
+if(status){this.snackBar.open("Modificacion exita","Ok");this.dialogRef.close();this.getPublcidadHabiles();}
   }
+  async getPublcidadHabiles(): Promise<void>{
+    await this.publicidadService.getPublcidadHabiles().then((data:Publicidad[])=>{
+      this.publicidadesHabiles=data;
 
+      while(this.publicidadesHabiles>2){
+        this.getPubliOld();
+        this.publicidadesHabiles=this.publicidadesHabiles-1;
+        console.log("Ahora"+ this.getPublcidadHabiles);
+      }
+    })
+  }
+  async getPubliOld(){
+    await this.publicidadService.getPubliOld().then((data:Publicidad[])=>{
+      this.publicidadOld=data;
+      console.log(this.publicidadOld[0].id_publicidad);
+      this.desHabilitarPublicOld(this.publicidadOld[0].id_publicidad);
+    })
+  }
+  async desHabilitarPublicOld(idPubliOld){
+    console.log("Deshabilitar: "+idPubliOld);
+    this.snackBar.open("Publicidad registrada - - ­\n Publicidad: "+idPubliOld+ " deshabilitada","Ok");
+    await this.publicidadService.desHabilitarPubli(idPubliOld);
+  }
   close(){
     this.dialogRef.close();
   }

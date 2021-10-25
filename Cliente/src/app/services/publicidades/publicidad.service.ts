@@ -1,3 +1,4 @@
+import { Publicidad } from './../../types';
 import { PublicidadContent } from 'src/app/types';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -22,4 +23,18 @@ export class PublicidadService {
     let queryStatus = await this.http.post<boolean>(this.SERVER_DIR+`/updatePublicidad/${idPublicidad}`,{ContenidoPublicidad: publiContent}).toPromise();
     return queryStatus;
   }
+  async getPublcidadHabiles():Promise<any>{
+    let publicidad: Publicidad[] = await this.http.get<Publicidad[]>(`http://localhost:3000/getPublcidadHabiles`,{}).toPromise();
+    return publicidad.length;
+  }
+  async getPubliOld():Promise<Publicidad[]>{
+    let publicidad: Publicidad[] = await this.http.get<Publicidad[]>(`http://localhost:3000/getPubliOld`,{}).toPromise();
+    return publicidad;
+  }
+  public async desHabilitarPubli(idPublicidad:string) : Promise<boolean>{
+    let queryStatus = await this.http.post<boolean>(this.SERVER_DIR+`/desHabilitarPubli/${idPublicidad}`,{}).toPromise();
+    return queryStatus;
+  }
+  
+  
 }
