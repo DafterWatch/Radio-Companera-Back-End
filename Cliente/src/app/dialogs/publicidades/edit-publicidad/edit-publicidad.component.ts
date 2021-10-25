@@ -1,3 +1,4 @@
+import { comunicacionComponentesService } from './../../../services/comunicacionComponentesService/comunicacionComponentes.service';
 import { UserService } from 'src/app/services/userService/user.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HttpClient } from '@angular/common/http';
@@ -17,7 +18,7 @@ export class EditPublicidadComponent implements OnInit {
   panelOpenState = false;
 
    //Datos de publicidad
-   idPublicidad:string='5'
+   idPublicidad:string;
    fotoPublicidad:string='';
    titleModel:string='';
    empresModel:string='';
@@ -36,9 +37,12 @@ export class EditPublicidadComponent implements OnInit {
   stringEstado="Activa";
 
 
-  constructor(private dialogRef:MatDialogRef<EditPublicidadComponent>,private publicidadService:PublicidadService,private http:HttpClient,private snackBar:MatSnackBar,private userService:UserService) { 
+  constructor(private comunicacion:comunicacionComponentesService,private dialogRef:MatDialogRef<EditPublicidadComponent>,private publicidadService:PublicidadService,private http:HttpClient,private snackBar:MatSnackBar,private userService:UserService) { 
     this.userService.getReportero().subscribe((_reportero : Reportero)=> this.currentReporter = _reportero);
+
+    this.idPublicidad=comunicacion.getIDPublicidad();
     this.getPublicidad();
+
   }
   async getPublicidad(){
     let publicidadActual= await this.publicidadService.getPublicidad(this.idPublicidad).then();

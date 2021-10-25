@@ -66,7 +66,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { PublicidadesComponent } from './dialogs/publicidades/publicidades.component';
 import { EditPublicidadComponent } from './dialogs/publicidades/edit-publicidad/edit-publicidad.component';
 import { EditestadoComponent } from './dialogs/publicidades/editestado/editestado.component';
-
+import { PublicidadComponent } from './publicidad/publicidad.component';
 
 @NgModule({
   declarations: [
@@ -101,7 +101,8 @@ import { EditestadoComponent } from './dialogs/publicidades/editestado/editestad
     PublicidadesComponent,
     EditPublicidadComponent,
     EditestadoComponent,
-
+    PublicidadComponent,
+    
   ],
   imports: [
     BrowserModule,

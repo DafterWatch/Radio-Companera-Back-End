@@ -546,6 +546,58 @@ router.post('/updatePublicidad/:idPublic',jsonParser, async (req,res)=>{
     });
 });
 
-    return router;
     
+    
+    router.get('/getEntradasPublicidad', (req,res)=>{                    
+        client.query(`
+                select Pu.id_publicidad, Pu.titulo, Pu.Empresa, CONCAT(Re.nombres, ' ', Re.apepaterno, ' ', Re.apematerno) autor,
+                    Pu.fechainicio, Pu.fechafin, Pu.estado
+                from publicidad Pu inner join reportero Re on Pu.id_reportero=Re.id_reportero
+                order by id_publicidad DESC
+                `)
+            .then(publicidad => res.send(publicidad.rows))
+            .catch( err => console.log('Error recuperando publicidad: /getEntradasPublicidad',err.stack) );
+    });
+    router.get('/getEntradasPublicidadTitulo/:titulo', (req,res)=>{                    
+        let izquierda = "%"+req.params.titulo;
+        let medio = "%"+req.params.titulo+"%";
+        let derecha = req.params.titulo+"%";
+        client.query(`
+                select Pu.id_publicidad, Pu.titulo, Pu.Empresa, CONCAT(Re.nombres, ' ', Re.apepaterno, ' ', Re.apematerno) autor,
+                    Pu.fechainicio, Pu.fechafin, Pu.estado
+                from publicidad Pu inner join reportero Re on Pu.id_reportero=Re.id_reportero
+                where Pu.titulo LIKE '${izquierda}' or Pu.titulo LIKE '${medio}' or Pu.titulo LIKE '${derecha}'
+                order by id_publicidad DESC
+                `)
+            .then(publicidad => res.send(publicidad.rows))
+            .catch( err => console.log('Error recuperando publicidad: /getEntradasPublicidad',err.stack) );
+    });
+    router.get('/getEntradasPublicidadEmpresa/:empresa', (req,res)=>{                    
+        let izquierda = "%"+req.params.empresa;
+        let medio = "%"+req.params.empresa+"%";
+        let derecha = req.params.empresa+"%";
+        client.query(`
+                select Pu.id_publicidad, Pu.titulo, Pu.Empresa, CONCAT(Re.nombres, ' ', Re.apepaterno, ' ', Re.apematerno) autor,
+                    Pu.fechainicio, Pu.fechafin, Pu.estado
+                from publicidad Pu inner join reportero Re on Pu.id_reportero=Re.id_reportero
+                where Pu.empresa LIKE '${izquierda}' or Pu.empresa LIKE '${medio}' or Pu.empresa LIKE '${derecha}'
+                order by id_publicidad DESC
+                `)
+            .then(publicidad => res.send(publicidad.rows))
+            .catch( err => console.log('Error recuperando publicidad: /getEntradasPublicidad',err.stack) );
+    });
+    router.get('/getEntradasPublicidadFecha/:fecha', (req,res)=>{      
+        let fecha = req.params.fecha;
+        client.query(`
+                select Pu.id_publicidad, Pu.titulo, Pu.Empresa, CONCAT(Re.nombres, ' ', Re.apepaterno, ' ', Re.apematerno) autor,
+                    Pu.fechainicio, Pu.fechafin, Pu.estado
+                from publicidad Pu inner join reportero Re on Pu.id_reportero=Re.id_reportero
+                where fechainicio<='${fecha}' AND fechafin>='${fecha}'
+                order by id_publicidad DESC
+                `)
+            .then(publicidad => res.send(publicidad.rows))
+            .catch( err => console.log('Error recuperando publicidad: /getEntradasPublicidad',err.stack) );
+    });
+
+    return router;
 };

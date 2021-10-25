@@ -11,10 +11,17 @@ export class comunicacionComponentesService {
   constructor(private http : HttpClient) { }
 
   private idEntrada:string="";
+  private idPublicidad:string="";
   public getIDEntrada():string{
     return this.idEntrada;
   }
   public setIDEntrada(id:string):void{
+    this.idEntrada=id;
+  }
+  public getIDPublicidad():string{
+    return this.idEntrada;
+  }
+  public SetIDPublicidad(id:string):void{
     this.idEntrada=id;
   }
 }

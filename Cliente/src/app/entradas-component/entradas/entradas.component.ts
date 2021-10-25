@@ -54,7 +54,7 @@ export class EntradasComponent implements OnInit {
   async buscarTitulo(titulo:string): Promise<void>{
     if(titulo!=""){
       await this.reportService.getBuscarEntradas(titulo).then((data:Entradas[])=>{
-      
+        data=data.filter((v,i,a) => a.findIndex(t=> (t.id_noticia === v.id_noticia))===i);
         this.dataSource=data
         this.cargarPaginacion();
       })

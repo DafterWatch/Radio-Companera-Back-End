@@ -63,3 +63,12 @@ export interface PublicidadContent{
     imagepublicidad:string,
     estado:boolean
 }
+export interface Publicidad {
+    id_publicidad: number;
+    titulo: string;
+    empresa: string;
+    autor: string;
+    fechainicio:string;
+    fechafin:string;
+    estado:boolean;
+  }

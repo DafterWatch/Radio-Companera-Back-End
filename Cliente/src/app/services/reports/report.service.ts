@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Notice,Notice_Content, Entradas } from '../../types' ;
+import { Notice,Notice_Content, Entradas, Publicidad } from '../../types' ;
 
 @Injectable({
   providedIn: 'root'
@@ -79,5 +79,21 @@ export class ReportService {
     let entradas: Entradas[] = await this.http.get<Entradas[]>(`http://localhost:3000/getFiltarEntradasCategoria/${categoria}`,{}).toPromise();
     return entradas;
   }
-  
+
+  async getEntradasPublicidad():Promise<Publicidad[]>{
+    let publicidad: Publicidad[] = await this.http.get<Publicidad[]>(`http://localhost:3000/getEntradasPublicidad`,{}).toPromise();
+    return publicidad;
+  }
+  async getEntradasPublicidadTitulo(titulo:string):Promise<Publicidad[]>{
+    let publicidad: Publicidad[] = await this.http.get<Publicidad[]>(`http://localhost:3000/getEntradasPublicidadTitulo/${titulo}`,{}).toPromise();
+    return publicidad;
+  }
+  async getEntradasPublicidadEmpresa(empresa:string):Promise<Publicidad[]>{
+    let publicidad: Publicidad[] = await this.http.get<Publicidad[]>(`http://localhost:3000/getEntradasPublicidadEmpresa/${empresa}`,{}).toPromise();
+    return publicidad;
+  }
+  async getEntradasPublicidadFecha(fecha:string):Promise<Publicidad[]>{
+    let publicidad: Publicidad[] = await this.http.get<Publicidad[]>(`http://localhost:3000/getEntradasPublicidadFecha/${fecha}`,{}).toPromise();
+    return publicidad;
+  }
 }
