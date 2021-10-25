@@ -25,6 +25,7 @@ export class PublicidadesComponent implements OnInit {
   titleModel:string='';
   empresModel:string='';
   enlaceModel:string='';
+  estado=true;
 
   //Datos extras
   currentReporter : Reportero;
@@ -78,7 +79,8 @@ export class PublicidadesComponent implements OnInit {
       enlace:this.enlaceModel,
       fechainicio:value.start,
       fechafin:value.end,
-      imagepublicidad:this.fotoPublicidad
+      imagepublicidad:this.fotoPublicidad,
+      estado:this.estado
     }
 
     console.log(publicidadNueva);

@@ -60,5 +60,6 @@ export interface PublicidadContent{
     enlace:string,
     fechainicio:Date,
     fechafin:Date,
-    imagepublicidad:string
+    imagepublicidad:string,
+    estado:boolean
 }

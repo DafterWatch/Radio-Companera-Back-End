@@ -24,7 +24,6 @@ export class EditPublicidadComponent implements OnInit {
    enlaceModel:string='';
    fechStart:Date;
    fechEnd:Date;
-   estado;
 
      //Datos extras
   currentReporter : Reportero;
@@ -32,6 +31,9 @@ export class EditPublicidadComponent implements OnInit {
   nombreReportero:string;
   apepaterno:string;
   apematerno:string;
+
+  estadoPubli;
+  stringEstado="Activa";
 
 
   constructor(private dialogRef:MatDialogRef<EditPublicidadComponent>,private publicidadService:PublicidadService,private http:HttpClient,private snackBar:MatSnackBar,private userService:UserService) { 
@@ -55,25 +57,33 @@ export class EditPublicidadComponent implements OnInit {
     this.fechStart=publicidadActual[0].fechainicio;
     this.fechEnd=publicidadActual[0].fechafin;
     this.fotoPublicidad=publicidadActual[0].imagepublicidad;
-    this.estado=publicidadActual[0].estado;
-    if(this.estado){
-      this.estado="Activa"
-      document.getElementById("estadotrue").style.display="inline"
-      document.getElementById("estadofalse").style.display="none"
-    }else{this.estado="Inactiva";
-    document.getElementById("estadofalse").style.display="inline"
-    document.getElementById("estadotrue").style.display="none"}
+    this.estadoPubli=publicidadActual[0].estado;
+    if(this.estadoPubli){    this.stringEstado="Activa"; document.getElementById("estadotrue").style.backgroundColor="rgb(70, 143, 86)";}
+    else{    this.stringEstado="Inactiva";document.getElementById("estadotrue").style.backgroundColor="rgb(199, 97, 97)";}
+
 
     //Recuperar reportero encargado
     this.idReporteroPublicidad=publicidadActual[0].id_reportero;
     this.nombreReportero=publicidadActual[0].nombres;
     this.apepaterno=publicidadActual[0].apepaterno;
     this.apematerno=publicidadActual[0].apematerno;
+
   }
 
   ngOnInit(): void {
   }
 
+  updateState(){
+   
+    if(this.stringEstado=="Activa"){
+      this.stringEstado="Inactiva"
+      document.getElementById("estadotrue").style.backgroundColor="rgb(199, 97, 97)";
+    }else{
+      this.stringEstado="Activa"
+      
+      document.getElementById("estadotrue").style.backgroundColor="rgb(70, 143, 86)";
+    }
+  }
   cargarFotoPerfil(){
     var fotoPerfil:any;
     fotoPerfil=document.getElementById("fotoPerfil");
@@ -118,7 +128,8 @@ export class EditPublicidadComponent implements OnInit {
       enlace:this.enlaceModel,
       fechainicio:this.fechStart,
       fechafin:this.fechEnd,
-      imagepublicidad:this.fotoPublicidad
+      imagepublicidad:this.fotoPublicidad,
+      estado:this.estadoPubli
     }
 
     console.log(publicidadNueva);

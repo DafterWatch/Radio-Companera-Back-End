@@ -62,20 +62,12 @@
      </mat-form-field>
      <br> <br>
      <div class="estadotrue" id="estadotrue">
-         Publicidad: {{estado}}
+        Estado de la publicidad: <mat-checkbox [(ngModel)]="estadoPubli"
+         (ngModelChange)="updateState()">
+            {{stringEstado}}
+            </mat-checkbox>
      </div>
-     <div class="estadofalse" id="estadofalse">
-        Publicidad: {{estado}}
-    </div>
-    <br>
-
-
-    
-        
-
-
-          
-            <br><br>
+     
             <br>
         <div class="btn">
             <button mat-raised-button style="background-color: #e00;color: white;" (click)="EditarPublicidad()">Guardar cambios</button>&nbsp;&nbsp;&nbsp;

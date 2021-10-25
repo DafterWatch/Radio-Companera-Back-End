@@ -508,7 +508,7 @@ router.post('/cargarPublicidad',jsonParser, async (req,res)=>{
     //INSERTAR CONTENIDO NOTICIA
     const text = `INSERT INTO Publicidad 
                  (id_publicidad,id_reportero,titulo,empresa,enlace,fechainicio,fechafin,imagePublicidad,estado) 
-                 VALUES(DEFAULT, $1,$2,$3,$4,$5,$6,$7,true) RETURNING *`;
+                 VALUES(DEFAULT, $1,$2,$3,$4,$5,$6,$7,$8) RETURNING *`;
     const values = Object.values(req.body.ContenidoPublicidad);
     await client.query(text,values)
         .then(res.send(true))
@@ -534,7 +534,7 @@ router.post('/getPublicidadEdit/:idPublicidad',async (req,res)=>{
 });
 router.post('/updatePublicidad/:idPublic',jsonParser, async (req,res)=>{
     let idPublic=req.params.idPublic;
-    const query = `update publicidad set id_reportero=$1,titulo=$2,empresa=$3,enlace=$4,fechainicio=$5,fechafin=$6,imagepublicidad=$7 WHERE id_publicidad='${idPublic}';`;
+    const query = `update publicidad set id_reportero=$1,titulo=$2,empresa=$3,enlace=$4,fechainicio=$5,fechafin=$6,imagepublicidad=$7,estado=$8 WHERE id_publicidad='${idPublic}';`;
     const values = Object.values(req.body.ContenidoPublicidad);
 
     await client.query(query,values).then(res.send(true))
