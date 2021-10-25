@@ -1,0 +1,132 @@
+import { UserService } from 'src/app/services/userService/user.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { HttpClient } from '@angular/common/http';
+import { PublicidadService } from 'src/app/services/publicidades/publicidad.service';
+import { PublicidadContent, Reportero } from 'src/app/types';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
+
+@Component({
+  selector: 'app-edit-publicidad',
+  templateUrl: './edit-publicidad.component.html',
+  styleUrls: ['./edit-publicidad.component.scss']
+})
+export class EditPublicidadComponent implements OnInit {
+
+  panelOpenState = false;
+
+   //Datos de publicidad
+   idPublicidad:string='5'
+   fotoPublicidad:string='';
+   titleModel:string='';
+   empresModel:string='';
+   enlaceModel:string='';
+   fechStart:Date;
+   fechEnd:Date;
+   estado;
+
+     //Datos extras
+  currentReporter : Reportero;
+  idReporteroPublicidad:string;
+  nombreReportero:string;
+  apepaterno:string;
+  apematerno:string;
+
+
+  constructor(private dialogRef:MatDialogRef<EditPublicidadComponent>,private publicidadService:PublicidadService,private http:HttpClient,private snackBar:MatSnackBar,private userService:UserService) { 
+    this.userService.getReportero().subscribe((_reportero : Reportero)=> this.currentReporter = _reportero);
+    this.getPublicidad();
+  }
+  async getPublicidad(){
+    let publicidadActual= await this.publicidadService.getPublicidad(this.idPublicidad).then();
+   console.log(publicidadActual[0]);
+    
+    
+    
+    this.titleModel=publicidadActual[0].titulo;
+    this.empresModel=publicidadActual[0].empresa;
+    this.enlaceModel=publicidadActual[0].enlace;
+    /*
+    this.fechStart=publicidadActual[0].fechainicio;
+    this.fechEnd=publicidadActual[0].fechafin;
+    */
+    
+    this.fechStart=publicidadActual[0].fechainicio;
+    this.fechEnd=publicidadActual[0].fechafin;
+    this.fotoPublicidad=publicidadActual[0].imagepublicidad;
+    this.estado=publicidadActual[0].estado;
+    if(this.estado){
+      this.estado="Activa"
+      document.getElementById("estadotrue").style.display="inline"
+      document.getElementById("estadofalse").style.display="none"
+    }else{this.estado="Inactiva";
+    document.getElementById("estadofalse").style.display="inline"
+    document.getElementById("estadotrue").style.display="none"}
+
+    //Recuperar reportero encargado
+    this.idReporteroPublicidad=publicidadActual[0].id_reportero;
+    this.nombreReportero=publicidadActual[0].nombres;
+    this.apepaterno=publicidadActual[0].apepaterno;
+    this.apematerno=publicidadActual[0].apematerno;
+  }
+
+  ngOnInit(): void {
+  }
+
+  cargarFotoPerfil(){
+    var fotoPerfil:any;
+    fotoPerfil=document.getElementById("fotoPerfil");
+     fotoPerfil.onchange= async ()=> {
+      var archivo=fotoPerfil.files[0];
+      const formData:FormData=new FormData();
+      formData.append("clientFile",archivo);
+      this.fotoPublicidad= await this.http.post(`http://localhost:3000/subirArchivo/`,formData,{responseType:"text"}).toPromise()//.subscribe(resultado=>this.fotoperfil=resultado);
+      
+    };
+    fotoPerfil.click();
+  }
+  async EditarPublicidad(){
+    if(this.titleModel===""){
+      this.snackBar.open("El titulo es requerido","Ok");
+      return;
+    }
+    if(this.empresModel===""){
+      this.snackBar.open("La empresa es requerida","Ok");
+      return;
+    }
+    if(this.enlaceModel===""){
+      this.snackBar.open("El enlace es requerido","Ok");
+      return;
+    }
+    if(this.fotoPublicidad===""){
+      this.snackBar.open("Seleccione un imagen para la publicidad","Ok")
+      return;
+    }
+    if(this.fechStart===null){
+      this.snackBar.open("Seleccione un fecha de inicio para la publicidad","Ok")
+      return;
+    }
+    if(this.fechEnd===null){
+      this.snackBar.open("Seleccione un fecha de fin para la publicidad","Ok")
+      return;
+    }
+    let publicidadNueva : PublicidadContent={
+      id_reportero:this.currentReporter.id_reportero,
+      titulo:this.titleModel,
+      empresa:this.empresModel,
+      enlace:this.enlaceModel,
+      fechainicio:this.fechStart,
+      fechafin:this.fechEnd,
+      imagepublicidad:this.fotoPublicidad
+    }
+
+    console.log(publicidadNueva);
+    let status=await this.publicidadService.updatePublicidad(this.idPublicidad,publicidadNueva);
+if(status){this.snackBar.open("Modificacion exita","Ok");this.dialogRef.close();}
+  }
+
+  close(){
+    this.dialogRef.close();
+  }
+}

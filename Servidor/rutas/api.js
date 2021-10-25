@@ -500,6 +500,52 @@ module.exports = (router) =>{
             .then(()=>client.end);
         res.send(data);
     }); 
+
+/*PUBLICIDAD*/
+
+router.post('/cargarPublicidad',jsonParser, async (req,res)=>{
+
+    //INSERTAR CONTENIDO NOTICIA
+    const text = `INSERT INTO Publicidad 
+                 (id_publicidad,id_reportero,titulo,empresa,enlace,fechainicio,fechafin,imagePublicidad,estado) 
+                 VALUES(DEFAULT, $1,$2,$3,$4,$5,$6,$7,true) RETURNING *`;
+    const values = Object.values(req.body.ContenidoPublicidad);
+    await client.query(text,values)
+        .then(res.send(true))
+        .catch(err=> {
+            if(err){
+                console.log('Error insertando contenido /cargarPublicidad',err.stack);
+                res.send(false);
+            }
+        });
+});
+router.post('/getPublicidadEdit/:idPublicidad',async (req,res)=>{
+    let idPubli = req.params.idPublicidad;
+    let data;
+    await client.query(`select reportero.id_reportero,reportero.nombres,reportero.apepaterno,reportero.apematerno,
+    publicidad.titulo,publicidad.empresa,publicidad.fechainicio,publicidad.fechafin,publicidad.estado,publicidad.enlace,publicidad.imagePublicidad
+    from publicidad inner join reportero on publicidad.id_reportero=reportero.id_reportero
+    where publicidad.id_publicidad='${idPubli}'`)
+        .then(res => data = res.rows)
+        .catch(err => console.log(err.stack))
+        .then(()=>client.end);
+        //console.log(data);
+    res.send(data);
+});
+router.post('/updatePublicidad/:idPublic',jsonParser, async (req,res)=>{
+    let idPublic=req.params.idPublic;
+    const query = `update publicidad set id_reportero=$1,titulo=$2,empresa=$3,enlace=$4,fechainicio=$5,fechafin=$6,imagepublicidad=$7 WHERE id_publicidad='${idPublic}';`;
+    const values = Object.values(req.body.ContenidoPublicidad);
+
+    await client.query(query,values).then(res.send(true))
+    .catch(err=> {
+        if(err){
+            console.log('Error insertando contenido /cargarPublicidad',err.stack);
+            res.send(false);
+        }
+    });
+});
+
     return router;
     
 };

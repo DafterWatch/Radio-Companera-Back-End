@@ -1,3 +1,4 @@
+import { PublicidadesComponent } from './../../dialogs/publicidades/publicidades.component';
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { UserService } from 'src/app/services/userService/user.service';
@@ -6,6 +7,8 @@ import { comunicacionComponentesService } from 'src/app/services/comunicacionCom
 import { Permisos, Entradas, Reportero } from '../../types';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {Router} from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { EditPublicidadComponent } from 'src/app/dialogs/publicidades/edit-publicidad/edit-publicidad.component';
 
 @Component({
   selector: 'app-entradas',
@@ -15,7 +18,7 @@ import {Router} from '@angular/router';
 export class EntradasComponent implements OnInit {
 
   currentReporter:Reportero;
-  constructor(private http:HttpClient, private userService : UserService, private reportService : ReportService, private _snackBar: MatSnackBar, private ComunicacionComponentesService:comunicacionComponentesService, private router: Router) {  
+  constructor(public dialog:MatDialog,private http:HttpClient, private userService : UserService, private reportService : ReportService, private _snackBar: MatSnackBar, private ComunicacionComponentesService:comunicacionComponentesService, private router: Router) {  
     userService.getReportero().subscribe((_reportero : Reportero)=>{
       this.permisos = userService.getPermisos();
     });
@@ -99,6 +102,9 @@ export class EntradasComponent implements OnInit {
         return false;
       }
     }
+  }
+  addPublicidad(){
+    this.dialog.open(EditPublicidadComponent);
   }
 
   numeroEntradas():string{

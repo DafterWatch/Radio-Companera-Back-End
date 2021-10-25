@@ -1,0 +1,85 @@
+<div class="parent">
+    <div class="div1">
+            <div mat-card-avatar class="example-header-image">
+                <img mat-card-image [src]="fotoPublicidad" alt="Radio compañera"><input type="file" style="display: none;" id="fotoPerfil">
+            </div>
+        <br>
+        <div class="btn">
+            <button mat-raised-button style="background-color: rgb(255, 255, 255);color: rgb(0, 0, 0); border: solid rgb(139, 0, 0) 1px;" (click)="cargarFotoPerfil()">Seleccionar publicidad</button>&nbsp;&nbsp;&nbsp;
+        </div>
+    </div>
+    <div class="div2">
+
+    <div class="title">
+        <h2>Editar publicidad : {{idPublicidad}}</h2>
+    </div>
+<br>
+<div>
+    <mat-accordion>
+        <mat-expansion-panel (opened)="panelOpenState = true"
+                             (closed)="panelOpenState = false" style="background-color: rgb(238, 68, 68);color: white;font-family: cursive;">
+          <mat-expansion-panel-header style="color: white;font-family: cursive;">
+            <mat-panel-title>
+<p style="color: white;">Información &nbsp;<mat-icon>info</mat-icon></p> 
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+            <h2>Publicado por:</h2>
+            <p>Cod: {{idReporteroPublicidad}}</p>
+            <p>{{nombreReportero}} {{apepaterno}} {{apematerno}}</p>
+        </mat-expansion-panel>
+      </mat-accordion>
+</div>
+<br>
+<!--Titulo-->
+<mat-form-field class="example-full-width" appearance="fill">
+    <mat-label>Titulo</mat-label>
+    <input matInput [(ngModel)]="titleModel" >
+</mat-form-field>
+
+ <!--Empresa-->
+ <mat-form-field class="example-full-width" appearance="fill">
+    <mat-label>Empresa</mat-label>
+    <input matInput [(ngModel)]="empresModel">
+</mat-form-field>
+        
+<br><br>
+    <h3 class="subtitle">Datos de publicidad</h3>
+        <!--Enlace-->
+        <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Enlace</mat-label>
+            <input matInput [(ngModel)]="enlaceModel">
+        </mat-form-field>
+
+         <!--Fecha duracion-->
+         <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Duración</mat-label>
+            <mat-date-range-input  [rangePicker]="picker" >
+              <input matStartDate [(ngModel)]="fechStart" placeholder="Fecha de inicio" >
+              <input matEndDate [(ngModel)]="fechEnd" placeholder="Fecha de fin ">
+            </mat-date-range-input>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-date-range-picker #picker></mat-date-range-picker>
+     </mat-form-field>
+     <br> <br>
+     <div class="estadotrue" id="estadotrue">
+         Publicidad: {{estado}}
+     </div>
+     <div class="estadofalse" id="estadofalse">
+        Publicidad: {{estado}}
+    </div>
+    <br>
+
+
+    
+        
+
+
+          
+            <br><br>
+            <br>
+        <div class="btn">
+            <button mat-raised-button style="background-color: #e00;color: white;" (click)="EditarPublicidad()">Guardar cambios</button>&nbsp;&nbsp;&nbsp;
+            <button mat-raised-button style="background-color: black;color: white;" (click)="close()">Cancelar</button>
+        </div>
+    </div>
+    </div>

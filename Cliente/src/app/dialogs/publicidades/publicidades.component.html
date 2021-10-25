@@ -1,0 +1,60 @@
+<div class="parent">
+    <div class="div1">
+        <div class="marco">
+            <div mat-card-avatar class="example-header-image">
+                <img mat-card-image [src]="fotoPublicidad" alt="Radio compañera"><input type="file" style="display: none;" id="fotoPerfil">
+            </div>
+        </div>
+        <br>
+        <div class="btn">
+            <button mat-raised-button style="background-color: rgb(255, 255, 255);color: rgb(0, 0, 0); border: solid rgb(139, 0, 0) 1px;" (click)="cargarFotoPerfil()">Seleccionar publicidad</button>&nbsp;&nbsp;&nbsp;
+        </div>
+    </div>
+    <div class="div2">
+
+    <div class="title">
+        <h1>Nueva publicidades</h1>
+    </div>
+<br><br>
+        <!--Titulo-->
+        <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Titulo</mat-label>
+            <input matInput [(ngModel)]="titleModel">
+        </mat-form-field>
+
+         <!--Empresa-->
+         <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Empresa</mat-label>
+            <input matInput [(ngModel)]="empresModel">
+        </mat-form-field>
+<br><br><br>
+    <h2 class="subtitle">Datos de publicidad</h2>
+    <br>
+        <!--Enlace-->
+        <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Enlace</mat-label>
+            <input matInput [(ngModel)]="enlaceModel">
+        </mat-form-field>
+
+         <!--Fecha duracion-->
+         <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Duración</mat-label>
+            <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+              <input matStartDate formControlName="start" placeholder="Fecha de inicio">
+              <input matEndDate formControlName="end" placeholder="Fecha de fin">
+            </mat-date-range-input>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-date-range-picker #picker></mat-date-range-picker>
+          
+            <mat-error *ngIf="range.controls.start.hasError('matStartDateInvalid')">Invalid start date</mat-error>
+            <mat-error *ngIf="range.controls.end.hasError('matEndDateInvalid')">Invalid end date</mat-error>
+          </mat-form-field>
+          
+          
+            <br><br><br>
+        <div class="btn">
+            <button mat-raised-button style="background-color: #e00;color: white;" (click)="SubirPublicidad()">Guardar</button>&nbsp;&nbsp;&nbsp;
+            <button mat-raised-button style="background-color: black;color: white;" (click)="close()">Cancelar</button>
+        </div>
+    </div>
+    </div>

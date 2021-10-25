@@ -63,6 +63,9 @@ import { PruebaComponent } from './prueba/prueba.component';
 import { ConfirmDeleteComponent } from './dialogs/confirm-delete/confirm-delete.component';
 import { ConfirmModifyComponent } from './dialogs/confirm-modify/confirm-modify.component';
 import { MatNativeDateModule } from '@angular/material/core';
+import { PublicidadesComponent } from './dialogs/publicidades/publicidades.component';
+import { EditPublicidadComponent } from './dialogs/publicidades/edit-publicidad/edit-publicidad.component';
+import { EditestadoComponent } from './dialogs/publicidades/editestado/editestado.component';
 
 
 @NgModule({
@@ -95,6 +98,9 @@ import { MatNativeDateModule } from '@angular/material/core';
     PruebaComponent,
     ConfirmDeleteComponent,
     ConfirmModifyComponent,
+    PublicidadesComponent,
+    EditPublicidadComponent,
+    EditestadoComponent,
 
   ],
   imports: [
