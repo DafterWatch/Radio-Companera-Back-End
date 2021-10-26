@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Notice,Notice_Content, Entradas, Publicidad } from '../../types' ;
+import { Notice,Notice_Content, Entradas, Publicidad, Configuracion } from '../../types' ;
 
 @Injectable({
   providedIn: 'root'
@@ -95,5 +95,14 @@ export class ReportService {
   async getEntradasPublicidadFecha(fecha:string):Promise<Publicidad[]>{
     let publicidad: Publicidad[] = await this.http.get<Publicidad[]>(`http://localhost:3000/getEntradasPublicidadFecha/${fecha}`,{}).toPromise();
     return publicidad;
+  }
+
+  async getConfiguracion():Promise<Configuracion[]>{
+    let configuracion: Configuracion[] = await this.http.get<Configuracion[]>(`http://localhost:3000/getConfiguracion`,{}).toPromise();
+    return configuracion;
+  }
+  public async updateConfiguracion(titulo:string,banner:string) : Promise<any>{
+    let state = await this.http.post(`http://localhost:3000/updateConfiguracion/${titulo}/${banner}`,{}).toPromise();
+    return state;
   }
 }

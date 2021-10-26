@@ -6,7 +6,7 @@
     <div class="div1"> 
         <mat-form-field class="example-full-width" appearance="fill">
             <mat-label>Titulo de la pagina </mat-label>
-            <input matInput>
+            <input matInput value='{{this.configuracion[0].titulo}}' id="txtTitulo" #txtTitulo>
           </mat-form-field>
     </div>
     <div>
@@ -15,7 +15,7 @@
                 <div>
                     <div class="marco">
                         <img style="display:block;
-                        margin:auto;" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTT1BaHFkCLVFudrzI-iLOAhO3NIlBDEEd5W2ige_b4zZsSG72i36qNgwL-Tas1Vl8zjzA&usqp=CAU" alt="logo Radio Compañera">
+                        margin:auto;" src="{{this.configuracion[0].banner}}" alt="logo Radio Compañera" #imgBanner>
                     </div>
                 </div>
              
@@ -23,9 +23,10 @@
              
              <div style="width: 30%; float:right">
                 <div class="btnImg">
-                   <p> <button mat-raised-button style="background-color:#e00;color:white"><mat-icon>add_photo_alternate</mat-icon> Cargar Imagen </button></p></div>
+                   <input type="file" style="display: none;" id="fotoBanner">
+                   <p> <button mat-raised-button style="background-color:#e00;color:white" (click)="cargarBanner()"><mat-icon>add_photo_alternate</mat-icon> Cargar Imagen </button></p></div>
                    <div class="btnImg">
-                   <p><button mat-raised-button color="primary" style="background-color:rgb(36, 36, 36);color:white"><mat-icon>delete_outline</mat-icon> Borrar Imagen</button></p></div>
+                   <p><button mat-raised-button color="primary" style="background-color:rgb(36, 36, 36);color:white" (click)="borrarBanner()"><mat-icon>delete_outline</mat-icon> Borrar Imagen</button></p></div>
             
              </div>
         </div>
@@ -34,8 +35,8 @@
             font-size: 30px;">Acciones</p>
         </div>
         <div class="div3v2" style="width: 25%; float:right"> 
-            <div class="btnImage"> <button mat-raised-button style="background-color: #e00;color: white;width: 90%;">Guardar cambios</button> </div>
-            <div class="btnImage"> <button mat-raised-button style="background-color: rgb(22, 22, 22);color: white;width: 90%;">Restablecer Campos</button> </div>
+            <div class="btnImage"> <button mat-raised-button style="background-color: #e00;color: white;width: 90%;" (click)="updateConfiguracion(txtTitulo.value)">Guardar cambios</button> </div>
+            <div class="btnImage"> <button mat-raised-button style="background-color: rgb(22, 22, 22);color: white;width: 90%;" (click)="getConfiguracion()">Restablecer Campos</button> </div>
             
         </div>
     </div>

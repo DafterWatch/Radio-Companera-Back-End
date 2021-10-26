@@ -71,4 +71,8 @@ export interface Publicidad {
     fechainicio:string;
     fechafin:string;
     estado:boolean;
-  }
+}
+  export interface Configuracion {
+    titulo: string;
+    banner: string;
+}

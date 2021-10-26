@@ -625,6 +625,22 @@ router.post('/updatePublicidad/:idPublic',jsonParser, async (req,res)=>{
         });
     });
 
+    router.get('/getConfiguracion', (req,res)=>{                    
+        client.query(`
+                select *
+                from configuracion
+                `)
+            .then(configuracion => res.send(configuracion.rows))
+            .catch( err => console.log('Error recuperando configuracion: /getConfiguracion',err.stack) );
+    });
+    router.post('/updateConfiguracion/:titulo/:banner', async (req,res)=>{        
+        let titulo = req.params.titulo;
+        let banner = req.params.banner;     
+        await client.query(`UPDATE configuracion SET titulo ='${titulo}', titulo ='${banner}'`)
+            .catch(err => res.send(false))
+            .then(()=>client.end);        
+        res.send(true);
+    });
 
     return router;
 };
