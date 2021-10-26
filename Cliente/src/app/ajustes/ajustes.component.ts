@@ -1,3 +1,4 @@
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ReportService } from 'src/app/services/reports/report.service';
@@ -13,7 +14,7 @@ export class AjustesComponent implements OnInit {
   configuracion:Configuracion[];
   titulo;
   banner;
-  constructor(private http:HttpClient, private reportService : ReportService) { 
+  constructor(private snackBar:MatSnackBar,private http:HttpClient, private reportService : ReportService) { 
     this.getConfiguracion();
   }
 
@@ -40,7 +41,13 @@ export class AjustesComponent implements OnInit {
     var archivo=fotoBanner.files[0];
     const formData:FormData=new FormData();
     formData.append("clientFile",archivo);
-    this.banner= await this.http.post(`http://localhost:3000/subirArchivo/`,formData,{responseType:"text"}).toPromise();
+    const [typeFile, format]:[string,string] = archivo.type.split('/');
+    if(['image'].includes(typeFile)){
+      this.banner= await this.http.post(`http://localhost:3000/subirArchivo/`,formData,{responseType:"text"}).toPromise();
+    }else{
+      this.snackBar.open("Seleccione una imagen valida para el banner","Ok");
+    }
+    
     };
     fotoBanner.click();
   }
@@ -50,5 +57,10 @@ export class AjustesComponent implements OnInit {
       titulo:this.titulo, banner:this.banner
     }
     let status=await this.reportService.updateConfiguracion(confContenido);
+    if(status){
+      this.snackBar.open("Cambios guardados exitosamente","Ok");
+    }else{
+      this.snackBar.open("Error al actualizar información","Ok");
+    }
   }
 }

@@ -607,7 +607,7 @@ router.post('/updatePublicidad/:idPublic',jsonParser, async (req,res)=>{
     });
     router.get('/getPubliOld', (req,res)=>{                    
         client.query(`
-        select * from publicidad where estado=true order by fechainicio asc limit 1;
+        select * from publicidad where estado=true order by fechafin asc limit 1;
                 `)
             .then(publicidad => res.send(publicidad.rows))
             .catch( err => console.log('Error recuperando publicidad: /getPublcidadHabiles',err.stack) );
@@ -633,17 +633,10 @@ router.post('/updatePublicidad/:idPublic',jsonParser, async (req,res)=>{
             .then(configuracion => res.send(configuracion.rows))
             .catch( err => console.log('Error recuperando configuracion: /getConfiguracion',err.stack) );
     });
-    router.post('/updateConfiguracion', jsonParser,async (req,res)=>{        
-        const values = Object.values(req.body.config);    
-        await client.query(`UPDATE configuracion SET titulo ='$1', titulo ='$2'`,values)
-            .catch(err => res.send(false))
-            .then(()=>client.end);        
-        res.send(true);
-    });
 
     router.post('/updateConfiguracion',jsonParser, async (req,res)=>{
         const values = Object.values(req.body.config); 
-        const query = `UPDATE configuracion SET titulo ='$1', titulo ='$2'`;
+        const query = `UPDATE configuracion SET titulo =$1, banner =$2`;
 
     
         await client.query(query,values).then(res.send(true))

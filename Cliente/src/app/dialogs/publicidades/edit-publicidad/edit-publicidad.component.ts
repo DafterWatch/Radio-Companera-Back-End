@@ -97,8 +97,12 @@ export class EditPublicidadComponent implements OnInit {
       var archivo=fotoPerfil.files[0];
       const formData:FormData=new FormData();
       formData.append("clientFile",archivo);
+      const [typeFile, format]:[string,string] = archivo.type.split('/');
+      if(['image'].includes(typeFile)){
       this.fotoPublicidad= await this.http.post(`http://localhost:3000/subirArchivo/`,formData,{responseType:"text"}).toPromise()//.subscribe(resultado=>this.fotoperfil=resultado);
-      
+      }else{
+        this.snackBar.open("Seleccione una imagen: .jpg, .png, .gif","Ok");
+      }
     };
     fotoPerfil.click();
   }
