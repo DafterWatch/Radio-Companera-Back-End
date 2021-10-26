@@ -101,8 +101,8 @@ export class ReportService {
     let configuracion: Configuracion[] = await this.http.get<Configuracion[]>(`http://localhost:3000/getConfiguracion`,{}).toPromise();
     return configuracion;
   }
-  public async updateConfiguracion(titulo:string,banner:string) : Promise<any>{
-    let state = await this.http.post(`http://localhost:3000/updateConfiguracion/${titulo}/${banner}`,{}).toPromise();
+  public async updateConfiguracion(confContenido:Configuracion) : Promise<boolean>{
+    let state = await this.http.post<boolean>(this.SERVER_DIR+`/updateConfiguracion`,{config: confContenido}).toPromise();
     return state;
   }
 }

@@ -633,13 +633,26 @@ router.post('/updatePublicidad/:idPublic',jsonParser, async (req,res)=>{
             .then(configuracion => res.send(configuracion.rows))
             .catch( err => console.log('Error recuperando configuracion: /getConfiguracion',err.stack) );
     });
-    router.post('/updateConfiguracion/:titulo/:banner', async (req,res)=>{        
-        let titulo = req.params.titulo;
-        let banner = req.params.banner;     
-        await client.query(`UPDATE configuracion SET titulo ='${titulo}', titulo ='${banner}'`)
+    router.post('/updateConfiguracion', jsonParser,async (req,res)=>{        
+        const values = Object.values(req.body.config);    
+        await client.query(`UPDATE configuracion SET titulo ='$1', titulo ='$2'`,values)
             .catch(err => res.send(false))
             .then(()=>client.end);        
         res.send(true);
+    });
+
+    router.post('/updateConfiguracion',jsonParser, async (req,res)=>{
+        const values = Object.values(req.body.config); 
+        const query = `UPDATE configuracion SET titulo ='$1', titulo ='$2'`;
+
+    
+        await client.query(query,values).then(res.send(true))
+        .catch(err=> {
+            if(err){
+                console.log('Error insertando contenido /updateConfiguracion',err.stack);
+                res.send(false);
+            }
+        });
     });
 
     return router;
