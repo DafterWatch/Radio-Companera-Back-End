@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { v4 } from 'uuid';
 import { FileElement } from '../file-explorer/model/file-element';
 import { BehaviorSubject } from 'rxjs';
-import { Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { Observable,throwError } from 'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { catchError } from 'rxjs/operators';
 
 export interface IFileService {
   add(fileElement: FileElement);
@@ -66,13 +67,26 @@ export class FileService implements IFileService {
     return JSON.parse(JSON.stringify(element));
   }
   saveSchema(){            
-    this.http.post('http://localhost:3000/saveSchema',{schema: JSON.stringify(Array.from(this.map.entries()))}).subscribe();
+    this.http.post('http://localhost:3000/saveSchema',{schema: JSON.stringify(Array.from(this.map.entries()))})
+    .pipe(catchError(this.errorHandler))
+    .subscribe();
   }
   async readSchema(){    
-    await this.http.get('http://localhost:3000/getSchema',{responseType:'text'}).toPromise().then(res=>{
+    await this.http.get('http://localhost:3000/getSchema',{responseType:'text'})
+    .pipe(catchError(this.errorHandler))
+    .toPromise().then(res=>{
       if(res!==''){                
         this.map = new Map(JSON.parse(res));        
       }
     });    
+  }
+  private errorHandler(errorResponse:HttpErrorResponse){
+    if(errorResponse.error instanceof ErrorEvent){
+      console.log("Error del lado del cliente: "+errorResponse.error.message);      
+    } else{
+      console.log("Error del servidor: ", errorResponse)
+    }
+
+    return throwError("Error en el servidor");
   }
 }

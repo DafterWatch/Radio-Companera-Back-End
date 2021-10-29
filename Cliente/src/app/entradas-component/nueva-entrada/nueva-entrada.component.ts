@@ -7,6 +7,7 @@ import { Notice,Notice_Content, Reportero } from '../../types';
 import { UserService } from 'src/app/services/userService/user.service';
 import { ReportService } from 'src/app/services/reports/report.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-nueva-entrada',
@@ -15,7 +16,11 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 })
 export class NuevaEntradaComponent implements OnInit {
 
-  constructor(private dialog:MatDialog, private userService : UserService, private reportService : ReportService, private snackBar: MatSnackBar) { 
+  constructor(private dialog:MatDialog,
+              private userService : UserService,
+              private reportService : ReportService,
+              private snackBar: MatSnackBar,
+              private router : Router) { 
     this.userService.getReportero().subscribe((_reportero : Reportero)=> this.currentReporter = _reportero);
     this.reportService.getCategorias().then((cat:string[])=> this.categorias = cat);
   }
@@ -26,7 +31,8 @@ export class NuevaEntradaComponent implements OnInit {
   titleModel : string = '';
   currentReporter : Reportero;  
   ngOnInit(): void {
-    
+    if(sessionStorage.getItem("tokenUser"))
+      this.router.navigate(['']);
   }
   config: AngularEditorConfig = {
     editable: true,
@@ -63,7 +69,10 @@ export class NuevaEntradaComponent implements OnInit {
       this.snackBar.open('Debe agregar contenido para la noticia',"OK");
       return;
     }
-    
+    if(this.titleModel.length > 150){
+      this.snackBar.open("El título puede tener como máximo 150 carácteres");
+      return;
+    }
 
     let notice : Notice = {
       id_reportero : this.currentReporter.id_reportero,
@@ -89,6 +98,7 @@ export class NuevaEntradaComponent implements OnInit {
     let status : boolean = await this.reportService.createReportContent(notice_content,categories);
     if(status){
       this.snackBar.open("¡Noticia creada!","Ok");
+      this.router.navigate(['/entradas']);
       //redirigir a historial de medios
     }else{
       this.snackBar.open("¡Problema creando la noticia, verifique los campos y vuelva a intentar!","Ok");
@@ -106,9 +116,12 @@ export class NuevaEntradaComponent implements OnInit {
     });
   }
   agregarCategoria(){
-    const dialogRef = this.dialog.open(AddTagDialogComponent);
+    const dialogRef = this.dialog.open(AddTagDialogComponent, {
+      panelClass: "custom-dialog-container"
+    });
     dialogRef.afterClosed().subscribe(newCategory =>{
-      this.categorias.push(newCategory);
+      if(newCategory && newCategory.length > 0)
+        this.categorias.push(newCategory);
     });
   }
   agregarEtiquetas(){        

@@ -1,7 +1,9 @@
 <div class="wrapper">
     <div class="head">
         <h1>Añadir nueva entrada</h1>
-        <input placeholder="Título" [(ngModel)]="titleModel"/>
+        <input placeholder="Título" [(ngModel)]="titleModel" #titleInput/>
+        <br><br>
+        <span [ngStyle]="{'color': (titleInput.value.length>150)?'red':'black'}">{{titleInput.value.length}}/150</span>
     </div>        
     <div class="tags">
         <strong>Etiquetas</strong>
@@ -17,13 +19,17 @@
     <div class="categorias">
         <strong>Categorias</strong>
         <hr>
-        <mat-selection-list #categories >
-            <mat-list-option *ngFor="let categoria of categorias" [value]="categoria">
-              {{categoria}}
-            </mat-list-option>
+        <mat-selection-list #categories>
+            <div class="unique-selection-list">
+                <div class="red-checkbox" *ngFor="let categoria of categorias">
+                    <mat-list-option  [value]="categoria">
+                    {{categoria}}
+                    </mat-list-option>
+                </div>
+            </div>
           </mat-selection-list>
           <br>
-    <button mat-raised-button (click)="agregarCategoria()">Agregar nueva categoria</button>
+    <button mat-raised-button (click)="agregarCategoria()">Modificar categorias</button>
     </div>
     <div class="publicar">
         <strong>Publicar</strong>

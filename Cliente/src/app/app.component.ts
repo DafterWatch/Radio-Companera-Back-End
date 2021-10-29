@@ -43,8 +43,17 @@ export class AppComponent {
       this.passwordFormControl.markAllAsTouched();
       return;
     } 
-    this.changeButton('Buscando','0.5',true);    
-    let login_succes = await this.reporteroService.setReportero(this.id_user,this.password);  
+    this.changeButton('Buscando','0.5',true);  
+      let login_succes = null;
+    try {
+      login_succes = await this.reporteroService.setReportero(this.id_user,this.password);   
+    } catch (error) {
+      this.changeButton('Login','1',false);    
+      let error_text = document.getElementById('error');
+      error_text.style.display='block';
+      error_text.innerHTML = "Error de conexión";
+      return;
+    }        
     if(login_succes){
       if(this.recordarUsuario){
         sessionStorage.setItem("tokenUser", JSON.stringify({user : this.id_user, password: this.password}) )
@@ -54,7 +63,9 @@ export class AppComponent {
                    
     }else{      
       this.changeButton('Login','1',false);    
-      document.getElementById('error').style.display='block';
+      let error_text = document.getElementById('error');
+      error_text.style.display='block';
+      error_text.innerHTML = "Contraseña o ID invalidos.";
     }     
   }
   changeButton(value : string, opacity : string, active : boolean){

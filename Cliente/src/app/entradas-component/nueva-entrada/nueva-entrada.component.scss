@@ -51,6 +51,17 @@ mat-selection-list {
     max-height: 300px;
     overflow: auto;
 }
+/*mat-list-option[aria-selected="true"] {
+    background: rgba(0, 139, 139, 0.7);
+}*/
+
+/*.mat-select-content, .mat-select-panel-done-animating {
+    background: red;
+    .mat-option {
+        color : red;
+    }
+}*/
+
   
 @media screen and(min-width:837px) {
     .wrapper{

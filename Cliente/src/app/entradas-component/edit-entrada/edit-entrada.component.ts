@@ -44,9 +44,6 @@ idNoticia:any=this.comunicacion.getIDEntrada();
 
   async recuperarReport(){
     let notice=await this.reportService.getReport(this.idNoticia);
-    
-    console.log("servicio");
-    console.log(notice[0]);
 
     this.titleModel=notice[0].titulo;
     this.htmlContent=notice[0].contenido;

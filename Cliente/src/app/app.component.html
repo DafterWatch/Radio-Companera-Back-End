@@ -1,4 +1,4 @@
-<div id="loginScreen" *ngIf="showLoginScreen">
+<div id="loginScreen" *ngIf="false">
     <!-- showLoginScreen -->
     <div id="background-blur"></div>
     <div id="container">
@@ -29,7 +29,7 @@
                     <td>
                         <mat-icon >lock</mat-icon>
                         <mat-form-field class="input-field" appearance="standard">                    
-                        <input matInput [(ngModel)] = "password" placeholder="Contraseña" [formControl]="passwordFormControl" [type]="hide ? 'password' : 'text'">
+                        <input matInput [(ngModel)] = "password" placeholder="Contraseña" [formControl]="passwordFormControl" [type]="hide ? 'password' : 'text'" autocomplete="off">
                         <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
                         <mat-error *ngIf="passwordFormControl.hasError('required')">
                             Por favor ingrese una contraseña

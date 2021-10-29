@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Reportero, getUserType, Permisos } from '../../types';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject, Observable,throwError } from 'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +23,10 @@ export class UserService {
 
 
   public async setReportero(id_reportero : string, contrasenia : string) : Promise<boolean> {
-    let data : getUserType = await this.http.post(this.SERVER_DIR+`/getUser/${id_reportero}/${contrasenia}`,{}).toPromise() as getUserType ;
+    let data : getUserType = await this.http.post<getUserType>(this.SERVER_DIR+`/getUser/${id_reportero}/${contrasenia}`,{})
+    .pipe(
+      catchError(this.errorHandler)
+    ).toPromise();
     if(data){      
       this._reportero = data.usuario;
       this._permisos = data.permisos;
@@ -30,6 +34,7 @@ export class UserService {
       return true;
     }
     return false;
+
   }
   public getPermisos() : Permisos{
     return this._permisos;
@@ -38,4 +43,14 @@ export class UserService {
     this._permisos = null;
     this.$reportero.next(null);
   }
+  private errorHandler(errorResponse : HttpErrorResponse) {
+    if(errorResponse.error instanceof ErrorEvent){
+      console.log("Error del lado del cliente: "+errorResponse.error.message);      
+    } else{
+      console.log("Error del servidor: ", errorResponse)
+    }
+
+    return throwError("Error en el servidor");
+  }
+  
 }
