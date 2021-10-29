@@ -462,23 +462,15 @@ module.exports = (router) =>{
     });   
     router.post('/getNoticias', async (req,res)=>{        
         let data;
-        await client.query("select n.id_noticia, n.id_reportero, n.ultima_modificacion, n.fecha_publicacion, n.estado, c.id_contenido, c.imagen, c.titulo, c.contenido, c.etiquetas from noticias n inner join contenidonoticia c on n.id_noticia = c.id_noticia")
+        await client.query("SELECT n.id_noticia, n.id_reportero, n.ultima_modificacion, n.fecha_publicacion, n.estado, Cn.id_contenido, Cn.imagen, Cn.titulo, Cn.contenido, Cn.etiquetas, ARRAY_AGG(C.nombre) as categoriasarray FROM ((Noticias n INNER JOIN ContenidoNoticia Cn ON n.id_noticia = Cn.id_noticia) INNER JOIN categorianoticia CaN ON Cn.id_noticia = CaN.id_noticia) INNER JOIN categorias C ON C.id_categoria = CaN.id_categoria where not n.estado = false GROUP BY n.id_noticia, Cn.id_contenido order by n.id_noticia asc;")
             .then(res => data = res.rows)
             .catch(err => console.log(err.stack))
             .then(()=>client.end);
         res.send(data);
     });
-    router.get('/getCategorias/:idNoticia', async (req,res)=>{
-        const query = {
-            text: "select cat.id_noticia, c.id_categoria, c.nombre from categorias c inner join categorianoticia cat on c.id_categoria = cat.id_categoria where cat.id_noticia = $1",            
-            values : [req.params.idNoticia]
-        }                
-        let comentario = await client.query(query);
-        res.send(comentario.rows);
-    });
     router.get('/getNoticias/:idNoticia', async (req,res)=>{
         const query = {
-            text: "select n.id_noticia, n.id_reportero, n.ultima_modificacion, n.fecha_publicacion, n.estado, c.id_contenido, c.imagen, c.titulo, c.contenido, c.etiquetas from noticias n inner join contenidonoticia c on n.id_noticia = c.id_noticia where n.id_noticia= $1",            
+            text: "SELECT n.id_noticia, n.id_reportero, n.ultima_modificacion, n.fecha_publicacion, n.estado, Cn.id_contenido, Cn.imagen, Cn.titulo, Cn.contenido, Cn.etiquetas, ARRAY_AGG(C.nombre) as categoriasarray FROM ((Noticias n INNER JOIN ContenidoNoticia Cn ON n.id_noticia = Cn.id_noticia) INNER JOIN categorianoticia CaN ON Cn.id_noticia = CaN.id_noticia) INNER JOIN categorias C ON C.id_categoria = CaN.id_categoria where not n.estado = false and n.id_noticia = $1 GROUP BY n.id_noticia, Cn.id_contenido order by n.id_noticia asc;",
             values : [req.params.idNoticia]
         }                
         let comentario = await client.query(query);
@@ -499,7 +491,7 @@ module.exports = (router) =>{
             .catch(err => console.log(err.stack))
             .then(()=>client.end);
         res.send(data);
-    }); 
+    });
 
 /*PUBLICIDAD*/
 
