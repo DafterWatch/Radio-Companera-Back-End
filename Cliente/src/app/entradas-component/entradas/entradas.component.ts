@@ -4,11 +4,12 @@ import { HttpClient } from '@angular/common/http';
 import { UserService } from 'src/app/services/userService/user.service';
 import { ReportService } from 'src/app/services/reports/report.service';
 import { comunicacionComponentesService } from 'src/app/services/comunicacionComponentesService/comunicacionComponentes.service';
-import { Permisos, Entradas, Reportero } from '../../types';
+import { Permisos, Entradas, Reportero, Categorias } from '../../types';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {Router} from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { EditPublicidadComponent } from 'src/app/dialogs/publicidades/edit-publicidad/edit-publicidad.component';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-entradas',
@@ -28,7 +29,8 @@ export class EntradasComponent implements OnInit {
     this.setDataSource();
     this.nroPagina=1;
     this.nroItem=0;
-    this.reportService.getCategorias().then((_categoria:string[])=>this.categorias=_categoria);
+    //this.reportService.getCategorias().then((_categoria:string[])=>this.categorias=_categoria);
+    this.categorias = this.reportService.getCategorias();
   }
 
   async setDataSource(): Promise<void>{
@@ -40,7 +42,7 @@ export class EntradasComponent implements OnInit {
   }
   
   permisos : Permisos;
-  categorias: string[] = [];
+  categorias: Observable<Categorias[]> = null;
   NOTICIA_DATA: Promise<Entradas[]>;
   dataTabla:Entradas[]
 

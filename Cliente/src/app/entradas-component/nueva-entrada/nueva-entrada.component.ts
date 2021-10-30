@@ -3,11 +3,12 @@ import { MatDialog } from '@angular/material/dialog';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { AddTagDialogComponent } from 'src/app/dialogs/add-tag-dialog/add-tag-dialog.component';
 import { FileExplorerMiniComponent } from '../file-explorer-mini/file-explorer-mini.component';
-import { Notice,Notice_Content, Reportero } from '../../types';
+import { Categorias, Notice,Notice_Content, Reportero } from '../../types';
 import { UserService } from 'src/app/services/userService/user.service';
 import { ReportService } from 'src/app/services/reports/report.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-nueva-entrada',
@@ -22,9 +23,10 @@ export class NuevaEntradaComponent implements OnInit {
               private snackBar: MatSnackBar,
               private router : Router) { 
     this.userService.getReportero().subscribe((_reportero : Reportero)=> this.currentReporter = _reportero);
-    this.reportService.getCategorias().then((cat:string[])=> this.categorias = cat);
+    this.categorias = this.reportService.getCategorias();
   }
-  categorias : string[];
+  //categorias : string[];
+  categorias : Observable<Categorias[]>;
   htmlContent : string='';
   coverImage : string = '';
   tagsModel : string ='';
@@ -121,7 +123,7 @@ export class NuevaEntradaComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(newCategory =>{
       if(newCategory && newCategory.length > 0)
-        this.categorias.push(newCategory);
+        this.categorias = this.reportService.getCategorias();
     });
   }
   agregarEtiquetas(){        

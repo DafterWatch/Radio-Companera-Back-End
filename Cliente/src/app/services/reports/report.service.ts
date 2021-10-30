@@ -1,8 +1,8 @@
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Notice,Notice_Content, Entradas, Publicidad, Configuracion } from '../../types' ;
-
+import { Notice,Notice_Content, Entradas, Publicidad, Configuracion, Categorias } from '../../types' ;
+import {map} from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
@@ -17,12 +17,23 @@ export class ReportService {
     let id_noticia = await this.http.post<string>(this.SERVER_DIR + '/crearNoticia', report).toPromise();
     return id_noticia;
   }
+  public async deleteCategory(id_categoria : string) : Promise<boolean> {
+    let queryStatus = await this.http.post<boolean>(this.SERVER_DIR+"/cambiarCategoria",{id_categoria,eliminar : true}).toPromise();
+    return queryStatus;
+  }
+  public async updateCategory(id_categoria : string, nuevo_valor : string) : Promise<boolean>{
+    let queryStatus = await this.http.post<boolean>(this.SERVER_DIR+"/cambiarCategoria",{id_categoria,eliminar:false,nuevo_valor}).toPromise();
+    return queryStatus;
+  }
+
   public async createReportContent(reportContent : Notice_Content, categorias : string[]) : Promise<boolean>{
     let queryStatus = await this.http.post<boolean>(this.SERVER_DIR+'/cargarContenidoNoticia',{ContenidoNoticia: reportContent, categorias}).toPromise();
     return queryStatus;
   }
-  public async getCategorias() : Promise<string[]> {
-    let categories : string[] = await this.http.get<string[]>(this.SERVER_DIR+'/getCategorias').toPromise();
+  public getCategorias() : Observable<Categorias[]> {
+    let categories : Observable<Categorias[]> = this.http.get<Categorias[]>(this.SERVER_DIR+'/getCategorias').pipe(
+      map(cat => cat.filter(item => item.estado ))
+    );
     return categories;
   }
   public async createCategoria(catName :string) : Promise<boolean>{
@@ -38,7 +49,7 @@ export class ReportService {
       console.log(notice);
       return notice;
     });*/
-    console.log(notice);
+    //console.log(notice);
     return notice;
   }
 

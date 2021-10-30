@@ -37,8 +37,8 @@
                 {{categoria}}
               </mat-list-option>
               <hr>
-            <mat-list-option *ngFor="let categoria of categorias"  [value]="categoria">
-              {{categoria}}
+            <mat-list-option *ngFor="let categoria of categorias |async"  [value]="categoria.nombre">
+              {{categoria.nombre}}
             </mat-list-option>
           </mat-selection-list>
           <br>

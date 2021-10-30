@@ -26,8 +26,8 @@
 <mat-form-field appearance="fill">
 <mat-label>Selecciona una categoría</mat-label>
 <mat-select matNativeControl [(ngModel)]="categoriaSelect">
-  <mat-option *ngFor="let categoria of categorias" [value]="categoria" >
-    {{categoria}}
+  <mat-option *ngFor="let categoria of categorias | async" [value]="categoria.nombre" >
+    {{categoria.nombre}}
   </mat-option>
 </mat-select>
 </mat-form-field>

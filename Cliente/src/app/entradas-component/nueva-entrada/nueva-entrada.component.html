@@ -21,9 +21,9 @@
         <hr>
         <mat-selection-list #categories>
             <div class="unique-selection-list">
-                <div class="red-checkbox" *ngFor="let categoria of categorias">
-                    <mat-list-option  [value]="categoria">
-                    {{categoria}}
+                <div class="red-checkbox" *ngFor="let categoria of categorias | async">
+                    <mat-list-option  [value]="categoria.nombre">
+                    {{categoria.nombre}}
                     </mat-list-option>
                 </div>
             </div>

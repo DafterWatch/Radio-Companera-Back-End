@@ -9,25 +9,25 @@
 <table mat-table class="mat-elevation-z8" [dataSource]="dataSource">
     <ng-container matColumnDef="ID">
         <th mat-header-cell *matHeaderCellDef> ID </th>
-        <td mat-cell *matCellDef="let element"> {{element.ID}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.id_categoria}} </td>
       </ng-container>
     
       <!-- Name Column -->
       <ng-container matColumnDef="nombre">
         <th mat-header-cell *matHeaderCellDef> Nombre </th>
-        <td mat-cell *matCellDef="let element"><span [id]="'sp-'+element.ID">{{element.nombre}}</span> </td>
+        <td mat-cell *matCellDef="let element"><span [id]="'sp-'+element.id_categoria">{{element.nombre}}</span> </td>
       </ng-container>
 
       <ng-container matColumnDef="Acciones">
         <th mat-header-cell *matHeaderCellDef> Acciones </th>
         <td mat-cell *matCellDef="let element">             
-            <div class="optionsButtons" [id]="'actions-'+element.ID">
-                <mat-icon (click)="changeToEditName(element.ID)">edit</mat-icon> &nbsp;
-                <mat-icon [id]="'deleteButton-'+ element.nombre" (click)="changeToConfirm(element.ID)">delete</mat-icon> 
+            <div class="optionsButtons" [id]="'actions-'+element.id_categoria" *ngIf="element.id_categoria >8">
+                <mat-icon (click)="changeToEditName(element.id_categoria)">edit</mat-icon> &nbsp;
+                <mat-icon [id]="'deleteButton-'+ element.nombre" (click)="changeToConfirm(element.id_categoria)">delete</mat-icon> 
             </div>
-            <div class="confirmButtons" [id]="'confirm-'+element.ID">
-                <mat-icon style="color:green" (click)="confirmCheck(element.ID)">check</mat-icon> &nbsp;
-                <mat-icon style="color:red" (click)="cancelConfirm(element.ID)">cancel</mat-icon> 
+            <div class="confirmButtons" [id]="'confirm-'+element.id_categoria">
+                <mat-icon style="color:green" (click)="confirmCheck(element.id_categoria)" >check</mat-icon> &nbsp;
+                <mat-icon style="color:red" (click)="cancelConfirm(element.id_categoria)">cancel</mat-icon> 
             </div>            
         </td>
       </ng-container>

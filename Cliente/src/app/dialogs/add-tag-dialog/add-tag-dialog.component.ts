@@ -1,21 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { ReportService } from 'src/app/services/reports/report.service';
+import { Categorias } from 'src/app/types';
+import { Similarity } from '../../types';
 
-const ELEMENT_DATA: any[] = [
-  {ID: 1, nombre: 'Hydrogen', },
-  {ID: 2, nombre: 'Helium',   },
-  {ID: 3, nombre: 'Lithium',  },
-  {ID: 4, nombre: 'Beryllium',},
-  {ID: 5, nombre: 'Boron',    },
-  {ID: 6, nombre: 'Carbon',   },
-  {ID: 7, nombre: 'Nitrogen', },
-  {ID: 8, nombre: 'Oxygen',   },
-  {ID: 9, nombre: 'Fluorine', },
-  {ID: 10,nombre: 'Neon',    },
-];
-
-export class InputCache{
+export interface InputCache{
   id_row : string;
   original : HTMLElement;
   new : HTMLInputElement;
@@ -34,11 +23,17 @@ export class AddTagDialogComponent implements OnInit {
     public reportService : ReportService
   ) { }
   
-
+  ELEMENT_DATA : Categorias[] = [];
   stack_inputs: InputCache[] = [];
 
   ngOnInit(): void {
+    this.reportService.getCategorias().subscribe(
+      (cat : Categorias[]) => {this.ELEMENT_DATA = cat; this.dataSource = this.ELEMENT_DATA}      
+    )
   }
+
+
+  
   closeDialog() : void{
     this.dialogRef.close();
   }
@@ -112,21 +107,24 @@ export class AddTagDialogComponent implements OnInit {
   }
   modificarCategoria(row_id : string, htmlTags : any){
     let newName = htmlTags.new.value;    
-    let oldName = htmlTags.original.innerHTML;
-    //console.table([newName,oldName]);
-
-    if(newName === oldName){      
+    let oldName = htmlTags.original.innerHTML;    
+    console.log(Similarity.similarity(newName,oldName));
+    if(Similarity.similarity(newName,oldName) > 0.55){      
+      alert("Las categorias son muy similares. Por favor escoja otro nombre");
       this.cancelConfirm(row_id);
       return;
     }
-
+    alert("Las categorias no son muy similares");
+    //this.reportService.updateCategory(row_id,newName);
+    this.cancelConfirm(row_id);
   }
 
   eliminarCategoria(row_id : string){
-
+    this.reportService.deleteCategory(row_id);
+    this.cancelConfirm(row_id);
   }
   
 
   displayedColumns: string[] = ['ID', 'nombre','Acciones'];
-  dataSource = ELEMENT_DATA;
+  dataSource = this.ELEMENT_DATA;
 }

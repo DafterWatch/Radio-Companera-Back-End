@@ -35,7 +35,7 @@ export class PruebaComponent implements OnInit {
   categoriasNoticia : string[];
   constructor(public fb: FormBuilder,private reportService:ReportService) {
 
-    this.reportService.getCategorias().then((cat:string[])=> this.categorias = cat);
+    //this.reportService.getCategorias().then((cat:string[])=> this.categorias = cat);
     this.recuperarCategorias();
     
     // Simulacion de requests a la BD
@@ -55,15 +55,14 @@ export class PruebaComponent implements OnInit {
   }
 
   verCategorias(categories : any){
-    console.log(categories);
+    //console.log(categories);
 
   }
 
   async recuperarCategorias(){
     //await this.reportService.getCategorias().then((cat:string[])=> this.categoriasNoticia = cat);
     await this.reportService.getCategoriasNotice('4').then((cat:string[])=> this.categoriasNoticia = cat);
-    
-      console.log ("Categoria de noticia  :" + this.categoriasNoticia);
+          
 
   }
 

@@ -6,12 +6,13 @@ import { Component, OnInit,Input } from '@angular/core';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { AddTagDialogComponent } from 'src/app/dialogs/add-tag-dialog/add-tag-dialog.component';
 import { FileExplorerMiniComponent } from '../file-explorer-mini/file-explorer-mini.component';
-import { Notice,Notice_Content, Reportero } from '../../types';
+import { Categorias, Notice,Notice_Content, Reportero } from '../../types';
 import { UserService } from 'src/app/services/userService/user.service';
 import { ReportService } from 'src/app/services/reports/report.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 
 
 @Component({
@@ -25,11 +26,11 @@ idNoticia:any=this.comunicacion.getIDEntrada();
 
   constructor(private router: Router,private dialog:MatDialog, private userService : UserService, private reportService : ReportService,private comunicacion:comunicacionComponentesService, private snackBar: MatSnackBar) { 
     this.userService.getReportero().subscribe((_reportero : Reportero)=> this.currentReporter = _reportero);
-    this.reportService.getCategorias().then((cat:string[])=> this.categorias = cat);
+    this.categorias = this.reportService.getCategorias();
     this.recuperarReport();
   }
 
-  categorias : string[];
+  categorias : Observable<Categorias[]>;
   categoriasNoticia : string[];
   htmlContent : string='';
   coverImage : string = '';
@@ -140,9 +141,12 @@ else{
     });
   }
   agregarCategoria(){
-    const dialogRef = this.dialog.open(AddTagDialogComponent);
+    const dialogRef = this.dialog.open(AddTagDialogComponent, {
+      panelClass: "custom-dialog-container"
+    });
     dialogRef.afterClosed().subscribe(newCategory =>{
-      this.categorias.push(newCategory);
+      if(newCategory && newCategory.length > 0)
+        this.categorias = this.reportService.getCategorias();
     });
   }
   agregarEtiquetas(){        

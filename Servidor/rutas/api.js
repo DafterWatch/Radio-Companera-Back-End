@@ -8,9 +8,7 @@ const client = new Client({
     host:'localhost',
     user:'postgres',
     port:5432,
-    //password:'hmfdzpkjqx',
     password:'admin',
-    //database:'RadioCompaneraDB'
     database:'RadioCompanieraBD'
 });
 
@@ -307,7 +305,7 @@ module.exports = (router) =>{
     router.get('/getCategorias',async (req,res)=>{
         const query = "SELECT * FROM categorias";
         const categories = await client.query(query);
-        res.send(categories.rows.map(cat => cat.nombre));
+        res.send(categories.rows);
     });
     router.post('/createCategory',jsonParser,(req,res)=>{
         const query = "INSERT INTO categorias (nombre) VALUES ($1)";
@@ -404,6 +402,7 @@ module.exports = (router) =>{
                 `)
             .then(entradas => res.send(entradas.rows))
             .catch( err => console.log('Error recuperando entradas: /getEntradas',err.stack) );
+        res.send(true);
     });
     router.get('/getBuscarEntradas/:tituloNoticia', (req,res)=>{
         let izquierda = "%"+req.params.tituloNoticia;
@@ -421,6 +420,7 @@ module.exports = (router) =>{
         )               
         .then(entradas => res.send(entradas.rows))
         .catch( err => console.log('Error recuperando entradas: /getBuscarEntradas',err.stack) );
+        res.send(true);
     });
     router.get('/getFiltarEntradasFecha/:fecha', (req,res)=>{
         let fecha = req.params.fecha;
@@ -436,6 +436,7 @@ module.exports = (router) =>{
         )               
         .then(entradas => res.send(entradas.rows))
         .catch( err => console.log('Error recuperando entradas: /getFiltarEntradasFecha',err.stack) );
+        res.send(true);
     });
     router.get('/getFiltarEntradasCategoria/:categoria', (req,res)=>{
         let categoria = req.params.categoria;
@@ -451,194 +452,26 @@ module.exports = (router) =>{
         )               
         .then(entradas => res.send(entradas.rows))
         .catch( err => console.log('Error recuperando entradas: /getFiltarEntradasCategoria',err.stack) );
+        res.send(true);
     });
-    router.post('/getComentarios', async (req,res)=>{        
-        let data;
-        await client.query("SELECT * FROM comentarios")
-            .then(res => data = res.rows)
-            .catch(err => console.log(err.stack))
-            .then(()=>client.end);
-        res.send(data);
-    });   
-    router.post('/getNoticias', async (req,res)=>{        
-        let data;
-        await client.query("SELECT n.id_noticia, n.id_reportero, n.ultima_modificacion, n.fecha_publicacion, n.estado, Cn.id_contenido, Cn.imagen, Cn.titulo, Cn.contenido, Cn.etiquetas, ARRAY_AGG(C.nombre) as categoriasarray FROM ((Noticias n INNER JOIN ContenidoNoticia Cn ON n.id_noticia = Cn.id_noticia) INNER JOIN categorianoticia CaN ON Cn.id_noticia = CaN.id_noticia) INNER JOIN categorias C ON C.id_categoria = CaN.id_categoria where not n.estado = false GROUP BY n.id_noticia, Cn.id_contenido order by n.id_noticia asc;")
-            .then(res => data = res.rows)
-            .catch(err => console.log(err.stack))
-            .then(()=>client.end);
-        res.send(data);
-    });
-    router.get('/getNoticias/:idNoticia', async (req,res)=>{
-        const query = {
-            text: "SELECT n.id_noticia, n.id_reportero, n.ultima_modificacion, n.fecha_publicacion, n.estado, Cn.id_contenido, Cn.imagen, Cn.titulo, Cn.contenido, Cn.etiquetas, ARRAY_AGG(C.nombre) as categoriasarray FROM ((Noticias n INNER JOIN ContenidoNoticia Cn ON n.id_noticia = Cn.id_noticia) INNER JOIN categorianoticia CaN ON Cn.id_noticia = CaN.id_noticia) INNER JOIN categorias C ON C.id_categoria = CaN.id_categoria where not n.estado = false and n.id_noticia = $1 GROUP BY n.id_noticia, Cn.id_contenido order by n.id_noticia asc;",
-            values : [req.params.idNoticia]
-        }                
-        let comentario = await client.query(query);
-        res.send(comentario.rows);
-    });
-    router.post('/getPublicidades', async (req,res)=>{        
-        let data;
-        await client.query("SELECT * FROM publicidad")
-            .then(res => data = res.rows)
-            .catch(err => console.log(err.stack))
-            .then(()=>client.end);
-        res.send(data);
-    });
-    router.post('/getConfiguraciones', async (req,res)=>{        
-        let data;
-        await client.query("SELECT * FROM configuracion")
-            .then(res => data = res.rows)
-            .catch(err => console.log(err.stack))
-            .then(()=>client.end);
-        res.send(data);
-    });
-
-/*PUBLICIDAD*/
-
-router.post('/cargarPublicidad',jsonParser, async (req,res)=>{
-
-    //INSERTAR CONTENIDO NOTICIA
-    const text = `INSERT INTO Publicidad 
-                 (id_publicidad,id_reportero,titulo,empresa,enlace,fechainicio,fechafin,imagePublicidad,estado) 
-                 VALUES(DEFAULT, $1,$2,$3,$4,$5,$6,$7,$8) RETURNING *`;
-    const values = Object.values(req.body.ContenidoPublicidad);
-    await client.query(text,values)
-        .then(res.send(true))
-        .catch(err=> {
-            if(err){
-                console.log('Error insertando contenido /cargarPublicidad',err.stack);
-                res.send(false);
-            }
-        });
-});
-router.post('/getPublicidadEdit/:idPublicidad',async (req,res)=>{
-    let idPubli = req.params.idPublicidad;
-    let data;
-    await client.query(`select reportero.id_reportero,reportero.nombres,reportero.apepaterno,reportero.apematerno,
-    publicidad.titulo,publicidad.empresa,publicidad.fechainicio,publicidad.fechafin,publicidad.estado,publicidad.enlace,publicidad.imagePublicidad
-    from publicidad inner join reportero on publicidad.id_reportero=reportero.id_reportero
-    where publicidad.id_publicidad='${idPubli}'`)
-        .then(res => data = res.rows)
-        .catch(err => console.log(err.stack))
-        .then(()=>client.end);
-        //console.log(data);
-    res.send(data);
-});
-router.post('/updatePublicidad/:idPublic',jsonParser, async (req,res)=>{
-    let idPublic=req.params.idPublic;
-    const query = `update publicidad set id_reportero=$1,titulo=$2,empresa=$3,enlace=$4,fechainicio=$5,fechafin=$6,imagepublicidad=$7,estado=$8 WHERE id_publicidad='${idPublic}';`;
-    const values = Object.values(req.body.ContenidoPublicidad);
-
-    await client.query(query,values).then(res.send(true))
-    .catch(err=> {
-        if(err){
-            console.log('Error insertando contenido /cargarPublicidad',err.stack);
-            res.send(false);
+    router.post('/cambiarCategoria',(req,res)=>{
+        //{id_categoria,eliminar, nuevo_valor}
+        let query = "UPDATE Categorias SET";        
+        const id_categoria = req.body.id_categoria;
+        const eliminar = req.body.eliminar;
+        if(eliminar){
+            query += ` estado = FALSE WHERE id_categoria = ${id_categoria}`;
+        }else{
+            query += ` nombre = ${req.body.nuevo_valor} WHERE id_categoria = ${id_categoria}`;
         }
-    });
-});
-
-    
-    
-    router.get('/getEntradasPublicidad', (req,res)=>{                    
-        client.query(`
-                select Pu.id_publicidad, Pu.titulo, Pu.Empresa, CONCAT(Re.nombres, ' ', Re.apepaterno, ' ', Re.apematerno) autor,
-                    Pu.fechainicio, Pu.fechafin, Pu.estado
-                from publicidad Pu inner join reportero Re on Pu.id_reportero=Re.id_reportero
-                order by  estado desc
-                `)
-            .then(publicidad => res.send(publicidad.rows))
-            .catch( err => console.log('Error recuperando publicidad: /getEntradasPublicidad',err.stack) );
-    });
-    router.get('/getEntradasPublicidadTitulo/:titulo', (req,res)=>{                    
-        let izquierda = "%"+req.params.titulo;
-        let medio = "%"+req.params.titulo+"%";
-        let derecha = req.params.titulo+"%";
-        client.query(`
-                select Pu.id_publicidad, Pu.titulo, Pu.Empresa, CONCAT(Re.nombres, ' ', Re.apepaterno, ' ', Re.apematerno) autor,
-                    Pu.fechainicio, Pu.fechafin, Pu.estado
-                from publicidad Pu inner join reportero Re on Pu.id_reportero=Re.id_reportero
-                where Pu.titulo LIKE '${izquierda}' or Pu.titulo LIKE '${medio}' or Pu.titulo LIKE '${derecha}'
-                order by id_publicidad DESC
-                `)
-            .then(publicidad => res.send(publicidad.rows))
-            .catch( err => console.log('Error recuperando publicidad: /getEntradasPublicidad',err.stack) );
-    });
-    router.get('/getEntradasPublicidadEmpresa/:empresa', (req,res)=>{                    
-        let izquierda = "%"+req.params.empresa;
-        let medio = "%"+req.params.empresa+"%";
-        let derecha = req.params.empresa+"%";
-        client.query(`
-                select Pu.id_publicidad, Pu.titulo, Pu.Empresa, CONCAT(Re.nombres, ' ', Re.apepaterno, ' ', Re.apematerno) autor,
-                    Pu.fechainicio, Pu.fechafin, Pu.estado
-                from publicidad Pu inner join reportero Re on Pu.id_reportero=Re.id_reportero
-                where Pu.empresa LIKE '${izquierda}' or Pu.empresa LIKE '${medio}' or Pu.empresa LIKE '${derecha}'
-                order by id_publicidad DESC
-                `)
-            .then(publicidad => res.send(publicidad.rows))
-            .catch( err => console.log('Error recuperando publicidad: /getEntradasPublicidad',err.stack) );
-    });
-    router.get('/getEntradasPublicidadFecha/:fecha', (req,res)=>{      
-        let fecha = req.params.fecha;
-        client.query(`
-                select Pu.id_publicidad, Pu.titulo, Pu.Empresa, CONCAT(Re.nombres, ' ', Re.apepaterno, ' ', Re.apematerno) autor,
-                    Pu.fechainicio, Pu.fechafin, Pu.estado
-                from publicidad Pu inner join reportero Re on Pu.id_reportero=Re.id_reportero
-                where fechainicio<='${fecha}' AND fechafin>='${fecha}'
-                order by id_publicidad DESC
-                `)
-            .then(publicidad => res.send(publicidad.rows))
-            .catch( err => console.log('Error recuperando publicidad: /getEntradasPublicidad',err.stack) );
-    });
-    router.get('/getPublcidadHabiles', (req,res)=>{                    
-        client.query(`
-                select * from publicidad where estado=true;
-                `)
-            .then(publicidad => res.send(publicidad.rows))
-            .catch( err => console.log('Error recuperando publicidad: /getPublcidadHabiles',err.stack) );
-    });
-    router.get('/getPubliOld', (req,res)=>{                    
-        client.query(`
-        select * from publicidad where estado=true order by fechafin asc limit 1;
-                `)
-            .then(publicidad => res.send(publicidad.rows))
-            .catch( err => console.log('Error recuperando publicidad: /getPublcidadHabiles',err.stack) );
-    });
-
-    router.post('/desHabilitarPubli/:idPublic', async (req,res)=>{
-        let idPublic=req.params.idPublic;
-        const query = `update publicidad set estado=false WHERE id_publicidad='${idPublic}';`;
-        await client.query(query).then(res.send(true))
-        .catch(err=> {
-            if(err){
-                console.log('Error insertando contenido /desHabilitarPubli',err.stack);
-                res.send(false);
-            }
+        client.query(query)
+        .catch(err => {
+            console.log("Error actualizando categorias /cambiarCategoria",err.stack);
+            res.send(false);
         });
-    });
-
-    router.get('/getConfiguracion', (req,res)=>{                    
-        client.query(`
-                select *
-                from configuracion
-                `)
-            .then(configuracion => res.send(configuracion.rows))
-            .catch( err => console.log('Error recuperando configuracion: /getConfiguracion',err.stack) );
-    });
-
-    router.post('/updateConfiguracion',jsonParser, async (req,res)=>{
-        const values = Object.values(req.body.config); 
-        const query = `UPDATE configuracion SET titulo =$1, banner =$2`;
-
-    
-        await client.query(query,values).then(res.send(true))
-        .catch(err=> {
-            if(err){
-                console.log('Error insertando contenido /updateConfiguracion',err.stack);
-                res.send(false);
-            }
-        });
+        res.send(true);
     });
 
     return router;
+    
 };
