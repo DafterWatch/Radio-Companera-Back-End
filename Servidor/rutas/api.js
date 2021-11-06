@@ -8,8 +8,8 @@ const client = new Client({
     host:'localhost',
     user:'postgres',
     port:5432,
-    password:'admin',
-    database:'RadioCompanieraBD'
+    password:'hmfdzpkjqx',
+    database:'RadioCompaneraDB'
 });
 
 //Periodista, Operador, Admin, Jefe Prensa y Pasante
@@ -471,7 +471,62 @@ module.exports = (router) =>{
         });
         res.send(true);
     });
-
+    router.post('/getComentarios', async (req,res)=>{        
+        let data;
+        await client.query("SELECT * FROM comentarios")
+            .then(res => data = res.rows)
+            .catch(err => console.log(err.stack))
+            .then(()=>client.end);
+        res.send(data);
+    });   
+    router.post('/getNoticias', async (req,res)=>{        
+        let data;
+        await client.query("SELECT n.id_noticia, n.id_reportero, n.ultima_modificacion, n.fecha_publicacion, n.estado, Cn.id_contenido, Cn.imagen, Cn.titulo, Cn.contenido, Cn.etiquetas, ARRAY_AGG(C.nombre) as categoriasarray FROM ((Noticias n INNER JOIN ContenidoNoticia Cn ON n.id_noticia = Cn.id_noticia) INNER JOIN categorianoticia CaN ON Cn.id_noticia = CaN.id_noticia) INNER JOIN categorias C ON C.id_categoria = CaN.id_categoria where not n.estado = false GROUP BY n.id_noticia, Cn.id_contenido order by n.id_noticia asc;")
+            .then(res => data = res.rows)
+            .catch(err => console.log(err.stack))
+            .then(()=>client.end);
+        res.send(data);
+    });
+    router.get('/getNoticias/:idNoticia', async (req,res)=>{
+        const query = {
+            text: "SELECT n.id_noticia, n.id_reportero, n.ultima_modificacion, n.fecha_publicacion, n.estado, Cn.id_contenido, Cn.imagen, Cn.titulo, Cn.contenido, Cn.etiquetas, ARRAY_AGG(C.nombre) as categoriasarray FROM ((Noticias n INNER JOIN ContenidoNoticia Cn ON n.id_noticia = Cn.id_noticia) INNER JOIN categorianoticia CaN ON Cn.id_noticia = CaN.id_noticia) INNER JOIN categorias C ON C.id_categoria = CaN.id_categoria where not n.estado = false and n.id_noticia = $1 GROUP BY n.id_noticia, Cn.id_contenido order by n.id_noticia asc;",
+            values : [req.params.idNoticia]
+        }                
+        let comentario = await client.query(query);
+        res.send(comentario.rows);
+    });
+    router.post('/getPublicidades', async (req,res)=>{        
+        let data;
+        await client.query("SELECT * FROM publicidad")
+            .then(res => data = res.rows)
+            .catch(err => console.log(err.stack))
+            .then(()=>client.end);
+        res.send(data);
+    });
+    router.post('/getConfiguraciones', async (req,res)=>{        
+        let data;
+        await client.query("SELECT * FROM configuracion")
+            .then(res => data = res.rows)
+            .catch(err => console.log(err.stack))
+            .then(()=>client.end);
+        res.send(data);
+    });
+    router.post('/getCategorias', async (req,res)=>{        
+        let data;
+        await client.query("SELECT * FROM categorias where estado = true")
+            .then(res => data = res.rows)
+            .catch(err => console.log(err.stack))
+            .then(()=>client.end);
+        res.send(data);
+    });
+    router.get('/getCategorias/:nombre', async (req,res)=>{
+        const query = {
+            text: "SELECT n.id_noticia, n.id_reportero, n.ultima_modificacion, n.fecha_publicacion, n.estado, Cn.id_contenido, Cn.imagen, Cn.titulo, Cn.contenido, Cn.etiquetas, ARRAY_AGG(C.nombre) as categoriasarray FROM ((Noticias n INNER JOIN ContenidoNoticia Cn ON n.id_noticia = Cn.id_noticia) INNER JOIN categorianoticia CaN ON Cn.id_noticia = CaN.id_noticia) INNER JOIN categorias C ON C.id_categoria = CaN.id_categoria where not n.estado = false and C.nombre = $1 GROUP BY n.id_noticia, Cn.id_contenido order by n.id_noticia asc",
+            values : [req.params.nombre]
+        }                
+        let comentario = await client.query(query);
+        res.send(comentario.rows);
+    });
     return router;
     
 };
