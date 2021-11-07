@@ -8,8 +8,8 @@ const client = new Client({
     host:'localhost',
     user:'postgres',
     port:5432,
-    password:'hmfdzpkjqx',
-    database:'RadioCompaneraDB'
+    password:'admin',
+    database:'RadioCompanieraBD'
 });
 
 //Periodista, Operador, Admin, Jefe Prensa y Pasante
@@ -165,8 +165,10 @@ module.exports = (router) =>{
         let id_usuario = req.params.idUser;       
         await client.query(`UPDATE reportero SET habilitada = 'false' WHERE id_reportero ='${id_usuario}'`)
             .catch(err => res.send(false))
-            .then(()=>client.end);        
-        res.send(true);
+            .then(()=>{
+                client.end;
+                res.send(true);
+            });                
     });
 
     router.post('/cambiarFotoPerfil',jsonParser,(req,res)=>{     
@@ -174,10 +176,10 @@ module.exports = (router) =>{
         let id_usuario = req.body.idUser;       
         client.query(`UPDATE reportero SET fotoperfil = '${urlFoto}' WHERE id_reportero ='${id_usuario}'`)
             .catch(err => res.send(false))
-            .then(()=>client.end);      
-            console.log(req.body);  
-        res.send(true);
-        
+            .then(()=>{
+                client.end;
+                res.send(true);
+            });         
     });
 
     //TODO Intentar 
@@ -189,28 +191,26 @@ module.exports = (router) =>{
 
         await client.query(`UPDATE reportero SET fotoperfil = '${urlFot}' WHERE id_reportero ='${id_usuario}'`)
             .catch(err => res.send(false))
-            .then(()=>client.end);        
-        res.send(true);
+            .then(()=>{
+                client.end;
+                res.send(true);
+            }); 
     });
 
     router.post('/subirArchivo',upload.single('clientFile'),(req,res)=>{
-        //TODO: SUBIR A LA BASE DE DATOS
-        //console.log(req.file);
         res.send(SERVER_DIR+req.file.path);
     });
-    router.post('/pruebaM',jsonParser,(req,res)=>{
-        console.log(req.body);
-        
-        res.send(true);
-    });
+    
     router.post('/saveSchema',jsonParser,(req,res)=>{
         fs.writeFile('folderSchema.txt',req.body.schema, (err)=>{
             if(err){
                 console.log('No se puede escribir en el archivo');
                 res.status(500).send(false);
+            }else{
+                res.status(200).send(true);
             }
         });
-        res.status(200).send(true);
+        
     });
     router.get('/getSchema',(req,res)=>{
         let schema = fs.readFileSync('folderSchema.txt','utf-8');
@@ -245,14 +245,19 @@ module.exports = (router) =>{
     router.get('/getComentarios', (req,res)=>{                    
         client.query('SELECT * FROM comentarios ORDER BY id_comentario DESC')
             .then(comentarios => res.send(comentarios.rows))
-            .catch( err => console.log('Error recuperando comentarios: /getComentarios',err.stack) );
+            .catch( err => {
+                console.log('Error recuperando comentarios: /getComentarios',err.stack);
+                res.send(false);
+            });
     });
     router.post('/borrarComentario/:idComentario', async (req,res)=>{        
         let id_comentario = req.params.idComentario;       
         await client.query(`DELETE FROM comentarios WHERE id_comentario ='${id_comentario}'`)
             .catch(err => res.send(false))
-            .then(()=>client.end);        
-        res.send(true);
+            .then(()=>{
+                client.end;
+                res.send(true);
+            }); 
     });
 
     router.post('/cambiarContrasenia/:idUser/:nuevaContrasenia', async (req,res)=>{        
@@ -261,8 +266,10 @@ module.exports = (router) =>{
         let respuestaBD = null;        
         await client.query(`UPDATE reportero SET contraseña = '${contra}' WHERE id_reportero ='${id_usuario}'`)
             .catch(err => res.send(false))
-            .then(()=>client.end);        
-        res.send(true);
+            .then(()=>{
+                client.end;
+                res.send(true);
+            }); 
     });
 
     router.post('/crearNoticia',jsonParser, async (req,res)=>{
@@ -290,29 +297,42 @@ module.exports = (router) =>{
             .then(response => idContenido = response.rows[0].id_contenido)
             .catch(err=> {
                 if(err){
-                    console.log('Error insertando contenido /cargarContenidoNoticia',err.stack);
-                    res.send(false);
+                    console.log('Error insertando contenido /cargarContenidoNoticia',err.stack);                    
                 }
-            });
-        //INSERTAR CATEGORIAS
-        const categoriesId_query = `SELECT id_categoria FROM categorias WHERE nombre in (${req.body.categorias.join(',')});`;
-        let categoriesId = await client.query(categoriesId_query);        
-        categoriesId = categoriesId.rows.map(row => `(${row.id_categoria},${idContenido})`);
-        let categoryNotice_query = `INSERT INTO CategoriaNoticia(id_categoria,id_noticia) VALUES `+ categoriesId.join(',');            
-        client.query(categoryNotice_query);
-        res.send(true);
+            });     
+        if(idContenido){   
+            const categoriesId_query = `SELECT id_categoria FROM categorias WHERE nombre in (${req.body.categorias.join(',')});`;
+            try{
+                let categoriesId = await client.query(categoriesId_query);        
+                categoriesId = categoriesId.rows.map(row => `(${row.id_categoria},${idContenido})`);
+                let categoryNotice_query = `INSERT INTO CategoriaNoticia(id_categoria,id_noticia) VALUES `+ categoriesId.join(',');            
+                client.query(categoryNotice_query);
+                res.send(true);
+            }catch(err){
+                console.log("Error insertando CategoriaNoticias /cargarContenidoNoticia",err.stack);
+                res.send(false);
+            }
+        }else{
+            res.send(false);
+        }
     });
     router.get('/getCategorias',async (req,res)=>{
         const query = "SELECT * FROM categorias";
-        const categories = await client.query(query);
-        res.send(categories.rows);
+        try{
+            const categories = await client.query(query);
+            res.send(categories.rows);
+        }catch(err){
+            console.log("Error obteniendo categorias /getCategorias ",err.stack);
+            res.send(false);
+        }
     });
     router.post('/createCategory',jsonParser,(req,res)=>{
         const query = "INSERT INTO categorias (nombre) VALUES ($1)";
         const values = [req.body.category];
         client.query(query,values)
-            .catch((err)=> {console.log("Error insertando categoria /createCategory", err.stack); res.send(false)});
-        res.send(true);
+              .then(()=>res.send(true))
+              .catch((err)=> {console.log("Error insertando categoria /createCategory", err.stack); res.send(false)});
+        
     });
     router.post('/getReportComplet/:idNoticia',async (req,res)=>{
         let idNot = req.params.idNoticia;
@@ -332,8 +352,7 @@ module.exports = (router) =>{
     reportero.id_reportero,reportero.nombres,reportero.apepaterno asc;`)
             .then(res => data = res.rows)
             .catch(err => console.log(err.stack))
-            .then(()=>client.end);
-            //console.log(data);
+            .then(()=>client.end);            
         res.send(data);
     });
 
@@ -360,34 +379,33 @@ module.exports = (router) =>{
 
     router.post('/updateContenidoNoticia/:idNoticia',jsonParser, async (req,res)=>{
         let NotID=req.params.idNoticia;
-        const query = `update ContenidoNoticia set id_noticia=$1,imagen=$2,titulo=$3,contenido=$4,etiquetas=$5 WHERE id_noticia='${NotID}';`;
-        console.log(query);
+        const query = `update ContenidoNoticia set id_noticia=$1,imagen=$2,titulo=$3,contenido=$4,etiquetas=$5 WHERE id_noticia='${NotID}';`;        
         const values = Object.values(req.body.ContenidoNoticia);
         let idContenido =NotID;
 
         await client.query(query,values);
-
-        //
+        
         const deleteCateActuales = `delete from categorianoticia where id_noticia='${NotID}';`;
         await client.query(deleteCateActuales);
-
-         //insertar
-         const categoriesId_query = `SELECT id_categoria FROM categorias WHERE nombre in (${req.body.categorias.join(',')});`;
-         let categoriesId = await client.query(categoriesId_query);        
          
-         categoriesId = categoriesId.rows.map(row => `(${row.id_categoria},${idContenido})`);
-         
-         let categoryNotice_query = `INSERT INTO CategoriaNoticia(id_categoria,id_noticia) VALUES `+ categoriesId.join(',');            
-         client.query(categoryNotice_query);
-       res.send(true);
+        const categoriesId_query = `SELECT id_categoria FROM categorias WHERE nombre in (${req.body.categorias.join(',')});`;
+        let categoriesId = await client.query(categoriesId_query);        
+        
+        categoriesId = categoriesId.rows.map(row => `(${row.id_categoria},${idContenido})`);
+        
+        let categoryNotice_query = `INSERT INTO CategoriaNoticia(id_categoria,id_noticia) VALUES `+ categoriesId.join(',');            
+        client.query(categoryNotice_query);
+        res.send(true);
     });
 
     router.post('/deshabilitarNotice/:idNotice', async (req,res)=>{        
         let idNot = req.params.idNotice;       
         await client.query(`UPDATE noticias SET estado = 'false' WHERE id_noticia ='${idNot}'`)
             .catch(err => res.send(false))
-            .then(()=>client.end);        
-        res.send(true);
+            .then(()=>{
+                client.end;
+                res.send(true);
+            }); 
     });
 
     router.get('/getEntradas', (req,res)=>{                    
@@ -400,9 +418,14 @@ module.exports = (router) =>{
 	                inner join categorias Ca on Can.id_categoria=Ca.id_categoria
                 ORDER BY N.id_noticia DESC
                 `)
-            .then(entradas => res.send(entradas.rows))
-            .catch( err => console.log('Error recuperando entradas: /getEntradas',err.stack) );
-        res.send(true);
+            .then(entradas =>  {                
+                res.send(entradas.rows);
+            })
+            .catch( err => {
+                console.log('Error recuperando entradas: /getEntradas',err.stack);
+                res.send(false);
+            });
+                
     });
     router.get('/getBuscarEntradas/:tituloNoticia', (req,res)=>{
         let izquierda = "%"+req.params.tituloNoticia;
@@ -419,8 +442,10 @@ module.exports = (router) =>{
                     ORDER BY N.id_noticia DESC`
         )               
         .then(entradas => res.send(entradas.rows))
-        .catch( err => console.log('Error recuperando entradas: /getBuscarEntradas',err.stack) );
-        res.send(true);
+        .catch( err => {
+            console.log('Error recuperando entradas: /getBuscarEntradas',err.stack);
+            res.send(false);
+        });     
     });
     router.get('/getFiltarEntradasFecha/:fecha', (req,res)=>{
         let fecha = req.params.fecha;
@@ -435,8 +460,10 @@ module.exports = (router) =>{
                     ORDER BY N.id_noticia DESC`
         )               
         .then(entradas => res.send(entradas.rows))
-        .catch( err => console.log('Error recuperando entradas: /getFiltarEntradasFecha',err.stack) );
-        res.send(true);
+        .catch( err => {
+            console.log('Error recuperando entradas: /getFiltarEntradasFecha',err.stack);
+            res.send(false);
+        });    
     });
     router.get('/getFiltarEntradasCategoria/:categoria', (req,res)=>{
         let categoria = req.params.categoria;
@@ -451,8 +478,10 @@ module.exports = (router) =>{
                     ORDER BY N.id_noticia DESC`
         )               
         .then(entradas => res.send(entradas.rows))
-        .catch( err => console.log('Error recuperando entradas: /getFiltarEntradasCategoria',err.stack) );
-        res.send(true);
+        .catch( err => {
+            console.log('Error recuperando entradas: /getFiltarEntradasCategoria',err.stack);
+            res.send(false);
+        });  
     });
     router.post('/cambiarCategoria',(req,res)=>{
         //{id_categoria,eliminar, nuevo_valor}
@@ -465,11 +494,11 @@ module.exports = (router) =>{
             query += ` nombre = ${req.body.nuevo_valor} WHERE id_categoria = ${id_categoria}`;
         }
         client.query(query)
+        .then(()=>res.send(true))
         .catch(err => {
             console.log("Error actualizando categorias /cambiarCategoria",err.stack);
             res.send(false);
-        });
-        res.send(true);
+        });        
     });
     router.post('/getComentarios', async (req,res)=>{        
         let data;
