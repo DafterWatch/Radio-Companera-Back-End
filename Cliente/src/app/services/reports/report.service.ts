@@ -22,6 +22,8 @@ export class ReportService {
     return queryStatus;
   }
   public async updateCategory(id_categoria : string, nuevo_valor : string) : Promise<boolean>{
+    console.log("Nombre nuevo:"+nuevo_valor);
+    
     let queryStatus = await this.http.post<boolean>(this.SERVER_DIR+"/cambiarCategoria",{id_categoria,eliminar:false,nuevo_valor}).toPromise();
     return queryStatus;
   }

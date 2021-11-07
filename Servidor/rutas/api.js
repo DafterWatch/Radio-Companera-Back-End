@@ -327,7 +327,7 @@ module.exports = (router) =>{
         }
     });
     router.post('/createCategory',jsonParser,(req,res)=>{
-        const query = "INSERT INTO categorias (nombre) VALUES ($1)";
+        const query = "INSERT INTO categorias (nombre,estado) VALUES ($1,true)";
         const values = [req.body.category];
         client.query(query,values)
               .then(()=>res.send(true))
@@ -491,14 +491,17 @@ module.exports = (router) =>{
         if(eliminar){
             query += ` estado = FALSE WHERE id_categoria = ${id_categoria}`;
         }else{
-            query += ` nombre = ${req.body.nuevo_valor} WHERE id_categoria = ${id_categoria}`;
+            let newvalor=req.body.nuevo_valor;
+            query += ` nombre = '${newvalor}' WHERE id_categoria = ${id_categoria}`;
+            console.log(query);
         }
+   
         client.query(query)
         .then(()=>res.send(true))
         .catch(err => {
             console.log("Error actualizando categorias /cambiarCategoria",err.stack);
             res.send(false);
-        });        
+        });       
     });
     router.post('/getComentarios', async (req,res)=>{        
         let data;

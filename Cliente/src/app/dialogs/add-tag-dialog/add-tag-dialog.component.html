@@ -5,7 +5,7 @@
 <br><br>
 <button mat-raised-button (click)="addCategory(categoryInput.value)" [mat-dialog-close]="categoryInput.value"> Agregar </button> &nbsp; <button mat-raised-button color="radio" (click)="closeDialog()">Descartar</button>
 -->
-<h1><b>Lista de categorias </b></h1>
+<h1 style="padding-top:20px"><b>Lista de categorias </b><button mat-raised-button style="background-color: red;color: white;" (click)="showDivAddCategory()">Agregar <mat-icon>add</mat-icon></button>   &nbsp; <button mat-stroked-button (click)="refresh()" style="background-color: rgb(14, 10, 10);color: aliceblue;">    <mat-icon>cached</mat-icon></button></h1>
 <table mat-table class="mat-elevation-z8" [dataSource]="dataSource">
     <ng-container matColumnDef="ID">
         <th mat-header-cell *matHeaderCellDef> ID </th>
@@ -31,7 +31,16 @@
             </div>            
         </td>
       </ng-container>
+      
     
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
+<div class="addCategory" style="padding-top: 10px; display: none;" id="divAddCategory" >
+  <mat-form-field class="example-full-width" appearance="fill">
+    <mat-label>Nombre de la categoria</mat-label>
+    <input matInput [(ngModel)]="nameNewCategory">
+  </mat-form-field>&nbsp;
+  <button mat-raised-button style="background-color: red;color: rgb(255, 255, 255);" (click)="addCategory(nameNewCategory)">Guardar </button>&nbsp;
+  <button mat-raised-button style="background-color: black;color: white;" (click)="cancel()">Cancelar </button>
+</div>

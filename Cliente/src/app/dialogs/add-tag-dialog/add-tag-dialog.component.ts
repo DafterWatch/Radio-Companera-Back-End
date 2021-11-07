@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ReportService } from 'src/app/services/reports/report.service';
 import { Categorias } from 'src/app/types';
 import { Similarity } from '../../types';
@@ -19,12 +20,15 @@ export interface InputCache{
 export class AddTagDialogComponent implements OnInit {
 
   constructor(
+    public snackBar:MatSnackBar,
     public dialogRef: MatDialogRef<AddTagDialogComponent>,
     public reportService : ReportService
   ) { }
   
   ELEMENT_DATA : Categorias[] = [];
   stack_inputs: InputCache[] = [];
+
+  public nameNewCategory;
 
   ngOnInit(): void {
     this.reportService.getCategorias().subscribe(
@@ -33,14 +37,24 @@ export class AddTagDialogComponent implements OnInit {
   }
 
 
-  
+  refresh(){
+    this.reportService.getCategorias().subscribe(
+      (cat : Categorias[]) => {this.ELEMENT_DATA = cat; this.dataSource = this.ELEMENT_DATA}      
+    )
+  }
   closeDialog() : void{
     this.dialogRef.close();
   }
   async addCategory(catName : string) : Promise<void>{
+    console.log("creando: "+catName);
+    
     let status = await this.reportService.createCategoria(catName);
     if(!status){
-      alert("Error creando noticia");
+      this.snackBar.open("Error en la agregación","Ok");
+    }else{
+      this.snackBar.open("Nueva categoria guardada","Ok");
+      document.getElementById("divAddCategory").style.display="none";
+      this.refresh();
     }
   }
 
@@ -108,20 +122,30 @@ export class AddTagDialogComponent implements OnInit {
   modificarCategoria(row_id : string, htmlTags : any){
     let newName = htmlTags.new.value;    
     let oldName = htmlTags.original.innerHTML;    
-    console.log(Similarity.similarity(newName,oldName));
-    if(Similarity.similarity(newName,oldName) > 0.55){      
-      alert("Las categorias son muy similares. Por favor escoja otro nombre");
+    if(newName===oldName){ 
+      this.snackBar.open("Las categorias son muy similares. Por favor escoja otro nombre","Ok");     
       this.cancelConfirm(row_id);
       return;
     }
-    alert("Las categorias no son muy similares");
-    //this.reportService.updateCategory(row_id,newName);
+    //alert("Las categorias no son muy similares");
+    this.reportService.updateCategory(row_id,newName);
+    this.snackBar.open("La categoria se a actualizado","Ok");     
+    this.refresh();
     this.cancelConfirm(row_id);
   }
 
   eliminarCategoria(row_id : string){
     this.reportService.deleteCategory(row_id);
     this.cancelConfirm(row_id);
+    this.snackBar.open("Categoria eliminada","Ok");  
+    this.refresh();  
+  }
+
+  showDivAddCategory(){
+    document.getElementById("divAddCategory").style.display="inline";
+  }
+  cancel(){
+    document.getElementById("divAddCategory").style.display="none";
   }
   
 
