@@ -8,8 +8,10 @@ const client = new Client({
     host:'localhost',
     user:'postgres',
     port:5432,
-    password:'admin',
-    database:'RadioCompanieraBD'
+    password:'hmfdzpkjqx',
+    //password:'admin',
+    //database:'RadioCompanieraBD'
+    database:'RadioCompaneraDB'
 });
 
 //Periodista, Operador, Admin, Jefe Prensa y Pasante
@@ -553,8 +555,30 @@ module.exports = (router) =>{
     });
     router.get('/getCategorias/:nombre', async (req,res)=>{
         const query = {
-            text: "SELECT n.id_noticia, n.id_reportero, n.ultima_modificacion, n.fecha_publicacion, n.estado, Cn.id_contenido, Cn.imagen, Cn.titulo, Cn.contenido, Cn.etiquetas, ARRAY_AGG(C.nombre) as categoriasarray FROM ((Noticias n INNER JOIN ContenidoNoticia Cn ON n.id_noticia = Cn.id_noticia) INNER JOIN categorianoticia CaN ON Cn.id_noticia = CaN.id_noticia) INNER JOIN categorias C ON C.id_categoria = CaN.id_categoria where not n.estado = false and C.nombre = $1 GROUP BY n.id_noticia, Cn.id_contenido order by n.id_noticia asc",
+            text: `SELECT n.id_noticia, n.id_reportero, n.ultima_modificacion, n.fecha_publicacion, n.estado, 
+            Cn.id_contenido, Cn.imagen, Cn.titulo, Cn.contenido, Cn.etiquetas, ARRAY_AGG(C.nombre) as categoriasarray 
+            FROM ((Noticias n INNER JOIN ContenidoNoticia Cn ON n.id_noticia = Cn.id_noticia) 
+            INNER JOIN categorianoticia CaN ON Cn.id_noticia = CaN.id_noticia) 
+            INNER JOIN categorias C ON C.id_categoria = CaN.id_categoria 
+            where not n.estado = false and C.nombre = $1
+            GROUP BY n.id_noticia, Cn.id_contenido 
+            order by n.id_noticia asc`,
             values : [req.params.nombre]
+        }                
+        let comentario = await client.query(query);
+        res.send(comentario.rows);
+    });
+    router.get('/getCategoriasFecha/:fecha', async (req,res)=>{
+        const query = {
+            text: `SELECT n.id_noticia, n.id_reportero, n.ultima_modificacion, n.fecha_publicacion, n.estado, 
+            Cn.id_contenido, Cn.imagen, Cn.titulo, Cn.contenido, Cn.etiquetas, ARRAY_AGG(C.nombre) as categoriasarray 
+            FROM ((Noticias n INNER JOIN ContenidoNoticia Cn ON n.id_noticia = Cn.id_noticia) 
+            INNER JOIN categorianoticia CaN ON Cn.id_noticia = CaN.id_noticia) 
+            INNER JOIN categorias C ON C.id_categoria = CaN.id_categoria 
+            where not n.estado = false and n.fecha_publicacion = $1
+            GROUP BY n.id_noticia, Cn.id_contenido 
+            order by n.id_noticia asc`,
+            values : [req.params.fecha]
         }                
         let comentario = await client.query(query);
         res.send(comentario.rows);
