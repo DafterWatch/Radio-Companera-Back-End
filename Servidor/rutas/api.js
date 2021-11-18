@@ -8,10 +8,10 @@ const client = new Client({
     host:'localhost',
     user:'postgres',
     port:5432,
-    password:'hmfdzpkjqx',
-    //password:'admin',
-    //database:'RadioCompanieraBD'
-    database:'RadioCompaneraDB'
+    //password:'hmfdzpkjqx',
+    password:'admin',
+    database:'RadioCompanieraBD'
+    //database:'RadioCompaneraDB'
 });
 
 //Periodista, Operador, Admin, Jefe Prensa y Pasante
