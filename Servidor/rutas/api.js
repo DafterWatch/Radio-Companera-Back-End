@@ -659,6 +659,22 @@ module.exports = (router) =>{
             }
         });
     });
+    router.post('/cargarPublicidad',jsonParser, async (req,res)=>{
+
+        //INSERTAR CONTENIDO NOTICIA
+        const text = `INSERT INTO Publicidad 
+                     (id_publicidad,id_reportero,titulo,empresa,enlace,fechainicio,fechafin,imagePublicidad,estado) 
+                     VALUES(DEFAULT, $1,$2,$3,$4,$5,$6,$7,$8) RETURNING *`;
+        const values = Object.values(req.body.ContenidoPublicidad);
+        await client.query(text,values)
+            .then(res.send(true))
+            .catch(err=> {
+                if(err){
+                    console.log('Error insertando contenido /cargarPublicidad',err.stack);
+                    res.send(false);
+                }
+            });
+    });
     return router;
     
 };
