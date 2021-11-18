@@ -675,6 +675,18 @@ module.exports = (router) =>{
                 }
             });
     });
+
+    router.post('/updatePublicidad/:idPublic',jsonParser, async (req,res)=>{
+        let idPublic=req.params.idPublic;
+        const query = `update publicidad set id_reportero=$1,titulo=$2,empresa=$3,enlace=$4,fechainicio=$5,fechafin=$6,imagepublicidad=$7,estado=$8 WHERE id_publicidad='${idPublic}';`;
+        const values = Object.values(req.body.ContenidoPublicidad);
+    
+        await client.query(query,values).then(res.send(true)).catch(err => {
+            console.log("Error actualizando publicidad: /updatePublicidad", err.stack);
+            res.send(false);
+        })        
+    });
+    
     return router;
     
 };
