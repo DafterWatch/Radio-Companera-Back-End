@@ -1,11 +1,14 @@
+import { ReportService } from 'src/app/services/reports/report.service';
+import { MatPaginator } from '@angular/material/paginator';
 import { ChangepassComponent } from './../dialogs/changepass/changepass.component';
 import { MatDialog } from '@angular/material/dialog';
 import { HttpClient } from '@angular/common/http';
 import { ThisReceiver } from '@angular/compiler';
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ViewChild, OnInit } from '@angular/core';
 import { UserService } from '../services/userService/user.service';
 import { DisableAccountComponent } from '../dialogs/disable-account/disable-account.component';
 import { Reportero } from '../types';
+import {MatTableDataSource} from '@angular/material/table';
 
 @Component({
   selector: 'app-perfil',
@@ -13,9 +16,18 @@ import { Reportero } from '../types';
   styleUrls: ['./perfil.component.scss']
 })
 export class PerfilComponent implements OnInit {
+  dataSource; Cantidad=0;CantidadHoy=0;
+  displayedColumns: string[] = ['id_noticia',  'titulo', 'fecha_publicacion', 'ultima_modificacion'];
+  
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
+  ngAfterViewInit() {
+      this.dataSource.paginator = this.paginator;
+      
+  }
+  fechaFiltro:Date;
   id_reportero:string;
-  nombres:string;
+  nombre_completo:string;
   apepaterno:string;
   apematerno:string;
   sexo:string;
@@ -25,27 +37,52 @@ export class PerfilComponent implements OnInit {
   fotoperfil:string;
   serverImagen:string='http://localhost:3000/archivos/';
   private serverDirection :string = 'http://localhost:3000';
-  constructor(private http:HttpClient, private reporteroService : UserService,public dialog:MatDialog) { 
-    
+  constructor(public reportService:ReportService,private http:HttpClient, private reporteroService : UserService,public dialog:MatDialog) { 
+    this.DataSourceFechaHoy();
     //let usuario:Reportero=JSON.parse(sessionStorage.getItem('usuarioLogeado')).user;
     reporteroService.getReportero().subscribe((_reportero : Reportero)=>{
       if(!_reportero) return;
         this.id_reportero=_reportero.id_reportero;
-        this.nombres=_reportero.nombres;
-        this.apepaterno=_reportero.apepaterno;
-        this.apematerno=_reportero.apematerno;      
+        this.nombre_completo=_reportero.nombre_completo;      
         this.sexo = _reportero.sexo==="M"?"Masculino":"Femenino";
         this.cargo=_reportero.cargo.toUpperCase();
         this.ci=_reportero.ci;
         this.validacion=false;      
         this.fotoperfil=this.serverImagen+_reportero.fotoperfil;
+        console.log("id reporte "+this.id_reportero);
+      
+      this.setDataSource();
       });
+       
+      
   }
 
   ngOnInit(): void {
     
   }
+  async applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    await this.reportService.getHistorialPersonal(this.id_reportero).then((data)=>{
+      this.dataSource.filter = filterValue.trim().toLowerCase();
+      this.Cantidad=data.length;
+    })
+  }
+  public async DataSourceReportero(): Promise<void>{
+    await this.reportService.getHistorialGeneral().then((data)=>{
+      this.dataSource=data;
+    })
+  }
+
   
+  public async setDataSource(): Promise<void>{
+
+    
+    await this.reportService.getHistorialPersonal(this.id_reportero).then((data)=>{
+      this.dataSource=new MatTableDataSource<any>(data);
+      this.dataSource.paginator = this.paginator;
+      this.Cantidad=data.length;
+    })
+  }
   async confirmarPerfil(id:string,urlP:string):Promise<void>{
   
     let exito;
@@ -88,6 +125,29 @@ export class PerfilComponent implements OnInit {
     }else{
       document.getElementById("opciones").style.display="inline";
     }
+    
+  }
+  public async DataSourceFecha(): Promise<void>{
+    
+    console.log(this.fechaFiltro.toDateString());
+    let fecha=this.fechaFiltro.toDateString();
+    if(this.fechaFiltro!=null){
+      await this.reportService.getHistorialFilterDate(fecha).then((data)=>{
+        this.dataSource=new MatTableDataSource<any>(data);
+        this.dataSource.paginator = this.paginator;
+        this.Cantidad=data.length;
+      })
+    }
+    
+  }
+  public async DataSourceFechaHoy(): Promise<void>{
+    
+    
+    let fecha=new Date().toDateString();
+    console.log("FECHA HOY"+fecha);
+      await this.reportService.getHistorialFilterDate(fecha).then((data)=>{
+        this.CantidadHoy=data.length;
+      })
     
   }
 

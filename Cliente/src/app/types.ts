@@ -1,8 +1,6 @@
 export class Reportero{
     id_reportero : string;
-    nombres : string;
-    apepaterno : string;
-    apematerno : string;
+    nombre_completo : string;
     sexo : string;
     cargo : string;
     contraseña : string;

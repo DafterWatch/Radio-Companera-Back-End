@@ -1,0 +1,70 @@
+table {
+    width: 100%;
+  }
+
+.container{
+    padding: 3%;
+}
+.tit{
+    font-size: 40px;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+
+
+.example-form-field{
+width: 200px;
+}
+.inputTitle{
+width: 200px;
+height: 30px;
+}
+.thr{
+    background: rgb(228, 33, 33);font-size: 15px; color: white;
+}
+.cant{
+    background: rgb(59, 10, 10);font-size: 15px; color: white;
+}
+
+
+.columna1 {
+    width:35%;
+    float:left;
+    padding-top: 40px;
+    padding-left: 20px;
+  }
+  .columna2 {
+    width:25%;
+    float:left;
+    padding-top: 40px;
+    margin-left: 100px;
+  }.columna3 {
+    width:18%;
+    float:left;
+    padding-top: 30px;
+  }.columna4 {
+    width:12%;
+    float:left;
+    padding-top: 30px;
+  }
+  
+  @media (max-width: 500px) {
+    
+    .columna1 {
+      width:auto;
+      float:none;
+    }
+    .columna2 {
+        width:auto;
+        float:none;
+      }
+      .columna3 {
+        width:auto;
+        float:none;
+      }
+      .columna4 {
+        width:auto;
+        float:none;
+      }
+    
+  }

@@ -17,9 +17,7 @@ export class DetailsComponent implements OnInit {
   private serverDirection :string = 'http://localhost:3000';
 
   public idCreado=this.data;
-  public nombres:string;
-  public paterno:string;
-  public materno:string;
+  public nombre_completo:string;
   public sexo:string;
   public cargo:string;
   public ci:string;
@@ -39,9 +37,7 @@ export class DetailsComponent implements OnInit {
     .then((res:any)=>{
       this.cuentaRecuperada=res
       console.log(this.cuentaRecuperada);
-      this.nombres=this.cuentaRecuperada.nombres;
-      this.paterno=this.cuentaRecuperada.apepaterno;
-      this.materno=this.cuentaRecuperada.apematerno;
+      this.nombre_completo=this.cuentaRecuperada.nombre_completo;
       this.sexo=this.cuentaRecuperada.sexo;
       this.cargo=this.cuentaRecuperada.cargo.toUpperCase();
       this.ci=this.cuentaRecuperada.ci;

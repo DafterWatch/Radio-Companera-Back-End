@@ -82,6 +82,8 @@ this.comunicacion.SetIDPublicidad(idPubli);
   numeroEntradas():string{
     return this.dataSource.length+" elementos";
   }
+
+  //
   dosPaginasAtras():void{
     if(this.nroPagina>2){
       this.nroPagina-=2;

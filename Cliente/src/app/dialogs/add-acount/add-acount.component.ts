@@ -170,6 +170,7 @@ console.log("Creando");
     let nombres=value.nameCtrl;
     let apepaterno=value.apepatCtrl;
     let apematerno=value.apematCtrl;
+    let nom_completo=nombres+" "+apepaterno+" "+apematerno;
     let sexo=value.sexoCtrl;
     let ci=value.ciCtrl;
     let cargo=value.cargoCtrl;
@@ -194,7 +195,7 @@ console.log("Creando");
 
     
 
-    await this.http.post(this.serverDirection+`/crearCuenta/${ci}/${nombres}/${apepaterno}/${apematerno}/${sexo}/${cargo}/${contra}/${ci+" "+ext}`,{}).toPromise()
+    await this.http.post(this.serverDirection+`/crearCuenta/${ci}/${nom_completo}/${sexo}/${cargo}/${contra}/${ci+" "+ext}`,{}).toPromise()
     .then(res=>respuestaUser=res);
 
     if(respuestaUser){

@@ -47,9 +47,8 @@
     .div6 { 
         grid-area: 2 / 1 / 6 / 5;
         background-color: rgb(253, 253, 253); 
-        padding-left: 10%;
-        padding-right: 10%;
-        padding-top: 5%;
+        padding-left: 1%;
+        padding-right: 1%;
     }
 
      .marco{
@@ -156,3 +155,45 @@ padding-left: 5%;
     justify-content: center;
     position: relative;
   }
+
+  
+  .tablaPersonal{
+      padding: 0%;
+  }
+
+  .columna1 {
+    width:55%;
+    float:left;
+    padding-top: 40px;
+    padding-left: 20px;
+  }
+  .columna3 {
+    width:18%;
+    float:left;
+    padding-top: 30px;
+  }.columna4 {
+    width:12%;
+    float:left;
+    padding-top: 30px;
+  }
+  
+  table {
+    width: 100%;
+  }
+
+  .thr{
+    background: rgb(228, 33, 33);font-size: 15px; color: white;
+}.cantHoy{
+    float: right;
+    background: rgb(170, 22, 22);font-size: 15px; color: white;
+    padding-right: 20px;
+}
+.cant{
+    float: right;
+    background: rgb(59, 10, 10);font-size: 15px; color: white;
+}
+
+.tit{
+    font-size: 40px;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}

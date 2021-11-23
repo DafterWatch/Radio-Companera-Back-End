@@ -67,6 +67,7 @@ import { PublicidadesComponent } from './dialogs/publicidades/publicidades.compo
 import { EditPublicidadComponent } from './dialogs/publicidades/edit-publicidad/edit-publicidad.component';
 import { EditestadoComponent } from './dialogs/publicidades/editestado/editestado.component';
 import { PublicidadComponent } from './publicidad/publicidad.component';
+import { SnackBarExampleComponent } from './dialogs/snack-bar-example/snack-bar-example.component';
 
 @NgModule({
   declarations: [
@@ -102,6 +103,7 @@ import { PublicidadComponent } from './publicidad/publicidad.component';
     EditPublicidadComponent,
     EditestadoComponent,
     PublicidadComponent,
+    SnackBarExampleComponent,
     
   ],
   imports: [

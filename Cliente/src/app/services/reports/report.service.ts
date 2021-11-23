@@ -77,45 +77,63 @@ export class ReportService {
   }
 
   async getEntradas():Promise<Entradas[]>{
-    let entradas: Entradas[] = await this.http.get<Entradas[]>(`http://localhost:3000/getEntradas`,{}).toPromise();
+    let entradas: Entradas[] = await this.http.get<Entradas[]>(this.SERVER_DIR + `/getEntradas`,{}).toPromise();
     return entradas;
   }
   async getBuscarEntradas(tituloNoticia:string): Promise<Entradas[]> {
-    let entradas: Entradas[] = await this.http.get<Entradas[]>(`http://localhost:3000/getBuscarEntradas/${tituloNoticia}`,{}).toPromise();
+    let entradas: Entradas[] = await this.http.get<Entradas[]>(this.SERVER_DIR + `/getBuscarEntradas/${tituloNoticia}`,{}).toPromise();
     return entradas;
   }
   async getFiltarEntradasFecha(fecha:string): Promise<Entradas[]> {
-    let entradas: Entradas[] = await this.http.get<Entradas[]>(`http://localhost:3000/getFiltarEntradasFecha/${fecha}`,{}).toPromise();
+    let entradas: Entradas[] = await this.http.get<Entradas[]>(this.SERVER_DIR + `/getFiltarEntradasFecha/${fecha}`,{}).toPromise();
     return entradas;
   }
   async getFiltarEntradasCategoria(categoria:string): Promise<Entradas[]> {
-    let entradas: Entradas[] = await this.http.get<Entradas[]>(`http://localhost:3000/getFiltarEntradasCategoria/${categoria}`,{}).toPromise();
+    let entradas: Entradas[] = await this.http.get<Entradas[]>(this.SERVER_DIR + `/getFiltarEntradasCategoria/${categoria}`,{}).toPromise();
     return entradas;
   }
 
   async getEntradasPublicidad():Promise<Publicidad[]>{
-    let publicidad: Publicidad[] = await this.http.get<Publicidad[]>(`http://localhost:3000/getEntradasPublicidad`,{}).toPromise();
+    let publicidad: Publicidad[] = await this.http.get<Publicidad[]>(this.SERVER_DIR + `/getEntradasPublicidad`,{}).toPromise();
     return publicidad;
   }
   async getEntradasPublicidadTitulo(titulo:string):Promise<Publicidad[]>{
-    let publicidad: Publicidad[] = await this.http.get<Publicidad[]>(`http://localhost:3000/getEntradasPublicidadTitulo/${titulo}`,{}).toPromise();
+    let publicidad: Publicidad[] = await this.http.get<Publicidad[]>(this.SERVER_DIR + `/getEntradasPublicidadTitulo/${titulo}`,{}).toPromise();
     return publicidad;
   }
   async getEntradasPublicidadEmpresa(empresa:string):Promise<Publicidad[]>{
-    let publicidad: Publicidad[] = await this.http.get<Publicidad[]>(`http://localhost:3000/getEntradasPublicidadEmpresa/${empresa}`,{}).toPromise();
+    let publicidad: Publicidad[] = await this.http.get<Publicidad[]>(this.SERVER_DIR + `/getEntradasPublicidadEmpresa/${empresa}`,{}).toPromise();
     return publicidad;
   }
   async getEntradasPublicidadFecha(fecha:string):Promise<Publicidad[]>{
-    let publicidad: Publicidad[] = await this.http.get<Publicidad[]>(`http://localhost:3000/getEntradasPublicidadFecha/${fecha}`,{}).toPromise();
+    let publicidad: Publicidad[] = await this.http.get<Publicidad[]>(this.SERVER_DIR + `/getEntradasPublicidadFecha/${fecha}`,{}).toPromise();
     return publicidad;
   }
 
   async getConfiguracion():Promise<Configuracion[]>{
-    let configuracion: Configuracion[] = await this.http.get<Configuracion[]>(`http://localhost:3000/getConfiguracion`,{}).toPromise();
+    let configuracion: Configuracion[] = await this.http.get<Configuracion[]>(this.SERVER_DIR + `/getConfiguracion`,{}).toPromise();
     return configuracion;
   }
   public async updateConfiguracion(confContenido:Configuracion) : Promise<boolean>{
     let state = await this.http.post<boolean>(this.SERVER_DIR+`/updateConfiguracion`,{config: confContenido}).toPromise();
     return state;
   }
+  async getHistorialGeneral():Promise<any[]>{
+    let datos = await this.http.get<any>(this.SERVER_DIR + `/getHistorialGeneral`,{}).toPromise();
+    return datos;
+  }
+
+  public async getHistorialPersonal(idReport :string):Promise<any>{
+    let datos=await this.http.get(this.SERVER_DIR+`/getHistorialPersonal/${idReport}`,{}).toPromise();
+    return datos;
+  }
+ public async getHistorialFilter(valor :string):Promise<any>{
+    let datos=await this.http.get(this.SERVER_DIR+`/getHistorialFilter/${valor}`,{}).toPromise();
+    return datos;
+  }
+  public async getHistorialFilterDate(valor :String):Promise<any>{
+    let datos=await this.http.get(this.SERVER_DIR+`/getHistorialFilterDate/${valor}`,{}).toPromise();
+    return datos;
+  }
+
 }

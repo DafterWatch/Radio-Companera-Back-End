@@ -31,8 +31,6 @@ export class EditPublicidadComponent implements OnInit {
   currentReporter : Reportero;
   idReporteroPublicidad:string;
   nombreReportero:string;
-  apepaterno:string;
-  apematerno:string;
 
   estadoPubli;
   publicidadesHabiles;
@@ -70,9 +68,7 @@ export class EditPublicidadComponent implements OnInit {
 
     //Recuperar reportero encargado
     this.idReporteroPublicidad=publicidadActual[0].id_reportero;
-    this.nombreReportero=publicidadActual[0].nombres;
-    this.apepaterno=publicidadActual[0].apepaterno;
-    this.apematerno=publicidadActual[0].apematerno;
+    this.nombreReportero=publicidadActual[0].nombre_completo;
 
   }
 

@@ -13,12 +13,8 @@
     <div class="div2">
         <p class="datos">CODIGO EMPLEADO:</p>
         <p class="valor">{{id_reportero}}</p>
-        <p class="datos">NOMBRE/S</p>
-        <p class="valor">{{nombres}}</p>
-        <p class="datos">APELLIDO PATERNO</p>
-        <p class="valor">{{apepaterno}}</p>
-        <p class="datos">APELLIDO MATERNO</p>
-        <p class="valor">{{apematerno}}</p>
+        <p class="datos">NOMBRE COMPLETO</p>
+        <p class="valor">{{nombre_completo}}</p>
         <p class="datos">SEXO:</p>
         <p class="valor">{{sexo}}</p>
         <p class="datos">CI:</p>
@@ -34,7 +30,7 @@
 
     <div class="div4">
         <p class="cargo">{{cargo}}</p>
-        <P class="nombre">{{nombres}} {{apepaterno}} {{apematerno}}</P>
+        <P class="nombre">{{nombre_completo}}</P>
     </div>
     <div class="div5">
             <button (click)="mostraropc()" class="btnFloat" mat-icon-button aria-label="Example icon button with a vertical three dot icon">
@@ -48,6 +44,80 @@
     </div>
     <div class="div6">
        
+
+
+        <div class="tablaPersonal">
+          <div class="columna1">
+            <p class="tit">Mi registro de actividades <button mat-stroked-button (click)="setDataSource()" style="background-color: rgb(14, 10, 10);color: aliceblue;">    <mat-icon>cached</mat-icon></button></p>
+        </div>
+         
+            <div class="columna3">
+              <mat-form-field appearance="fill" class="example-form-field">
+                <mat-label>Filtro por fecha</mat-label>
+                <input matInput [matDatepicker]="datepicker" [(ngModel)]="fechaFiltro">
+                <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
+                <mat-datepicker #datepicker>
+                  <mat-datepicker-actions>
+                    <button mat-button matDatepickerCancel>Cancel</button>
+                    <button mat-raised-button style="background-color: red;color: white;" (click)="DataSourceFecha()" matDatepickerApply>Filtrar</button>
+                  </mat-datepicker-actions>
+                </mat-datepicker>
+              </mat-form-field>
+            </div>
+            <div class="columna4">
+              <mat-card class="cantHoy" appearance="fill">
+                  <i>Hoy: </i><b>&nbsp;&nbsp;&nbsp;{{CantidadHoy}}</b>
+                </mat-card>
+          </div>
+            <div class="columna4">
+                <mat-card class="cant" appearance="fill">
+                    <i> Cantidad: </i><b>&nbsp;&nbsp;&nbsp;{{Cantidad}}</b>
+                  </mat-card>
+            </div>
+        
+            <div class="mat-elevation-z8">
+                <table mat-table [dataSource]="dataSource" >
+                    <!--- Note that these columns can be defined in any order.
+                          The actual rendered columns are set as a property on the row definition" -->
+                  
+                    <!-- id_noticia Column -->
+                    <ng-container matColumnDef="id_noticia">
+                      <th class="thr" mat-header-cell *matHeaderCellDef> ID Noticia </th>
+                      <td mat-cell *matCellDef="let element"> {{element.id_noticia}} </td>
+                    </ng-container>
+                  
+                   
+                
+                    <!-- Titulo Column -->
+                    <ng-container matColumnDef="titulo">
+                        <th class="thr" mat-header-cell *matHeaderCellDef> Titulo de la noticia </th>
+                        <td mat-cell *matCellDef="let element"> {{element.titulo}} </td>
+                      </ng-container>
+                
+                     <!-- Fecha Column -->
+                    <ng-container matColumnDef="fecha_publicacion">
+                        <th class="thr" mat-header-cell *matHeaderCellDef> Fecha de publicacion </th>
+                        <td mat-cell *matCellDef="let element"> {{element.fecha_publicacion  | date}} </td>
+                      </ng-container> 
+                       <!-- Fechamodi Column -->
+                    <ng-container matColumnDef="ultima_modificacion">
+                        <th  class="thr" mat-header-cell *matHeaderCellDef> Ultima modificacion </th>
+                        <td mat-cell *matCellDef="let element"> {{element.ultima_modificacion  | date}} </td>
+                      </ng-container>
+                  
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                  </table>
+                  <mat-paginator [pageSizeOptions]="[5, 10, 20]"
+                             showFirstLastButtons 
+                             aria-label="Select page of periodic elements">
+              </mat-paginator>
+            </div>
+              
+        </div>
+          
+
+
     </div>
 
 </div>
