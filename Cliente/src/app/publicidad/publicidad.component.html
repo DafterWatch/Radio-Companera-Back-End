@@ -23,21 +23,14 @@
 </div>
 
 <div class="div3" style="text-align:right"> 
-    <div class="pag">
-      {{numeroEntradas()}}
-      <button style="background-color: rgb(100, 100, 100);color: white;" mat-raised-button (click)="dosPaginasAtras()">&lt; &lt; </button>
-      <button style="background-color: rgb(172, 172, 172);color: rgb(0, 0, 0);" mat-raised-button (click)="unaPaginasAtras()">&lt; </button>
-      {{paginacion()}}
-      <button style="background-color: rgb(172, 172, 172);color: rgb(0, 0, 0);" mat-raised-button (click)="unaPaginasAdelante()">&gt; </button>
-      <button style="background-color: rgb(100, 100, 100);color: white;" mat-raised-button (click)="dosPaginasAdelante()">&gt; &gt; </button> 
-    </div>
+    <div class="res">Cantidad de Resultados:  {{numeroEntradas}}</div>
 </div>
 </div>
 
 <div class="div4"> 
     <div class="tabla">
-        <table mat-table [dataSource]="dataTabla" class="mat-elevation-z8">
-            <ng-container matColumnDef="ID">
+        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+            <ng-container matColumnDef="id_publicidad">
               <th mat-header-cell *matHeaderCellDef> ID </th>
               <td mat-cell *matCellDef="let publicidad"> {{publicidad.id_publicidad}} </td>
             </ng-container>
@@ -73,6 +66,10 @@
           
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-        </table>          
+        </table>  
+        <mat-paginator [pageSizeOptions]="[5, 10, 20]"
+        showFirstLastButtons 
+        aria-label="Select page of periodic elements">
+</mat-paginator>        
     </div>
 </div>

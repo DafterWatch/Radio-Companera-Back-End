@@ -98,10 +98,7 @@
                 <td mat-cell *matCellDef="let element"> {{element.fecha_publicacion  | date}} </td>
               </ng-container> 
                <!-- Fechamodi Column -->
-            <ng-container matColumnDef="ultima_modificacion">
-                <th  class="thr" mat-header-cell *matHeaderCellDef> Ultima modificacion </th>
-                <td mat-cell *matCellDef="let element"> {{element.ultima_modificacion  | date}} </td>
-              </ng-container>
+    
           
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>

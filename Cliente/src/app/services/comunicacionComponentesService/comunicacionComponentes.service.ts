@@ -12,6 +12,7 @@ export class comunicacionComponentesService {
 
   private idEntrada:string="";
   private idPublicidad:string="";
+  private idAcount:string="8373620";
   public getIDEntrada():string{
     return this.idEntrada;
   }
@@ -23,5 +24,11 @@ export class comunicacionComponentesService {
   }
   public SetIDPublicidad(id:string):void{
     this.idEntrada=id;
+  }
+  public setIdAcount(id:string){
+this.idAcount=id;
+  }
+  public getAcount(){
+    return this.idAcount;
   }
 }

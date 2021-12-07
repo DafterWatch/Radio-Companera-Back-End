@@ -1,0 +1,46 @@
+<div class="parent">
+    <div class="div1">
+        <p>Cuenta registrada con exito!!!</p>
+    </div>
+    <div class="div2">
+
+        <p class="titulo">Datos de ingreso</p>
+        
+        <br>
+        <h2 style="color: black;">
+            CODIGO / ID
+            <p class="datos">{{CODIGO}}</p>
+        </h2>
+        
+        <h2 style="color: black;">
+            CONTRASEÑA GENERADA
+            <P class="datos">{{password}}</P>
+        </h2>
+        <button  mat-raised-button (click)="copyHeroName()" style="background-color: black;color: white;float: right;">Copiar datos<mat-icon>content_copy</mat-icon></button>
+<br><br>
+        <span style="color: rgb(255, 0, 0); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">NOTA: Se recomienda que en el primer ingreso, la contraseña sea cambiada</span>
+        
+    </div>
+    <div class="div3"> 
+        <p style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">Estoy conciente que la información de ingreso no la volvere a ver</p>
+        <mat-checkbox class="example-margin" [(ngModel)]="habilitada" (change)="cambiar()">Estoy conciente</mat-checkbox>
+        <button [disabled]="review_btn" (click)="cerrarDialog()" id="btnCerrar" mat-raised-button style="background-color: red;float: right;color: white;">Cerrar</button>
+    </div>
+    <div class="div4"> 
+<br><br>
+        <h2 style="color: rgb(253, 78, 78);">
+            Nombre completo:
+            <p class="dato">{{NombreCompleto}}</p>
+        </h2>
+        
+        <div style="float: left; color: red; font-size: 20px;">Cargo:&nbsp;&nbsp;</div> <div style="float: left;font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        font-size: 18px;
+        color: rgb(37, 30, 30);">{{Cargo}}</div>
+        <br><br>
+        <div style="float: left; color: red;font-size: 20px;">CI:&nbsp;&nbsp;</div> <div style="float: left;font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        font-size: 18px;
+        color: rgb(37, 30, 30);">{{CI}}</div>
+        
+    </div>
+    
+</div>

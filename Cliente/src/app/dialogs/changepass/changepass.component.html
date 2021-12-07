@@ -5,20 +5,33 @@
         </div>
         <div class="content">
             <div class="actual">
-            <mat-form-field class="example-full-width">
-                <br>
-                <mat-label>Contraseña actual</mat-label>
-                <input matInput #contraactual>
+     
+
+            <mat-form-field class="input-field" appearance="standard" style="width: 100%;">                    
+                <input matInput   #contraactual placeholder="Contraseña actual"  [type]="hide ? 'password' : 'text'" autocomplete="off">
+                <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                <mat-error>
+                    Por favor ingrese una contraseña
+                </mat-error>
             </mat-form-field>
+
             </div>
 <div class="new">
-            <mat-form-field class="example-full-width">
-                <mat-label>Nueva contraseña</mat-label>
-                <input matInput #nuevaContrasenia1>
-            </mat-form-field><br>
-            <mat-form-field class="example-full-width">
-                <mat-label>Confirme la contraseña</mat-label>
-                <input matInput #nuevaContrasenia2>
+            
+
+            <mat-form-field class="input-field" appearance="standard" style="width: 100%;">                    
+                <input matInput  #nuevaContrasenia1 placeholder="Nueva contraseña"  [type]="hide ? 'password' : 'text'" autocomplete="off">
+                <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                <mat-error>
+                    Por favor ingrese una contraseña
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="input-field" appearance="standard" style="width: 100%;">                    
+                <input matInput #nuevaContrasenia2 placeholder="Confirmar contraseña"  [type]="hide ? 'password' : 'text'" autocomplete="off">
+                <mat-error>
+                    Por favor ingrese una contraseña
+                </mat-error>
             </mat-form-field>
         </div>
             <div class="botons">

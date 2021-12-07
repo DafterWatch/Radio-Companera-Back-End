@@ -135,5 +135,9 @@ export class ReportService {
     let datos=await this.http.get(this.SERVER_DIR+`/getHistorialFilterDate/${valor}`,{}).toPromise();
     return datos;
   }
-
+  
+  public async getHistorialFilterDatePersonal(valor :String,date:String):Promise<any>{
+    let datos=await this.http.get(this.SERVER_DIR+`/getHistorialFilterDatePersonal/${valor}/${date}`,{}).toPromise();
+    return datos;
+  }
 }

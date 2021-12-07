@@ -52,5 +52,38 @@ export class UserService {
 
     return throwError("Error en el servidor");
   }
-  
+  public async getUserCreado(idReportero :string):Promise<any>{
+    let datosCreados=null;
+    //await this.http.get(this.serverDirection+`/probe`);
+    datosCreados=await this.http.post(this.SERVER_DIR+`/getUserByCI/${idReportero}`,{}).toPromise();
+    /*.then((res:any)=>{notice=res.rows
+      console.log(notice);
+      return notice;
+    });*/
+    //console.log(notice);
+    return datosCreados;
+  }
+
+  public async getUsers():Promise<any>{
+    let cuentas=null;
+    //await this.http.get(this.serverDirection+`/probe`);
+    cuentas=await this.http.post(this.SERVER_DIR+`/probe/`,{}).toPromise();
+    /*.then((res:any)=>{notice=res.rows
+      console.log(notice);
+      return notice;
+    });*/
+    //console.log(notice);
+    return cuentas;
+  }
+  public async probefilter( idnom:string):Promise<any>{
+    let cuentas=null;
+    //await this.http.get(this.serverDirection+`/probe`);
+    cuentas=await this.http.post(this.SERVER_DIR+`/probefilter/${idnom}`,{}).toPromise();
+    /*.then((res:any)=>{notice=res.rows
+      console.log(notice);
+      return notice;
+    });*/
+    //console.log(notice);
+    return cuentas;
+  }
 }

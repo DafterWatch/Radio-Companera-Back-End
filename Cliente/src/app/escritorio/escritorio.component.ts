@@ -15,22 +15,18 @@ import {ClipboardModule} from '@angular/cdk/clipboard';
 })
 
 export class EscritorioComponent implements OnInit {
-  range = new FormGroup({
-    start: new FormControl('',Validators.required),
-    end: new FormControl('',Validators.required)
-  });
+
 
   roomsFilter;
   valorFiltro:string="";
   fechaFiltro:Date;
   dataSource; Cantidad=0;
-  displayedColumns: string[] = ['id_reportero', 'nombre', 'cargo', 'titulo', 'id_noticia', 'fecha_publicacion', 'ultima_modificacion'];
+  displayedColumns: string[] = ['id_reportero', 'nombre', 'cargo', 'titulo', 'id_noticia', 'fecha_publicacion'];
   
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   ngAfterViewInit() {
       this.dataSource.paginator = this.paginator;
-    
   }
   ngOnInit(): void {
     this.setDataSource();    

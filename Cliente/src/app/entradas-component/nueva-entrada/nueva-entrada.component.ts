@@ -75,7 +75,6 @@ export class NuevaEntradaComponent implements OnInit {
       this.snackBar.open("El título puede tener como máximo 150 carácteres");
       return;
     }
-
     let notice : Notice = {
       id_reportero : this.currentReporter.id_reportero,
       ultima_modificacion : null,

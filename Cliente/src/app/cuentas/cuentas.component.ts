@@ -1,3 +1,4 @@
+import { DetailAcountComponent } from './../dialogs/detail-acount/detail-acount.component';
 import { DisableAccountComponent } from './../dialogs/disable-account/disable-account.component';
 import { DetailsComponent } from './../dialogs/details/details.component';
 import { AddAcountComponent } from './../dialogs/add-acount/add-acount.component';

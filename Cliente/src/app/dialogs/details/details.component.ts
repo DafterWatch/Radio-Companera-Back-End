@@ -42,13 +42,14 @@ export class DetailsComponent implements OnInit {
       this.cargo=this.cuentaRecuperada.cargo.toUpperCase();
       this.ci=this.cuentaRecuperada.ci;
       this.habil=this.cuentaRecuperada.habilitada;
-
+      this.fotoperfil=this.serverImagen+this.cuentaRecuperada.fotoperfil;
       if(this.habil){
         this.estado="Habilitado";
       }else{this.estado="Deshabilitado"}
       if(this.sexo=="M"){
         this.sexo="Masculino";
       }else{this.sexo="Femenino"}
+      if(this.fotoperfil==null){this.fotoperfil="https://lh3.googleusercontent.com/bVasjJiEt_qOoymntYLvLmiw_uezpmQeE2O_4Kk-ZQ77bCODt5Lc0vO5Yrl4Cz7GVA";}
     });
   }
 

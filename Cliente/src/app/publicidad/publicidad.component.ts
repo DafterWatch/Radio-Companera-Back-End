@@ -1,7 +1,9 @@
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
 import { PublicidadesComponent } from './../dialogs/publicidades/publicidades.component';
 import { comunicacionComponentesService } from './../services/comunicacionComponentesService/comunicacionComponentes.service';
 import { StringMap } from '@angular/compiler/src/compiler_facade_interface';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Publicidad } from '../types';
 import { ReportService } from 'src/app/services/reports/report.service';
@@ -22,9 +24,10 @@ const publicidades: Publicidad[] = [
   styleUrls: ['./publicidad.component.scss']
 })
 export class PublicidadComponent implements OnInit {
-  displayedColumns: string[] = ['ID', 'Titulo', 'Empresa', 'Autor', 'Fecha activa', 'Estado', 'Modificar'];
-  dataSource:Publicidad[];
-  dataTabla:Publicidad[];
+  displayedColumns: string[] = ['id_publicidad', 'Titulo', 'Empresa', 'Autor', 'Fecha activa', 'Estado', 'Modificar'];
+  dataSource;
+  numeroEntradas;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(private comunicacion:comunicacionComponentesService,private dialog:MatDialog,private http:HttpClient, private reportService : ReportService) { 
     this.setDataSource();
@@ -44,82 +47,41 @@ this.comunicacion.SetIDPublicidad(idPubli);
 
   async setDataSource(): Promise<void>{
     await this.reportService.getEntradasPublicidad().then((data:Publicidad[])=>{
-      this.dataSource=data;
       
-      this.cargarPaginacion();
+      this.dataSource=new MatTableDataSource<any>(data);
+      this.dataSource.paginator = this.paginator;
+      this.numeroEntradas=data.length;
+      
     })
   }
   async buscarTitulo(titulo:string): Promise<void>{
     await this.reportService.getEntradasPublicidadTitulo(titulo).then((data:Publicidad[])=>{
-      this.dataSource=data;
-      
-      this.cargarPaginacion();
+      this.dataSource=new MatTableDataSource<any>(data);
+      this.dataSource.paginator = this.paginator;
+      this.numeroEntradas=data.length;
     })
   }
   async buscarEmpresa(empresa:string): Promise<void>{
     await this.reportService.getEntradasPublicidadEmpresa(empresa).then((data:Publicidad[])=>{
-      this.dataSource=data;
-      
-      this.cargarPaginacion();
+      this.dataSource=new MatTableDataSource<any>(data);
+      this.dataSource.paginator = this.paginator;
+      this.numeroEntradas=data.length;
     })
   }
   async buscarFecha(fecha:string): Promise<void>{
     await this.reportService.getEntradasPublicidadFecha(fecha).then((data:Publicidad[])=>{
-      this.dataSource=data;
-      
-      this.cargarPaginacion();
+      this.dataSource=new MatTableDataSource<any>(data);
+      this.dataSource.paginator = this.paginator;
+      this.numeroEntradas=data.length;
     })
   }
 
   nroPagina:number;
   nroItem:number;
-  cargarPaginacion():void{
-    this.dataTabla=[this.dataSource[this.nroItem],this.dataSource[this.nroItem+1],this.dataSource[this.nroItem+2],this.dataSource[this.nroItem+3],this.dataSource[this.nroItem+4]];
-  }
+
   paginacion():string{
     return "Página: "+Math.ceil(this.nroPagina)+" de: "+Math.ceil(this.dataSource.length/5);
   }
-  numeroEntradas():string{
-    return this.dataSource.length+" elementos";
-  }
-
-  //
-  dosPaginasAtras():void{
-    if(this.nroPagina>2){
-      this.nroPagina-=2;
-      this.nroItem-=10;
-    }
-    else{
-      this.nroPagina=1;
-      this.nroItem=0;
-    }
-    this.cargarPaginacion();
-  }
-  unaPaginasAtras():void{
-    if(this.nroPagina>1){
-      this.nroPagina-=1;
-      this.nroItem-=5;
-    }
-    this.cargarPaginacion();
-  }
-  dosPaginasAdelante():void{
-    if(this.nroPagina<(this.dataSource.length/5)-2){
-      this.nroPagina+=2;
-      this.nroItem+=10;
-    }
-    else{
-      this.nroPagina=this.dataSource.length/5;
-      this.nroItem=this.dataSource.length-5;
-    }
-    this.cargarPaginacion();
-  }
-  unaPaginasAdelante():void{
-    if(this.nroPagina<this.dataSource.length/5){
-      this.nroPagina+=1;
-      this.nroItem+=5;
-    }
-    this.cargarPaginacion();
-  }
-
+ 
 
 }

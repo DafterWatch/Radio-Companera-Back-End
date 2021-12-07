@@ -1,6 +1,8 @@
+import { comunicacionComponentesService } from 'src/app/services/comunicacionComponentesService/comunicacionComponentes.service';
+import { DetailAcountComponent } from './../detail-acount/detail-acount.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HttpClient } from '@angular/common/http';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef, MatDialogModule } from '@angular/material/dialog';
 import { Component, OnInit,Inject } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormsModule } from '@angular/forms';
 
@@ -67,7 +69,7 @@ export class AddAcountComponent implements OnInit {
   serverDirection :string = 'http://localhost:3000';
 
 
-  constructor(public dialogRef:MatDialogRef<AddAcountComponent>, @Inject(MAT_DIALOG_DATA)public data:any,private http:HttpClient,private snackbar:MatSnackBar) { 
+  constructor(private serviceComunicacion:comunicacionComponentesService,private dialog:MatDialog,public dialogRef:MatDialogRef<AddAcountComponent>, @Inject(MAT_DIALOG_DATA)public data:any,private http:HttpClient,private snackbar:MatSnackBar) { 
     this.buildForm();}
 
   openSnackBar(messaje:string) {
@@ -137,16 +139,17 @@ async verificarCI():Promise<void>{
   
   if(this.form.valid){
     const value = this.form.value;
-    let ci=value.ciCtrl;
+    let ci=value.ciCtrl+ " "+ value.extCtrl;
     let existe;
-
+    console.log(ci);
+    
     await this.http.post(this.serverDirection+`/verificarci/${ci}`,{}).toPromise()
     .then(res=>existe=res);
 
     if(existe){
       console.log("Error de creacion");
       
-      alert("Una cuenta ya fue registrada con el CI");
+      this.openSnackBar("Una cuenta ya fue registrada con este CI");
 
     }else{
       console.log("No esta repetido");
@@ -200,7 +203,8 @@ console.log("Creando");
 
     if(respuestaUser){
       //window.location.reload();
-      this.openSnackBar('Cuenta creada con exito!');
+      
+this.openDetailsAcount();
       this.dialogRef.close();
       
     }else{
@@ -211,4 +215,10 @@ console.log("Creando");
     this.form.markAllAsTouched();
   }
   }
+
+  openDetailsAcount(){
+    this.serviceComunicacion.setIdAcount(this.idReport);
+    this.dialog.open(DetailAcountComponent);
+  }
+
 }

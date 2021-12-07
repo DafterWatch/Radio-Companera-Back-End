@@ -17,7 +17,7 @@ import {MatTableDataSource} from '@angular/material/table';
 })
 export class PerfilComponent implements OnInit {
   dataSource; Cantidad=0;CantidadHoy=0;
-  displayedColumns: string[] = ['id_noticia',  'titulo', 'fecha_publicacion', 'ultima_modificacion'];
+  displayedColumns: string[] = ['id_noticia',  'titulo', 'fecha_publicacion'];
   
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -38,7 +38,7 @@ export class PerfilComponent implements OnInit {
   serverImagen:string='http://localhost:3000/archivos/';
   private serverDirection :string = 'http://localhost:3000';
   constructor(public reportService:ReportService,private http:HttpClient, private reporteroService : UserService,public dialog:MatDialog) { 
-    this.DataSourceFechaHoy();
+
     //let usuario:Reportero=JSON.parse(sessionStorage.getItem('usuarioLogeado')).user;
     reporteroService.getReportero().subscribe((_reportero : Reportero)=>{
       if(!_reportero) return;
@@ -52,6 +52,7 @@ export class PerfilComponent implements OnInit {
         console.log("id reporte "+this.id_reportero);
       
       this.setDataSource();
+      this.DataSourceFechaHoy();
       });
        
       
@@ -73,9 +74,24 @@ export class PerfilComponent implements OnInit {
     })
   }
 
-  
+  public async DataSourceFechaHoy(): Promise<void>{
+    
+    console.log("tabla fecha");
+    
+    let data=new Date;
+    let fecha=data.toDateString();
+    if(fecha){
+      await this.reportService.getHistorialFilterDatePersonal(this.id_reportero,fecha).then((data)=>{
+        console.log(data);
+        this.CantidadHoy=data.length;
+      })
+    }
+    
+  }
+
   public async setDataSource(): Promise<void>{
 
+    console.log("tabla");
     
     await this.reportService.getHistorialPersonal(this.id_reportero).then((data)=>{
       this.dataSource=new MatTableDataSource<any>(data);
@@ -140,17 +156,10 @@ export class PerfilComponent implements OnInit {
     }
     
   }
-  public async DataSourceFechaHoy(): Promise<void>{
-    
-    
-    let fecha=new Date().toDateString();
-    console.log("FECHA HOY"+fecha);
-      await this.reportService.getHistorialFilterDate(fecha).then((data)=>{
-        this.CantidadHoy=data.length;
-      })
-    
+  refresh(){
+    this.setDataSource();
   }
-
+ 
   mostrarFormpass(){
       const dialogRes=this.dialog.open(ChangepassComponent)
       //dialogRes.afterClosed().subscribe(data=>)

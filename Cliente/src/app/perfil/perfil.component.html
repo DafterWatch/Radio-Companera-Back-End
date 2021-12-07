@@ -2,13 +2,10 @@
 <div class="parent">
 
     <div class="div1">
-        <div class="marco">
-            <div mat-card-avatar class="example-header-image">
-                <img mat-card-image [src]="fotoperfil || 'https://lh3.googleusercontent.com/bVasjJiEt_qOoymntYLvLmiw_uezpmQeE2O_4Kk-ZQ77bCODt5Lc0vO5Yrl4Cz7GVA'" alt="Radio compañera"></div>
-            
-            <button id="btnConfirmarFoto"  (click)="confirmarPerfil(this.id_reportero,this.fotoperfil)" style="display: none;" mat-raised-button color="primary">Guardar cambio</button>
-        </div>
+      <img class="borderFoto" mat-card-image [src]="fotoperfil || 'https://lh3.googleusercontent.com/bVasjJiEt_qOoymntYLvLmiw_uezpmQeE2O_4Kk-ZQ77bCODt5Lc0vO5Yrl4Cz7GVA'" alt="Radio compañera">
+      <button id="btnConfirmarFoto"  (click)="confirmarPerfil(this.id_reportero,this.fotoperfil)" mat-raised-button style="display: none;background-color: rgb(255, 11, 11);color: white;" >Guardar cambio</button>
     </div>
+
 
     <div class="div2">
         <p class="datos">CODIGO EMPLEADO:</p>
@@ -48,7 +45,7 @@
 
         <div class="tablaPersonal">
           <div class="columna1">
-            <p class="tit">Mi registro de actividades <button mat-stroked-button (click)="setDataSource()" style="background-color: rgb(14, 10, 10);color: aliceblue;">    <mat-icon>cached</mat-icon></button></p>
+            <p class="tit">Mi registro de actividades <button mat-stroked-button (click)="refresh()" style="background-color: rgb(14, 10, 10);color: aliceblue;">    <mat-icon>cached</mat-icon></button></p>
         </div>
          
             <div class="columna3">
@@ -99,11 +96,8 @@
                         <th class="thr" mat-header-cell *matHeaderCellDef> Fecha de publicacion </th>
                         <td mat-cell *matCellDef="let element"> {{element.fecha_publicacion  | date}} </td>
                       </ng-container> 
-                       <!-- Fechamodi Column -->
-                    <ng-container matColumnDef="ultima_modificacion">
-                        <th  class="thr" mat-header-cell *matHeaderCellDef> Ultima modificacion </th>
-                        <td mat-cell *matCellDef="let element"> {{element.ultima_modificacion  | date}} </td>
-                      </ng-container>
+                   
+                 
                   
                     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>

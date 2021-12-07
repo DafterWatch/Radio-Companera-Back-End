@@ -61,6 +61,18 @@ module.exports = (router) =>{
             .then(()=>client.end);            
         res.send(data);
     });   
+
+    router.post('/probefilter/:idUser', async (req,res)=>{      
+        let data;
+        let id_usuario = req.params.idUser;
+
+        await client.query(`SELECT * FROM Reportero  WHERE id_reportero like '%${id_usuario}%' OR nombre_completo like '%${id_usuario}%' ORDER BY Reportero.nombre_completo`)
+            .then(res => data = res.rows)
+            .catch(err => console.log('Error recuperando cuentas: /probefilter',err.stack))
+            .then(()=>client.end);            
+        res.send(data);
+    });  
+
     router.post('/getUser/:idUser/:contrasenia', async (req,res)=>{        
         let id_usuario = req.params.idUser;
         let contra = req.params.contrasenia;
@@ -410,13 +422,10 @@ module.exports = (router) =>{
 
     router.get('/getEntradas', (req,res)=>{                    
         client.query(`
-                select DISTINCT N.id_noticia, Con.titulo, R.nombre_completo autor, Con.etiquetas,
-                N.fecha_publicacion as fecha, N.estado, Ca.nombre as categoria, R.id_reportero
-                from reportero R inner join noticias N on R.id_reportero=N.id_reportero
-                inner join contenidonoticia Con on N.id_noticia=Con.id_noticia
-                inner join categorianoticia Can on Con.id_noticia=Can.id_noticia
-                inner join categorias Ca on Can.id_categoria=Ca.id_categoria
-                ORDER BY N.id_noticia DESC
+        select n.id_noticia,cn.titulo,r.nombre_completo,n.fecha_publicacion,n.ultima_modificacion,n.estado from
+        noticias n inner join contenidonoticia cn on n.id_noticia=cn.id_noticia
+        inner join reportero r on n.id_reportero=r.id_reportero
+        ORDER BY n.id_noticia DESC
                 `)
             .then(entradas =>  {                
                 res.send(entradas.rows);
@@ -428,18 +437,13 @@ module.exports = (router) =>{
                 
     });
     router.get('/getBuscarEntradas/:tituloNoticia', (req,res)=>{
-        let izquierda = "%"+req.params.tituloNoticia;
-        let medio = "%"+req.params.tituloNoticia+"%";
-        let derecha = req.params.tituloNoticia+"%";
+        let medio = req.params.tituloNoticia;
         client.query(`
-                    select DISTINCT N.id_noticia, Con.titulo, R.nombre_completo autor, Con.etiquetas,
-                        N.fecha_publicacion as fecha, N.estado, Ca.nombre as categoria, R.id_reportero
-                    from reportero R inner join noticias N on R.id_reportero=N.id_reportero
-                        inner join contenidonoticia Con on N.id_noticia=Con.id_noticia
-                        inner join categorianoticia Can on Con.id_noticia=Can.id_noticia
-                        inner join categorias Ca on Can.id_categoria=Ca.id_categoria
-                    where Con.titulo LIKE '${izquierda}' or Con.titulo LIKE '${medio}' or Con.titulo LIKE '${derecha}'
-                    ORDER BY N.id_noticia DESC`
+        select n.id_noticia,cn.titulo,r.nombre_completo,n.fecha_publicacion,n.estado from
+        noticias n inner join contenidonoticia cn on n.id_noticia=cn.id_noticia
+        inner join reportero r on n.id_reportero=r.id_reportero
+		where cn.titulo like '%${medio}%'
+        ORDER BY n.id_noticia DESC`
         )               
         .then(entradas => res.send(entradas.rows))
         .catch( err => {
@@ -450,14 +454,11 @@ module.exports = (router) =>{
     router.get('/getFiltarEntradasFecha/:fecha', (req,res)=>{
         let fecha = req.params.fecha;
         client.query(`
-                    select DISTINCT N.id_noticia, Con.titulo, R.nombre_completo autor, Con.etiquetas,
-                        N.fecha_publicacion as fecha, N.estado, Ca.nombre as categoria, R.id_reportero
-                    from reportero R inner join noticias N on R.id_reportero=N.id_reportero
-                        inner join contenidonoticia Con on N.id_noticia=Con.id_noticia
-                        inner join categorianoticia Can on Con.id_noticia=Can.id_noticia
-                        inner join categorias Ca on Can.id_categoria=Ca.id_categoria
-                    where N.fecha_publicacion='${fecha}'
-                    ORDER BY N.id_noticia DESC`
+        select n.id_noticia,cn.titulo,r.nombre_completo,n.fecha_publicacion,n.estado from
+        noticias n inner join contenidonoticia cn on n.id_noticia=cn.id_noticia
+        inner join reportero r on n.id_reportero=r.id_reportero
+		where n.fecha_publicacion = '${fecha}'
+        ORDER BY n.id_noticia DESC`
         )               
         .then(entradas => res.send(entradas.rows))
         .catch( err => {
@@ -468,13 +469,12 @@ module.exports = (router) =>{
     router.get('/getFiltarEntradasCategoria/:categoria', (req,res)=>{
         let categoria = req.params.categoria;
         client.query(`
-                    select DISTINCT N.id_noticia, Con.titulo, R.nombre_completo autor, Con.etiquetas,
-                        N.fecha_publicacion as fecha, N.estado, Ca.nombre as categoria, R.id_reportero
-                    from reportero R inner join noticias N on R.id_reportero=N.id_reportero
-                        inner join contenidonoticia Con on N.id_noticia=Con.id_noticia
-                        inner join categorianoticia Can on Con.id_noticia=Can.id_noticia
-                        inner join categorias Ca on Can.id_categoria=Ca.id_categoria
-                    where Ca.nombre='${categoria}'
+        select n.id_noticia,cn.titulo,r.nombre_completo,n.fecha_publicacion,n.estado from
+        noticias n inner join contenidonoticia cn on n.id_noticia=cn.id_noticia
+        inner join reportero r on n.id_reportero=r.id_reportero
+		inner join categorianoticia catn on n.id_noticia=catn.id_noticia
+		inner join categorias cat on catn.id_categoria=cat.id_categoria
+		where cat.nombre = '${categoria}'
                     ORDER BY N.id_noticia DESC`
         )               
         .then(entradas => res.send(entradas.rows))
@@ -706,7 +706,7 @@ module.exports = (router) =>{
                     from noticias 
                     inner join contenidonoticia on noticias.id_noticia=contenidonoticia.id_noticia 
                     inner join reportero on noticias.id_reportero=reportero.id_reportero
-                    order by noticias.fecha_publicacion desc
+                    order by noticias.id_noticia desc
                 `)
             .then(datosHistorial => res.send(datosHistorial.rows))
             .catch( err => console.log('Error recuperando datosHistorial: /getHistorialGeneral',err.stack) );
@@ -720,7 +720,7 @@ module.exports = (router) =>{
         inner join contenidonoticia on noticias.id_noticia=contenidonoticia.id_noticia 
         inner join reportero on noticias.id_reportero=reportero.id_reportero
         where reportero.id_reportero = '${idReport}'
-        order by noticias.fecha_publicacion desc
+        order by noticias.id_noticia desc
                 `)
             .then(datosHistorial => res.send(datosHistorial.rows))
             .catch( err => console.log('Error recuperando datosHistorial: /getHistorialPersonal',err.stack) );
@@ -735,7 +735,7 @@ from noticias
 inner join contenidonoticia on noticias.id_noticia=contenidonoticia.id_noticia 
 inner join reportero on noticias.id_reportero=reportero.id_reportero
 where reportero.id_reportero like '%${value}%' OR reportero.nombre_completo like '%${value}%'
-order by noticias.fecha_publicacion desc
+order by noticias.id_noticia desc
                 `)
             .then(datosHistorial => res.send(datosHistorial.rows))
             .catch( err => console.log('Error recuperando datosHistorial: /getHistorialFilter',err.stack) );
@@ -749,11 +749,28 @@ from noticias
 inner join contenidonoticia on noticias.id_noticia=contenidonoticia.id_noticia 
 inner join reportero on noticias.id_reportero=reportero.id_reportero
 where noticias.fecha_publicacion = '${value}'
-order by noticias.fecha_publicacion desc
+order by noticias.id_noticia desc
                 `)
             .then(datosHistorial => res.send(datosHistorial.rows))
             .catch( err => console.log('Error recuperando datosHistorial: /getHistorialFilterDate',err.stack) );
     });
+
+    router.get('/getHistorialFilterDatePersonal/:value/:date', (req,res)=>{      
+        let value = req.params.value;
+        let date = req.params.date;
+        client.query(`
+        select noticias.id_noticia,reportero.id_reportero,reportero.nombre_completo,reportero.cargo,contenidonoticia.titulo,noticias.fecha_publicacion,noticias.ultima_modificacion
+        from noticias 
+        inner join contenidonoticia on noticias.id_noticia=contenidonoticia.id_noticia 
+        inner join reportero on noticias.id_reportero=reportero.id_reportero
+        where reportero.id_reportero = '${value}' AND noticias.fecha_publicacion='${date}'
+        order by noticias.id_noticia desc
+                `)
+            .then(datosHistorial => res.send(datosHistorial.rows))
+            .catch( err => console.log('Error recuperando datosHistorial: /getHistorialFilterDatePersonal',err.stack) );
+    });
+
+   
 
     
     return router;

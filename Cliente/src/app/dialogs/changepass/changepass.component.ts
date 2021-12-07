@@ -14,6 +14,7 @@ export class ChangepassComponent implements OnInit {
 
   id_reportero:string;
   passactual:string;
+  hide : boolean = true;
   constructor(public dialogRef:MatDialogRef<ChangepassComponent>,private http:HttpClient, private reporteroService : UserService,private snackbar:MatSnackBar) { 
     
     //let usuario:Reportero=JSON.parse(sessionStorage.getItem('usuarioLogeado')).user;
@@ -46,7 +47,7 @@ async getPassActual(){
         if(contrasenia1===contrasenia2){
           this.cambiarContrasenia(contrasenia1);
           this.openSnackBar("Cambiaste tu contraseña")
-          document.getElementById("cambiopass").style.display="none";
+          this.dialogRef.close();
         }
         else{
           this.openSnackBar("Las contraseñas no coinciden")
